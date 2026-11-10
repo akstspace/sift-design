@@ -1,65 +1,71 @@
-Use Albert Sans for interface text and IBM Plex Mono for compact numeric and code information.
-Consolidate observed sizes into named roles; do not impose a ratio that Sift does not use.
+Use Albert Sans for interface text and IBM Plex Mono for code and compact numbers. Choose from the sizes below and leave enough room for text to wrap.
 
 # Typography
 
-## Load the canonical families
+## Load the fonts
 
 Use `--font-body` and `--font-heading` for Albert Sans; the heading token aliases body. Use `--font-code` for IBM Plex Mono. Load `../tokens/fonts.css`: Albert Sans is self-hosted, normal and italic, variable weights 100–900; IBM Plex Mono supplies 400 and 500.
 
-The exact body stack is `"Albert Sans", "IBM Plex Sans Variable", system-ui, sans-serif`; the exact code stack is `"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace`. Keep the complete fallback sequences in `tokens.css`; do not copy a second stack into a component. Use the primary family through its `--font-*` role and inherit the centrally maintained fallbacks. The heading token aliases the body token. Earlier revision prose names a different workhorse face; current stylesheet, direction, and tokens are canonical. The secondary script fallback is now loaded by `fonts.css` using unicode-range subsets, so Greek and Cyrillic characters can use the actual fallback face rather than an unfulfilled declaration.
+The body font stack is `"Albert Sans", "IBM Plex Sans Variable", system-ui, sans-serif`; the code stack is `"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace`. Keep fallback fonts in `tokens.css`, not in individual components. Use the `--font-*` variables so all components inherit the same fonts. Headings use the body font. `fonts.css` also loads IBM Plex Sans subsets for Greek and Cyrillic characters.
 
-## Apply the consolidated scale
+## Choose a text size
 
-These names consolidate the actual font sizes in Sift’s stylesheet; they are documentation roles, not additional CSS variables. Do not use the entire observed inventory as a menu for arbitrary new sizes.
+Use the shared hierarchy below across products. These names are documentation roles, not extra CSS variables. Choose by information hierarchy rather than by a feature’s name, and do not assume a framework utility matches the intended size.
 
 | Named step | Size | Apply to |
 |---|---|---|
-| micro | 10px | Keyboard keys, narrow metadata; never primary task text |
+| micro | 10px | Short keyboard hints or narrow auxiliary metadata; never essential instructions or primary content |
 | caption | 11px | Auxiliary timestamps, tiny labels |
 | metadata | 12px | Compact metadata and `small` baseline |
 | label | 13px | Labels and compact support text |
 | help | 12.5px | Field help text |
-| dense | 12.5px | Activity metadata, legend chips, compact conversation controls |
-| control | 13px | Buttons, sidebar labels, board column headings, subheadings |
-| body | 14px | Root text, task titles, task row titles |
-| reading | 15px | Tracker introduction and contextual reading text |
-| mobile-input | 16px | Mobile search, task properties, description editor |
+| dense | 12.5px | Compact metadata, legend chips, secondary conversation controls |
+| control | 13px | Buttons, navigation labels, group headings, subheadings |
+| body | 14px | Root text, item names, descriptions, record titles |
+| reading | 15px | Optional introductory or contextual reading text |
+| mobile-input | 16px | Mobile search, form inputs, text editors |
 | section | 18px | Section headings |
-| figure | 21px | Real activity totals, not invented hero statistics |
-| task-heading | 23px | Detail sheet task title |
-| board-heading | 26px | Board title; responsive 25px |
-| page-heading | 30px | General page heading; responsive 27px |
-| setup-heading | 35px | Onboarding; responsive 31px and 30px |
-| tracker-heading | 34px | Tracker setup; responsive 28px |
-| full-task-heading | 28px | Expanded task reading surface |
+| figure | 21px | Meaningful totals or values, such as a balance or result count |
+| page-heading | 30px | General page heading |
 
-Complete observed CSS size inventory, including contextual exceptions: 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 34, and 35px. Fractional steps are intentional Sift’s facts, not an implied fractional scale. Examples: 17px week-day number, 14.5px mobile activity title, 10.5px mobile week-day label, 22px Markdown heading, and 24px rail wordmark. Kit utility classes also carry contextual type; do not replace the product’s explicit 14px task text with a generic `text-sm` assumption.
+Use the body, control, label, and heading roles first. A content-heavy article or an unusual display may need a deliberate reading treatment, but a larger headline should not appear in every routine form. Never shrink text to fit a fixed-height card or make a number prominent simply because the screen has space.
 
-Do: choose body/control/label for a new operating surface. Don’t: use setup-heading inside a routine settings form or shrink body text to fit a fixed-height card.
+## Set weight, line spacing, and letter spacing
 
-## Keep weights and rhythm deliberate
+- Use 400 for body, 500 for medium controls, 550 for field labels, and 600 for headings. Reserve 650 for selective emphasis such as a wordmark or a key value, not every label. Use variable weights rather than synthetic bold; the font-face range is not a request to use every weight.
+- Use the root 1.5 line height. The longer card-text preset uses 1.65 and compact multi-line rows use 1.6; allow wrapping and height growth. Do not give prose a headline’s tight leading.
+- Keep the page headline at 30px / 600 / 1.2 / -0.035em and section headings at 18px / 600 / 1.5 / -0.02em. Use 13px / 600 for subheadings and 13px / 550 for field labels.
+- Default letter-spacing is normal/0. Do not track ordinary buttons or labels. Sentence case is the general rule; a small structural eyebrow may use uppercase with 0.07em tracking when that distinction is useful, not as a universal heading treatment.
 
-- Use 400 for body, 500 for medium controls, 550 for field labels, 600 for headings, and 650 only for Sift’s emphasized wordmarks, activity values, and small headings. Use variable weights rather than synthetic bold. The actual declared interface weights are 400, 500, 550, 600, and 650; the font-face range is not a request to use every weight.
-- Use the root 1.5 line height. Use 1.65 for task-card reading text and 1.6 for compact task rows; allow wrapping and height growth.
-- Keep the page headline at 1.2 / -0.035em; section headings at -0.02em; board heading at 1.25; full task heading at 1.3 / -0.025em. Setup heading uses 1.18 / -0.035em; tracker heading uses 1.12 / -0.02em.
-- Sift’s line-height inventory is 1, 1.12, 1.18, 1.2, 1.22, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, and 1.9. Retain contextual reading density; do not normalize all prose to a headline’s tight leading.
-- Default letter-spacing is normal/0; do not track all labels. Sift’s tracking also includes -0.04, -0.035, -0.025, -0.02, -0.01, 0.02, 0.04, 0.05, 0.06, 0.07, and 0.08em. Use positive tracking only for existing small structural eyebrows, not ordinary buttons. Activity part headings use 0.07em and uppercase; sentence case remains the general rule.
+## Make numbers easy to compare
 
-## Use numbers as information
+Use IBM Plex Mono for code, counts, times, durations, IDs, keyboard keys, and dense numeric columns. Apply `font-variant-numeric: tabular-nums` wherever numbers compare or update: prices in a comparison, balances in a ledger, chart values, or message times. Keep units, currencies, and decimal precision clear and aligned. Do not render product names, article text, messages, or descriptions in mono because they sit beside a number or were generated automatically.
 
-Use IBM Plex Mono for code, counts, times, durations, IDs, keyboard keys, and dense numeric columns. Apply `font-variant-numeric: tabular-nums` wherever numbers compare or update. Do not render descriptions, task names, or paragraphs in mono merely because a helper wrote them.
+Use locale-aware formatting for dates, currency, and quantities. Equal-width digits help comparison; they do not justify changing the meaning or precision of a value.
 
-Sift’s inconsistency: counts, keyboard keys, code, and tool durations explicitly use mono, but many activity times and totals use Albert Sans with tabular numerals. The brief’s canonical dense-number treatment is mono; retain the observed sans activity numerals when reproducing that exact Sift’s surface and document the choice.
+## Keep paragraphs at a readable width
 
-## Bound prose, not work
+Use a 72ch maximum for full-page prose; let code, images, and tables use the full available column. A chat bubble, product summary, or form hint should fit its own context rather than being stretched to that measure. Do not truncate the only readable item name or instruction; clamp a summary only when the complete content is accessible elsewhere.
 
-Use Sift’s 72ch maximum for full-page task prose; let code, images, and tables use the full column. Tracker lede is 58ch. Onboarding headline is 16ch, expands to 18ch in its narrow layout; its lede uses 49ch and 48ch contextually. Mobile page support copy uses 37ch. Do not invent a universal line measure or truncate a task’s only readable title; clamp only where a full-detail path exists.
+## Optional composition presets
+
+These larger treatments are available for a distinct detail, collection, or introductory surface. They are not extra levels that every product must use, and responsive sizes are presets to test rather than mandatory breakpoints.
+
+| Role | Size | Line height / tracking | Compact variant |
+|---|---|---|---|
+| Detail-panel title | 23px | Inherit readable heading rhythm | Wrap rather than shrink to one line |
+| Collection heading | 26px | 1.25 | 25px |
+| Expanded detail heading | 28px | 1.3 / -0.025em | Wrap as needed |
+| Page heading | 30px | 1.2 / -0.035em | 27px |
+| Introductory heading | 35px | 1.18 / -0.035em | 31px or 30px |
+| Compact introduction heading | 34px | 1.12 / -0.02em | 28px |
+
+For short introductory copy, reference measures include a 58ch lead, a 16ch heading widening to 18ch in a stacked layout, a 49ch or 48ch lead, and 37ch narrow-screen support copy. Use only the measure that helps the actual text; these are not universal widths for headings, checkout instructions, or messages.
 
 ## Checklist
 
 - Albert Sans loads in normal and italic; no synthetic font styles appear.
-- Task text remains 14px and wraps without clipping.
+- The 14px body baseline and intended text roles are preserved; content wraps without clipping.
 - Numeric comparisons use tabular figures; dense numeric labels use the intended mono treatment.
 - Headline tracking/leading follows its role rather than a generic utility default.
 - Full-page prose respects 72ch without constraining code, tables, or images.

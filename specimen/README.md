@@ -1,6 +1,8 @@
-# Kit specimen
+# Component examples
 
-A live reference for controls, overlays, display, layout, and the opt-in Harbor palette, using Fernbrook Greenhouse content. Both themes and 390px layouts are first-class.
+Try every component with fictional Fernbrook Greenhouse content. The examples include forms, menus, dialogs, navigation, and data display, in light and dark themes and at 390px wide. You can also try the Harbor color palette.
+
+These are optional component demonstrations, not a product template. Keep the reusable control, keyboard, focus, and animation behavior; choose your own navigation, records, workflows, and storage. Greenhouse tasks, helper schedules, chart categories, and local drafts belong to the examples only. Loading and error samples show visual states, not a connection to a live service.
 
 ## Run and capture
 
@@ -216,4 +218,3 @@ Accessibility results: [display-axe.json](../screenshots/specimen/display-axe.js
 | dark · 390px | [retheme-harbor-mobile-dark.png](../screenshots/specimen/retheme-harbor-mobile-dark.png) |
 
 Accessibility results: [retheme-axe.json](../screenshots/specimen/retheme-axe.json).
-

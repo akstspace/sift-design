@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { Tabs as TabsPrimitive } from "radix-ui"
 import { AnimatePresence, LayoutGroup, motion, useIsPresent, useReducedMotion } from "motion/react"
-import { selectionSpring, spring } from "../../../../tokens/motion"
+import { duration, leave, selectionSpring, spring } from "../../../../tokens/motion"
 
 const TabsContext = React.createContext({ value: "", direction: 1 })
 const MotionTabsContent = motion.create(TabsPrimitive.Content)
@@ -59,7 +59,7 @@ function TabsTrigger({ className, children, ...props }: React.ComponentProps<typ
   return <TabsPrimitive.Trigger data-slot="tabs-trigger" data-value={props.value}
     className={cn("relative inline-flex h-full flex-1 items-center justify-center gap-1.5 rounded-[6px] px-3 py-1 text-[13px] font-medium whitespace-nowrap outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-65 data-[state=active]:text-foreground group-data-[orientation=vertical]/tabs:w-full [&_svg]:size-4", className)} {...props}>
     {context.value === props.value && <motion.span aria-hidden="true" data-slot="tabs-indicator"
-      layoutId={reduced ? undefined : "indicator"} initial={false} transition={reduced ? { duration: 0.14 } : selectionSpring}
+      layoutId={reduced ? undefined : "indicator"} initial={false} transition={reduced ? { duration: 0 } : selectionSpring}
       className={cn("pointer-events-none absolute z-0", variant === "line"
         ? "inset-x-0 bottom-0 h-0.5 bg-primary group-data-[orientation=vertical]/tabs:inset-y-0 group-data-[orientation=vertical]/tabs:left-auto group-data-[orientation=vertical]/tabs:h-auto group-data-[orientation=vertical]/tabs:w-0.5"
         : "inset-0 rounded-[6px] bg-background")} />}
@@ -78,8 +78,8 @@ function TabsContent({ className, children, forceMount, asChild, ...props }: Omi
       custom={direction} initial="enter" animate="visible" exit="exit"
       variants={{
         enter: (sign: number) => ({ opacity: 0, x: reduced ? 0 : sign * 6 }),
-        visible: { opacity: 1, x: 0, transition: reduced ? { duration: 0.14 } : { ...spring.smooth, opacity: { duration: 0.14, ease: "linear" } } },
-        exit: (sign: number) => ({ opacity: 0, x: reduced ? 0 : sign * -4, transition: reduced ? { duration: 0.08 } : { ...spring.snappy, opacity: { duration: 0.08, ease: "linear" } } }),
+        visible: { opacity: 1, x: 0, transition: reduced ? { duration: duration.quick } : { ...spring.smooth, opacity: { duration: duration.quick, ease: "linear" } } },
+        exit: (sign: number) => ({ opacity: 0, x: reduced ? 0 : sign * -4, transition: reduced ? { duration: duration.instant, ease: leave } : { ...spring.exit, opacity: { duration: duration.instant, ease: leave } } }),
       }}>
       {children}
     </PresencePanel>}

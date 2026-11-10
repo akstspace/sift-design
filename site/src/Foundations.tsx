@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { pages } from "./content";
+import { at } from "./base";
 const roles = [
   "ground",
   "surface",
@@ -85,8 +86,8 @@ function Swatches({ dark }: { dark: boolean }) {
           </div>
         ))}
       </div>
-      <h3>Categorical slots</h3>
-      <p className="support">Fixed order for data identity. Always pair with labels.</p>
+      <h3>Chart category colors</h3>
+      <p className="support">Keep each category’s color when filtering. Always include text labels.</p>
       <div className="category-slots">
         {Array.from({ length: 8 }, (_, i) => (
           <div key={i}>
@@ -103,21 +104,22 @@ export default function Foundations() {
   return (
     <>
       <p className="lead">
-        The roles behind the workbench. Warm neutrals, deliberate type, clear boundaries, and room to read.
+        The shared colors, fonts, spacing, and shapes that make the components look consistent.
+        These values are stored as design tokens: named settings reused across the interface.
       </p>
       <div className="link-list">
         {pages
           .filter((p) => p.group === "Foundations")
           .map((p) => (
-            <a href={p.path} key={p.path}>
+            <a href={at(p.path)} key={p.path}>
               <strong>{p.title}</strong>
               <span>Read the guide</span>
             </a>
           ))}
       </div>
       <section id="color-tokens" className="page-section">
-        <h2>Color, by role</h2>
-        <p>Resolved directly from the token stylesheets in both themes, including the active brand palette.</p>
+        <h2>What each color is for</h2>
+        <p>These CSS variables come from the current palette. Both light and dark values are shown below.</p>
         <div className="palette-pair">
           <Swatches dark={false} />
           <Swatches dark />
@@ -125,41 +127,41 @@ export default function Foundations() {
       </section>
       <section id="type-ramp" className="page-section">
         <h2>Typography</h2>
-        <p>Albert Sans for interface text. IBM Plex Mono, with tabular figures, for code, counts, times and IDs.</p>
+        <p>Albert Sans for interface text. IBM Plex Mono for code, counts, times, and IDs, with equal-width digits for comparing numbers.</p>
         <div className="type-ramp">
           <div>
             <span>Headline · 30 / 600</span>
-            <p className="type-headline">Today’s tasks</p>
+            <p className="type-headline">Project library</p>
           </div>
           <div>
             <span>Title · 18 / 600</span>
-            <p className="type-title">Task details</p>
+            <p className="type-title">Project details</p>
           </div>
           <div>
             <span>Body · 14 / 400</span>
-            <p>The shell stays still while the work changes.</p>
+            <p>Keep related controls near the information they change.</p>
           </div>
           <div>
             <span>Label · 13 / 550</span>
-            <p className="type-label">Show completed tasks</p>
+            <p className="type-label">Include archived items</p>
           </div>
           <div>
             <span>Code · 12 / 400</span>
-            <p className="font-mono text-xs">spring.smooth · 350ms · --surface</p>
+            <p className="font-mono text-xs">spring.smooth · --surface</p>
           </div>
           <div>
             <span>Help · 12.5 / 400</span>
-            <p className="type-help">Your changes are saved on this device.</p>
+            <p className="type-help">You can change this preference later.</p>
           </div>
         </div>
       </section>
       <section className="page-section">
         <h2>Shapes and depth</h2>
         <p className="measure">
-          A 256px rail, a 72px compact state, and a modal rail on small screens. Keep prose near 72 characters. Use 6,
-          8, and 12px radii, tonal surfaces, and hairlines; reserve shadows for floating layers.
+          Most corners use 6, 8, or 12px rounding. Separate sections with backgrounds and thin borders;
+          use shadows for floating menus and dialogs. Choose page structure and navigation to suit your product.
         </p>
-        <a href="/foundations/shapes-and-depth">Explore shapes and depth</a>
+        <a href={at("/foundations/shapes-and-depth")}>Explore shapes and depth</a>
       </section>
     </>
   );

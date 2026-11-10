@@ -7,7 +7,7 @@ const cases = [
   ["drawer", click("drawer", "Plan market crates"), '[data-slot="drawer-content"]'],
   ["popover", click("popover", "Set reminder"), '[data-slot="popover-content"]'],
   ["hover-card", async page => { await item(page, "hover-card").getByRole("link").focus(); await page.waitForTimeout(300); }, '[data-slot="hover-card-content"]'],
-  ["tooltip", async page => { await item(page, "tooltip").getByRole("button").hover(); await page.waitForTimeout(400); }, '[data-slot="tooltip-content"]'],
+  ["tooltip", async page => { await item(page, "tooltip").getByRole("button", { name: "Search tasks" }).hover(); await page.waitForTimeout(400); }, '[data-slot="tooltip-content"]'],
   ["dropdown-menu", click("dropdown-menu", "Task actions"), '[data-slot="dropdown-menu-content"]'],
   ["context-menu", async page => { await item(page, "context-menu").locator('[data-slot="context-menu-trigger"]').click({ button: "right" }); }, '[data-slot="context-menu-content"]'],
   ["menubar", async page => { await item(page, "menubar").getByRole("menuitem", { name: "Work", exact: true }).click(); }, '[data-slot="menubar-content"]'],

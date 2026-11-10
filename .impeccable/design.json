@@ -1143,10 +1143,10 @@
     }
   ],
   "narrative": {
-    "northStar": "The studio workbench",
-    "overview": "Build a precise studio workbench: navigational rails, orderly work surfaces, pinned context, and visible handoffs. Use Operate mode: help a person find, inspect, and change real work; do not turn the workspace into a presentation.\n\nKeep the shell stable while the work changes. Use springs for spatial travel and scale, short durations for fades, direct manipulation, velocity-preserving interruption, and continuity of shared elements. Show actual local state, attribute helper actions, and preserve the person’s reading position and drafts. Use restrained density, deliberate typography, and interruptible motion rather than dashboard tiles or chat-first composition.",
+    "northStar": "Shared visual design, product-led structure",
+    "overview": "Build clear interfaces around the product's purpose. Reuse warm neutrals, thin borders, flat surfaces, Albert Sans, IBM Plex Mono, one action accent, and the shared motion settings. Stores, finance, publishing, analytics, messaging, and other products choose their own navigation, content, data model, and storage. Larkspur's boards, helpers, and time logs are optional examples.\n\nKeep shared navigation stable when present. Use springs for spatial travel and scale, short fades for opacity and color, interruptible movement, and continuity of shared elements. Show accurate state, preserve relevant reading positions and drafts, and explain consequential changes by automations when the product includes them.",
     "keyCharacteristics": [
-      "Operate mode; task-first, not metrics-first.",
+      "Choose layout and interaction from the product's purpose; no required app shell or feature set.",
       "Both themes are authored; dark is layered charcoal.",
       "One accent, legible hairlines, flat work surfaces.",
       "Motion explains state and preserves orientation."
@@ -1165,16 +1165,17 @@
     ],
     "dos": [
       "Do use token roles and test both themes.",
-      "Do keep the shell fixed during route changes and use direction-aware work-surface motion.",
-      "Do attribute helper changes and expose the reason and available undo.",
-      "Do use Albert Sans at 14px for task text and IBM Plex Mono for dense counts, times, durations, IDs, and keys.",
+      "Do keep shared navigation stable, when present, during content transitions.",
+      "Do attribute automation changes when the product includes them, explain the reason, and offer undo when supported and safe.",
+      "Do use Albert Sans at the 14px body baseline and IBM Plex Mono for dense counts, times, durations, IDs, and keys.",
       "Do use 6px, 8px, and 12px core radii and reserve shadows for floating layers."
     ],
     "donts": [
       "Don’t copy stale Geist, blue-accent, or plum-dark guidance from earlier revisions.",
       "Don’t invent counters, progress, completion evidence, or artificial waits.",
-      "Don’t use decoration gradients, glassmorphism, emoji, stock metric tiles, or pale-on-pale controls.",
-      "Don’t animate the shell on navigation, replay arrivals for existing items, or animate streamed tokens.",
+      "Don’t copy an example's features, data model, storage, or navigation into an unrelated product.",
+      "Don’t use decorative gradients, blurred glass, emoji, statistics without a purpose, or low-contrast controls.",
+      "Don’t animate shared navigation on routine page changes, replay arrivals for existing items, or animate each word of a streamed reply.",
       "Don’t convey status or chart identity with color alone."
     ]
   }

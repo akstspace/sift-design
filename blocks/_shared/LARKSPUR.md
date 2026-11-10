@@ -1,8 +1,14 @@
-# Larkspur: the made-up product in every example
+# Larkspur: content for the optional app examples
 
-Larkspur is a fictional, local-first workspace for small growers. It shows the
-Sift design language working outside Sift. Screens, data and names here are
-invented. Never show Sift, its agent runtime, or any real company in an example.
+Larkspur is a fictional workspace for small growers, used by the existing apps
+in `blocks/` and several component demonstrations. Screens, data, and names here
+are invented. This file keeps those fixtures consistent; it does not define the
+features, storage, navigation, or content of products using Sift Design.
+
+Use these names when maintaining or capturing the Larkspur examples. Other
+examples can use other fictional domains, and real products keep their own
+approved content. Never expose private records, credentials, or internal systems
+in public reference material.
 
 ## The workspace
 
@@ -32,7 +38,7 @@ Helper states: running now, next run at a time, paused by Larkspur with a reason
 when the hub is back."), paused by a person, failed (the schedule continues),
 needs action (sign-in expired; the helper waits).
 
-## Sample tasks (use these, keep titles specific)
+## Sample tasks for these fixtures
 
 - Pot on 120 lavender plugs (Propagation house, High, due today, John)
 - Aphids on the pepper starts, bench 4 (Polytunnel 2, Urgent, John, tag pests)
@@ -45,7 +51,7 @@ needs action (sign-in expired; the helper waits).
 - Repair the polytunnel door runner (Maintenance, Low)
 - Sow the second batch of sweet peas (Propagation house, done yesterday)
 
-## Time categories (the eight categorical slots, in this fixed order)
+## Time categories in the Timeline example
 
 1. Growing (sowing, potting, pricking out)
 2. Inspection (pest and quality checks)
@@ -56,7 +62,9 @@ needs action (sign-in expired; the helper waits).
 7. Writing (labels, care cards, the newsletter)
 8. Other
 
-Category n uses `--cat-n`. Never reassign a color when a filter hides a category.
+In this fixture, category n uses `--cat-n`. Keep those assignments when a filter
+hides a category. Other products choose their own categories and appropriate
+presentation; they do not need eight categories or an Other group.
 
 ## Voice
 

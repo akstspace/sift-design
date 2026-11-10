@@ -1,7 +1,7 @@
 import * as React from "react"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { IconClock } from "@tabler/icons-react"
-import { spring } from "@sift-design/tokens/motion"
+import { duration, leave, spring } from "@sift-design/tokens/motion"
 import { cn } from "cn"
 import { Button } from "./button"
 import { Popover, PopoverContent, PopoverTrigger } from "./popover"
@@ -90,6 +90,8 @@ function WheelColumn({
     const el = node.current
     if (el && Math.round(el.scrollTop / ROW) !== index) scrollToIndex(index, true)
   }, [index, scrollToIndex])
+
+  React.useEffect(() => () => window.clearTimeout(settle.current), [])
 
   const choose = (i: number) => onIndex(Math.max(0, Math.min(options.length - 1, i)))
 
@@ -232,8 +234,18 @@ function RollingText({ text }: { text: string }) {
               key={char}
               initial={reduced ? { opacity: 0 } : { y: "70%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              exit={reduced ? { opacity: 0 } : { y: "-70%", opacity: 0 }}
-              transition={reduced ? { duration: 0.12 } : spring.snappy}
+              exit={{
+                y: reduced ? 0 : "-70%",
+                opacity: 0,
+                transition: {
+                  ...(reduced ? { duration: 0 } : spring.exit),
+                  opacity: { duration: duration.instant, ease: leave },
+                },
+              }}
+              transition={{
+                ...(reduced ? { duration: 0 } : spring.snappy),
+                opacity: { duration: duration.quick, ease: "linear" },
+              }}
             >
               {char === " " ? " " : char}
             </motion.span>

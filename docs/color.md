@@ -1,26 +1,27 @@
-Use semantic roles from the normative token file in both themes.
-Test actual foreground/background pairs; neither a pale wash nor a data hue is a text token.
+Use named CSS variables for color in both themes. Check text and controls against the backgrounds where they actually appear.
 
 # Color
 
-## Use roles, not isolated swatches
+## Choose a color by its purpose
 
-Use the six brand primitives through semantic roles. The one-accent rule applies to interface emphasis, not to categorical data. Keep `--good`, `--warn`, and `--danger` reserved for state; pair each with a readable word and an icon. Do not use pale brand primitives as text on a pale surface.
+The palette starts with six brand colors. Components use purpose-based variables such as `--surface` for backgrounds and `--ink` for text. These are often called **color roles**. Using them keeps both themes consistent and lets you change the palette in one place.
 
-The names below are the actual CSS custom-property names, without the leading dashes. Values resolve aliases in each theme. Sift’s old `--blue`, `--blue-soft`, `--green`, `--amber`, sidebar roles, and descriptive category names map to this repo’s `--accent`, `--accent-soft`, `--good`, `--warn`, rail roles, and numbered category slots.
+Use one accent color to emphasize actions; charts can have several category colors. Reserve `--good`, `--warn`, and `--danger` for status, alongside a word and icon. Pale brand colors are not suitable for text on a pale background.
+
+The table lists the CSS variable names and their final light and dark values. Variables beginning with `--rail-` style a dark navigation rail when one is present; they do not require a sidebar. `--cat-` variables identify data categories chosen by the product.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `--slate` | `#2b2539` | `#2b2539` | Brand primitive; light ink/rail/primary. |
-| `--oatmeal` | `#ebe9e4` | `#ebe9e4` | Brand primitive; light ground, dark ink. |
+| `--slate` | `#2b2539` | `#2b2539` | Base brand color; light-theme text, sidebar, and primary actions. |
+| `--oatmeal` | `#ebe9e4` | `#ebe9e4` | Base brand color; light background and dark-theme text. |
 | `--coral` | `#efc8c8` | `#efc8c8` | Selected navigation backing. |
 | `--sea` | `#bed3cc` | `#bed3cc` | Dark accent/primary/good; rail focus. |
-| `--umber` | `#7b6767` | `#7b6767` | Brand primitive; do not substitute for muted text. |
-| `--chartreuse` | `#eeefc8` | `#eeefc8` | Dark attention primitive. |
+| `--umber` | `#7b6767` | `#7b6767` | Base brand color; not a replacement for muted text. |
+| `--chartreuse` | `#eeefc8` | `#eeefc8` | Base color for dark-theme warnings. |
 | `--ground` | `#ebe9e4` | `#18191b` | Canvas behind work. |
 | `--surface` | `#f8f7f4` | `#242628` | Cards, panels, sheets, menus. |
 | `--rail` | `#2b2539` | `#121315` | Navigation background. |
-| `--subtle` | `#e4e1dc` | `#2c2e31` | Quiet wells and tracks. |
+| `--subtle` | `#e4e1dc` | `#2c2e31` | Inset backgrounds and control tracks. |
 | `--hover` | `#ded9d7` | `#36393c` | Opaque hover on surface. |
 | `--tint` | `#2b25390b` | `#ebe9e40e` | Transparent hover wash; composite on actual background. |
 | `--tint-strong` | `#2b253915` | `#ebe9e41a` | Pressed/selected transparent wash. |
@@ -32,7 +33,7 @@ The names below are the actual CSS custom-property names, without the leading da
 | `--primary-foreground` | `#ebe9e4` | `#2b2539` | Text on primary action. |
 | `--accent` | `#386254` | `#bed3cc` | Links, active state, selection, focus. |
 | `--accent-soft` | `#d7e4de` | `#2b3e37` | Selection/drop-target wash. |
-| `--good` | `#386254` | `#bed3cc` | Done/healthy with word and icon. |
+| `--good` | `#386254` | `#bed3cc` | Confirmed success/healthy state with word and icon. |
 | `--warn` | `#756019` | `#eeefc8` | Attention with word and icon. |
 | `--danger` | `#973e4f` | `#f4a4b0` | Failure/destructive state with word and icon. |
 | `--danger-foreground` | `#ffffff` | `#2b2539` | Text on destructive fill. |
@@ -53,7 +54,7 @@ The names below are the actual CSS custom-property names, without the leading da
 | `--cat-7` | `#b85862` | `#b5555f` | Categorical data identity only; fixed slot, never status or text. |
 | `--cat-8` | `#868bd1` | `#7a7ec4` | Categorical data identity only; fixed slot, never status or text. |
 
-## Verify contrast by pair
+## Check text and control contrast
 
 Ratios below are computed from the exact resolved sRGB hex values using WCAG relative luminance: linearize each channel, weight by 0.2126 / 0.7152 / 0.0722, then divide the lighter luminance plus 0.05 by the darker plus 0.05. Composite alpha washes over the stated background before comparing. Round only the displayed result; do not round to claim a pass.
 
@@ -109,27 +110,27 @@ Require 4.5:1 for normal text and 3:1 for large text and essential control bound
 | `--accent` / `--accent-soft` | 5.27:1 | 7.24:1 | Accent on wash |
 | `--ink` / `--surface` | 13.74:1 | 12.52:1 | Inverted tooltip surface/ink has the same ratio |
 
-Do: use `--control-line` on fields and check its actual adjacent surface. Don’t: assume it passes on every hover/subtle fill. In particular, Sift’s control-line values are not universally sufficient on tinted/hovered backgrounds; retain the canonical values, change the component/background pairing or use an approved higher-contrast role, and re-test.
+Use `--control-line` for field borders, then test it against the field’s actual background. It does not have enough contrast on every hover or tinted background. Keep the shared values; change the background or use a suitable higher-contrast variable and test again. Propose any shared palette change separately.
 
-Do: indicate selection with the traveling shape, text, and/or border in addition to the wash. Don’t: claim the tint itself meets non-text contrast.
+Indicate selection with text, an icon, a visible outline, or a selected shape in addition to the wash. A shared backing may travel between options, but it must remain clear without animation. Do not claim the tint itself meets non-text contrast.
 
-## Keep the categorical palette stable
+## Keep chart colors consistent
 
-Use exactly eight slots in fixed order. Sift’s Sift’s order is Coding, Reviewing, Meetings, Messages, Admin, Research, Writing, Other. Larkspur’s matching slots are Growing, Inspection, Meetings and calls, Messages, Admin, Research, Writing, Other. Filtering never renumbers surviving categories. Fold additional categories into Other rather than cycling or generating colors. See [data visualization](data-visualization.md).
+Use `--cat-1` through `--cat-8`, mapped consistently to the product’s categories or series. They might identify merchandise departments, expense types, acquisition channels, or publication sections. No category names or activity model are prescribed. Keep each identity’s assigned slot when filtering, sorting, or changing views. If eight colors cannot distinguish the data clearly, use filters, direct labels, small multiples, or a table rather than cycling colors. Group categories under a clearly labeled Other only when that summary answers the question, and preserve access to the underlying detail. See [data visualization](data-visualization.md).
 
-## Author dark mode as its own steps
+## Choose dark-mode colors separately
 
 - Apply `.dark` to the root and `color-scheme: dark`; honor system preference until the person chooses an override.
 - Replace ground, surface, rail, text, borders, action, status, wash, category, and shadow roles with their dark values together. Do not invert rendered pixels or lighten only the canvas.
-- Retain coral selected navigation with slate foreground; retain the independently darkened rail hover and dividers.
+- When using the default rail, retain coral selected navigation with slate foreground and the independently darkened rail hover and dividers. Other layouts still use the shared color roles rather than requiring a dark rail.
 - Recheck each actual text and control pair. Keep charts’ labels in ink/muted even when a categorical fill is low contrast.
 
-For another brand, preserve these role names and follow the complete role-mapping and pair-matrix process in [retheming](retheming.md). The default values above remain normative when no alternate palette is selected.
+For another brand, keep the variable names and follow [the palette guide](retheming.md). Use the default values above when no alternate palette is selected.
 
 ## Checklist
 
 - Every role resolves to the table in the selected theme.
 - Normal text and essential controls pass their actual adjacent-background tests.
 - Status has an icon and a word; selection is not color-only.
-- Categories retain fixed slots and overflow folds into Other.
-- Both themes use their authored values, not an inversion.
+- Categories retain their assigned colors; larger sets stay distinguishable without relying on extra colors alone.
+- Both themes use their own values, not an inversion.

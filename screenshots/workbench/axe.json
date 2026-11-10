@@ -98,5 +98,21 @@
   {
     "shot": "25-reduced-inspector-dark",
     "violations": []
+  },
+  {
+    "shot": "29-mobile-navigation-light",
+    "violations": []
+  },
+  {
+    "shot": "mobile-navigation-closed-dark",
+    "violations": []
+  },
+  {
+    "shot": "mobile-navigation-closed-light",
+    "violations": []
+  },
+  {
+    "shot": "mobile-navigation-reduced",
+    "violations": []
   }
 ]

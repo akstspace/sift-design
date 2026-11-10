@@ -29,7 +29,7 @@ function Progress({ className, value, max = 100, ...props }: React.ComponentProp
           className="h-full w-full origin-left rounded-full bg-good"
           initial={false}
           animate={{ scaleX: percent / 100 }}
-          transition={reduced || backwards ? { duration: 0 } : spring.smooth}
+          transition={reduced ? { duration: 0 } : backwards ? spring.exit : spring.smooth}
         /></ProgressPrimitive.Indicator>
     </ProgressPrimitive.Root>
   )

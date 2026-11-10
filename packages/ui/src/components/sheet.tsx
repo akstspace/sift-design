@@ -15,11 +15,15 @@ function subscribeMobile(notify: () => void) {
   media.addEventListener("change", notify)
   return () => media.removeEventListener("change", notify)
 }
-function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
+function Sheet({ responsive = true, ...props }: React.ComponentProps<typeof SheetPrimitive.Root> & {
+  /** Keep edge-attached surfaces, such as navigation, out of the bottom-sheet lifecycle. */
+  responsive?: boolean
+}) {
   useOverlayIsolation()
   const mobile = React.useSyncExternalStore(subscribeMobile, () => window.matchMedia(mobileQuery).matches, () => false)
   const reduced = useReducedMotion()
-  return <SheetMobile.Provider value={mobile}>{mobile
+  const bottomSheet = responsive && mobile
+  return <SheetMobile.Provider value={bottomSheet}>{bottomSheet
     ? <MobileSheetPrimitive.Root direction="bottom" shouldScaleBackground={!reduced} {...props} />
     : <SheetPrimitive.Root data-slot="sheet" {...props} />}</SheetMobile.Provider>
 }

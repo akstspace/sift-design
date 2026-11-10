@@ -7,11 +7,13 @@ Use these components with the kit theme imported once in your app:
 @import "@sift-design/ui/theme.css";
 ```
 
-All motion is on by default; no provider or animation wrapper is needed. Components retain the shadcn composition API and their primitive's focus, dismissal, collision detection and keyboard behavior. Import components from `@sift-design/ui/<component>`, not the pristine upstream folder.
+Animation is built in; no extra provider or wrapper is needed. Components use the shadcn API and keep the underlying focus, keyboard, closing, and popup-positioning behavior. Import from `@sift-design/ui/<component>`, not unmodified upstream files. In the examples below, a **trigger** is the button or link that opens a menu or panel. A **surface** is the visible panel itself.
+
+Choose an overlay only when it serves the interaction; a full page or inline content may be clearer. The snippets illustrate document, account, catalog, and booking interactions. Their fields and actions are examples, separate from the optional greenhouse demos.
 
 ## Shared surfaces and motion
 
-Floating surfaces use `--surface`, `--ink`, a `--line` hairline and `--shadow-float`. The hairline is intentional: it separates dark floating surfaces from the dark work surface. Menu rows are at least 32px high, with 8px highlight radii. Highlights are immediate; no transition trails keyboard navigation. Destructive actions use `--danger`. Shortcut legends use the 12px IBM Plex Mono code step, a quiet fill and a hairline, not decorative letter spacing. Focus uses `--focus-ring` in both themes.
+Floating panels use `--surface`, `--ink`, a thin `--line` border and `--shadow-float`. The border separates dark floating panels from the page beneath them. Menu rows are at least 32px high, with 8px highlight radii. Highlights are immediate, so keyboard navigation never waits for animation. Destructive actions use `--danger`. Shortcut labels use 12px IBM Plex Mono, a subtle fill and a thin border, not decorative letter spacing. Focus uses `--focus-ring` in both themes.
 
 Exact easing names throughout this document:
 
@@ -19,53 +21,68 @@ Exact easing names throughout this document:
 - **leave** = `cubic-bezier(0.4, 0, 1, 1)`.
 - **linear** = `linear`.
 
-Spring curves are normative tokens, not independently tuned approximations:
+Use the shared spring tokens rather than tuning separate curves:
 
 | Role | CSS curve | Physical preset | Complete sampled duration |
 |---|---|---|---|
 | Anchored surfaces, alerts, toast stack | `--spring-snappy` | `spring.snappy`, visualDuration .2s, bounce .12 | `--spring-snappy-duration` = 358ms |
 | Dialogs, desktop sheets | `--spring-smooth` | `spring.smooth`, visualDuration .28s, bounce 0 | `--spring-smooth-duration` = 538ms |
 | Sheet/Drawer full-edge travel | `--spring-travel` | `spring.travel`, visualDuration .3s, bounce 0 | `--spring-travel-duration` = 572ms |
-| Sheet/Drawer spatial exits | `--spring-exit` | `spring.exit`, visualDuration .16s, bounce 0 | `--spring-exit-duration` = 335ms |
+| Surface and toast spatial exits | `--spring-exit` | `spring.exit`, visualDuration .16s, bounce 0 | `--spring-exit-duration` = 335ms |
 
 The complete sampled durations include the almost-still spring tail; they are not the perceived response time. Input and focus never wait for that tail.
 
-The **anchored preset** grows from **scale .94 to 1** with `--spring-snappy`, 4px side-aware travel, and **100ms linear opacity**. `@starting-style` supplies the initial transform; CSS transitions reverse from the current transform mid-flight. Closing targets scale .97 on the same spring while **100ms leave** fades remove it quickly. Radix Presence is retained by a distinct fade-out animation, not by waiting for a transform transition. Origins use the primitive variable listed below. Reduced motion is **120ms linear fade in / 80ms linear fade out**, with no spatial transition. Submenus translate 12px out of their parent rather than scaling; each is portalled so the parent scroll container cannot clip it.
+The **anchored preset** grows from **scale .94 to 1** with `--spring-snappy`, 4px side-aware travel, and a separate `--dur-quick` (140ms) linear opacity transition. `@starting-style` supplies the initial transform and opacity; CSS transitions reverse from the currently displayed values mid-flight. Closing targets scale .97 on `--spring-exit` while `--dur-instant` (80ms) leave opacity makes dismissal immediate. A nonvisual exit animation keeps primitive Presence mounted for the 80ms fade without resetting the transition or delaying focus return through an invisible spring tail. Origins use the primitive variable listed below. Reduced motion is **140ms linear fade in / 80ms leave fade out**, with no spatial transition. Submenus translate 12px out of their parent rather than scaling; each is portalled so the parent scroll container cannot clip it.
 
-Dialogs and alerts use spring-shaped transform keyframes with independent fades because Radix owns their unmount lifetime. Reopening is immediate, with no input wait; keyframe reopening is not velocity-preserving like a direct manipulation release. Vaul owns drawer/mobile-sheet direct manipulation: pointer tracking is 1:1 toward dismissal, resisted beyond open, and release velocity/distance decide dismissal. Its inline `transition:none` during dragging is never overridden. At rest, the release uses the token spring-shaped CSS transition. Sonner retains depth stacking, hover expansion and swipe geometry with a token spring transition. Command filtering has no animation.
-
+Dialogs, alerts, desktop sheets and navigation viewports use the same reversible lifecycle, with role-specific entry springs and overshoot-free exit springs. Backdrops independently transition opacity over 180ms in / 80ms leave out, so interrupting an entrance does not flash a fully dimmed backdrop. Input never waits for a spring tail. Vaul owns drawer/mobile-sheet direct manipulation: pointer tracking is 1:1 toward dismissal, resisted beyond open, and release velocity/distance decide dismissal. Its inline `transition:none` during dragging is never overridden. At rest, the release uses the token spring-shaped CSS transition. Sonner retains depth stacking, hover expansion and swipe geometry with token spring timing. Command and Combobox filtering and keyboard selection stay synchronous; only an empty-result message fades in over 140ms.
 Closing surfaces are visual-only (`pointer-events: none`); Select's primitive inline pointer style is explicitly overridden. Closing-only modal layers release body pointer locking, without unlocking another still-open modal. The shared `useOverlayIsolation` hook mirrors primitive `aria-hidden` background isolation with native `inert` for tabbable background regions, restores previous inert values, and releases this extra isolation when the overlay closes. Radix still owns focus trapping, Escape, dismissal and eventual focus return. Its empty navigation focus proxy remains tabbable and forwards focus into content; it is not incorrectly hidden from the accessibility tree. Always regression-test your nesting arrangement and provide an opener when controlling a dialog programmatically.
 
 ## Dialog
 
-**When:** a small, focused edit that genuinely needs protected focus. For contextual task inspection, prefer Sheet. **Anatomy:** Root → Trigger; Content includes Portal + Overlay and a close control; Header → Title + Description; body; Footer → actions/Close.
+**When:** a short edit or decision genuinely needs modal focus. For contextual details that benefit from an edge panel, consider Sheet; use inline content or a full page when interruption is unnecessary. **Structure:** Root → Trigger; Content includes Portal + Overlay and a close control; Header → Title + Description; body; Footer → actions/Close.
 
-**Motion:** center origin. Dialog rises from y=8px, scale .97 on `--spring-smooth` / 538ms; opacity is a separate 140ms linear fade. Closing is a 120ms leave fade without travel. Backdrop fades 200ms in / 100ms out, linear. Reduced motion: content 120/80ms linear fades only.
+**Motion:** center origin. Rises from y=8px, scale .97 on the smooth spring; exits toward scale .98 on the exit spring. Transform and opacity retarget from the current frame if dismissed or reopened midway. Content fades 140ms in / 80ms leave out; backdrop 180/80ms. Reduced motion: 140/80ms fades only.
 
 **Accessibility:** provide Title and Description. Focus is trapped while open, Escape closes, and focus returns to Trigger. The 36px close button has an accessible name. Long content scrolls within `100dvh - 32px`. Do not force-mount an always-focusable hidden dialog.
 
 ```tsx
+import { useState } from "react";
 import { Button } from "@sift-design/ui/button";
+import { Input } from "@sift-design/ui/input";
+import { Label } from "@sift-design/ui/label";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
   DialogDescription, DialogFooter, DialogClose } from "@sift-design/ui/dialog";
 
-export function TaskNote() {
-  return <Dialog>
-    <DialogTrigger asChild><Button variant="outline">View growing note</Button></DialogTrigger>
-    <DialogContent>
-      <DialogHeader><DialogTitle>Lavender plugs</DialogTitle>
-        <DialogDescription>Leave on the sheltered bench overnight.</DialogDescription></DialogHeader>
-      <DialogFooter><DialogClose asChild><Button>Done</Button></DialogClose></DialogFooter>
+export function RenameDocument({ name, onRename }: { name: string; onRename: (name: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState(name);
+  return <Dialog open={open} onOpenChange={next => { if (next) setTitle(name); setOpen(next); }}>
+    <DialogTrigger asChild><Button variant="outline">Rename document</Button></DialogTrigger>
+    <DialogContent><form onSubmit={event => {
+      event.preventDefault();
+      if (!title.trim()) return;
+      onRename(title.trim());
+      setOpen(false);
+    }}>
+      <DialogHeader><DialogTitle>Rename document</DialogTitle>
+        <DialogDescription>Choose a title readers can recognize in search results.</DialogDescription></DialogHeader>
+      <Label htmlFor="rename-document-title">Document title</Label>
+      <Input id="rename-document-title" value={title} onChange={event => setTitle(event.target.value)} required />
+      <DialogFooter><DialogClose asChild><Button type="button" variant="outline">Cancel</Button></DialogClose>
+        <Button type="submit" disabled={!title.trim()}>Save name</Button></DialogFooter>
+    </form>
     </DialogContent>
   </Dialog>;
 }
 ```
 
+This example calls a synchronous rename handler. For a server request, keep the dialog open while saving and show any error beside the field before closing on success.
+
 ## Alert dialog
 
-**When:** an irreversible operation requires an explicit choice. **Anatomy:** Root → Trigger; Content → Header/Title/Description + Footer/Cancel/Action. Optional Media and `size="sm"` remain supported.
+**When:** an irreversible or high-impact operation requires an explicit choice. **Structure:** Root → Trigger; Content → Header/Title/Description + Footer/Cancel/Action. Optional Media and `size="sm"` remain supported.
 
-**Motion:** center origin. Alert settles from scale **1.06** on `--spring-snappy` / 358ms; opacity 140ms linear. Exit 120ms leave fade. Backdrop 200/100ms linear. Reduced motion: 120/80ms linear content fades, no scaling.
+**Motion:** center origin. Settles from scale 1.06 on the snappy spring; exits toward scale .98 on the overshoot-free exit spring. Both directions reverse from the current frame. Content fades 140ms in / 80ms leave out; backdrop 180/80ms. Reduced motion: fades only.
 
 **Accessibility:** Cancel receives safe initial focus. Outside click does not confirm or dismiss. Use explicit action names, identify the affected object, and style irreversible actions as destructive. Keep Cancel visible and operable.
 
@@ -75,14 +92,14 @@ import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader,
   AlertDialogTitle, AlertDialogDescription, AlertDialogFooter,
   AlertDialogCancel, AlertDialogAction } from "@sift-design/ui/alert-dialog";
 
-export function DeleteTask({ onDelete }: { onDelete: () => void }) {
+export function DeleteDocument({ onDelete }: { onDelete: () => void }) {
   return <AlertDialog>
-    <AlertDialogTrigger asChild><Button variant="outline">Delete task</Button></AlertDialogTrigger>
+    <AlertDialogTrigger asChild><Button variant="outline">Delete document</Button></AlertDialogTrigger>
     <AlertDialogContent>
-      <AlertDialogHeader><AlertDialogTitle>Delete this task?</AlertDialogTitle>
-        <AlertDialogDescription>Repair the polytunnel door runner will be removed. This cannot be undone.</AlertDialogDescription></AlertDialogHeader>
-      <AlertDialogFooter><AlertDialogCancel>Keep task</AlertDialogCancel>
-        <AlertDialogAction variant="destructive" onClick={onDelete}>Delete task</AlertDialogAction></AlertDialogFooter>
+      <AlertDialogHeader><AlertDialogTitle>Delete this document?</AlertDialogTitle>
+        <AlertDialogDescription>Autumn collection brief will be permanently removed. This cannot be undone.</AlertDialogDescription></AlertDialogHeader>
+      <AlertDialogFooter><AlertDialogCancel>Keep document</AlertDialogCancel>
+        <AlertDialogAction variant="destructive" onClick={onDelete}>Delete document</AlertDialogAction></AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>;
 }
@@ -90,9 +107,9 @@ export function DeleteTask({ onDelete }: { onDelete: () => void }) {
 
 ## Sheet
 
-**When:** inspect or edit a task while preserving the board behind it. **Anatomy:** Root/Trigger → Content (Portal + Overlay + named close), Header/Title/Description, body, Footer/Close. Default side is right. `side` also accepts left, top and bottom. Sift's `overlayClassName`, custom `overlay`, `forceMount` and `asChild` escape hatches are retained; an `asChild` consumer supplies its own close control.
+**When:** inspect or edit details while keeping the source page visible behind the panel. Sheet is modal: the page behind it is not interactive while it is open. **Structure:** Root/Trigger → Content (Portal + Overlay + named close), Header/Title/Description, body, Footer/Close. Default side is right. `side` also accepts left, top and bottom. Root accepts `responsive={false}` to keep an edge-attached surface out of the mobile bottom-sheet lifecycle; Sidebar uses this for side navigation. Additional Content props include `overlayClassName`, custom `overlay`, `forceMount` and `asChild`; an `asChild` consumer supplies its own close control.
 
-**Motion:** desktop edge origin (right/left/top/bottom). Arrives from 64px, scale .985 using `--spring-smooth` / 538ms; opacity reaches 1 after 140ms linear. Desktop exit is a 160ms linear fade. Below 640px, Sheet becomes a full-width bottom sheet with full-height travel from y=100%, `--spring-travel` / 572ms (visual response near 420ms); full-edge exit uses `--spring-exit` / 335ms (visual response near 200ms). It can be grabbed and dragged down, resisted above its open limit, and dismissed by distance or velocity. Reduced motion: 120/80ms linear fades, no automatic travel, scale or momentum flourish. Backdrop 200/100ms linear.
+**Motion:** desktop edge origin (right/left/top/bottom). Arrives from 64px, scale .985 on the smooth spring; exits toward 40px, scale .99 on the exit spring. Both directions retarget from the current frame, with independent 140/80ms content fades and 180/80ms backdrop fades. Below 640px, the existing draggable bottom sheet keeps full-height travel on the travel spring and dismissal on the exit spring. Reduced motion: 140/80ms fades, no automatic travel or scale.
 
 **Accessibility:** named dialog with trapped open focus, Escape and focus return; 36px dismissal target. Content scrolls within the viewport. Custom force-mounted Motion content must provide its own presence/inert handling; don't leave a hidden modal layer interactive.
 
@@ -101,14 +118,14 @@ import { Button } from "@sift-design/ui/button";
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle,
   SheetDescription, SheetFooter, SheetClose } from "@sift-design/ui/sheet";
 
-export function TaskDetails() {
+export function ProductDetails() {
   return <Sheet>
-    <SheetTrigger asChild><Button variant="outline">Open task details</Button></SheetTrigger>
+    <SheetTrigger asChild><Button variant="outline">View product details</Button></SheetTrigger>
     <SheetContent><SheetHeader className="pr-12">
-      <SheetTitle>Pot on 120 lavender plugs</SheetTitle>
-      <SheetDescription>Propagation house · Due today</SheetDescription>
-    </SheetHeader><p className="px-4">Move the lavender into 9cm pots.</p>
-      <SheetFooter><SheetClose asChild><Button>Back to board</Button></SheetClose></SheetFooter>
+      <SheetTitle>Linen tablecloth</SheetTitle>
+      <SheetDescription>Natural linen · 140 × 200 cm</SheetDescription>
+    </SheetHeader><p className="px-4">Machine washable at 30°C.</p>
+      <SheetFooter><SheetClose asChild><Button>Back to catalog</Button></SheetClose></SheetFooter>
     </SheetContent>
   </Sheet>;
 }
@@ -116,21 +133,21 @@ export function TaskDetails() {
 
 ## Drawer
 
-**When:** thumb-reachable mobile actions or a draggable checklist. Use Sheet for a full contextual editor. **Anatomy:** Vaul Root/Trigger → Content (Portal, Overlay, handle), Header/Title/Description, scrollable body, Footer/Close.
+**When:** mobile actions or a short form benefit from a panel that can be dragged closed. Use Sheet for a larger contextual editor. **Structure:** Vaul Root/Trigger → Content (Portal, Overlay, handle), Header/Title/Description, scrollable body, Footer/Close.
 
-**Motion:** Vaul retains direction-specific full-edge translation, snap-point geometry, 1:1 pointer tracking, resistance beyond open, and velocity-based dismissal. Entry/release use `--spring-travel` / 572ms; closed spatial exits use `--spring-exit` / 335ms. Opacity keeps its separate short fade. No transform origin is needed. Background scale uses Vaul’s `[data-vaul-drawer-wrapper]` support, enabled by default unless reduced motion is requested. Wrap the application work surface in that attribute; do not include the portalled drawer itself. Reduced motion: 120/80ms fades; automatic spatial motion and background scale are removed, but deliberate dragging remains available.
+**Motion:** Vaul retains direction-specific full-edge translation, snap-point geometry, direct pointer tracking, resistance beyond open and velocity-based dismissal: already correct. Entry/release use the travel spring; departure uses the exit spring. Backdrop opacity now reverses continuously over 180ms in / 80ms leave out. Reduced motion: 140/80ms fades, no automatic travel or background scale; deliberate dragging remains available.
 
-**Accessibility:** supply Title, Description and a visible Close; dragging cannot be the only way out. Focus trapping/dismissal come from Vaul/Radix. Vertical drawers cap at 80vh and scroll, including on short landscape screens. Use real labeled kit controls in checklists.
+**Accessibility:** supply Title, Description and a visible Close; dragging cannot be the only way out. Focus trapping/dismissal come from Vaul/Radix. Vertical drawers cap at 80vh and scroll, including on short landscape screens. Label any controls inside the drawer.
 
 ```tsx
 import { Button } from "@sift-design/ui/button";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle,
   DrawerDescription, DrawerFooter, DrawerClose } from "@sift-design/ui/drawer";
 
-export function MarketActions() {
-  return <Drawer><DrawerTrigger asChild><Button>Plan market crates</Button></DrawerTrigger>
-    <DrawerContent><DrawerHeader><DrawerTitle>Prepare Saturday market crates</DrawerTitle>
-      <DrawerDescription>Check the price cards before loading.</DrawerDescription></DrawerHeader>
+export function BookingSummary() {
+  return <Drawer><DrawerTrigger asChild><Button>View booking summary</Button></DrawerTrigger>
+    <DrawerContent><DrawerHeader><DrawerTitle>Your booking</DrawerTitle>
+      <DrawerDescription>Two guests · 12 November 2026 · 18:30</DrawerDescription></DrawerHeader>
       <DrawerFooter><DrawerClose asChild><Button>Done</Button></DrawerClose></DrawerFooter>
     </DrawerContent>
   </Drawer>;
@@ -139,9 +156,9 @@ export function MarketActions() {
 
 ## Popover
 
-**When:** a short setting change close to its trigger. Not a replacement for a large dialog. **Anatomy:** Root/Trigger (or Anchor) → portalled Content → Header/Title/Description + controls.
+**When:** a short setting change close to its trigger. Not a replacement for a large dialog. **Structure:** Root/Trigger (or Anchor) → portalled Content → Header/Title/Description + controls.
 
-**Motion:** anchored spring preset, `--spring-snappy` / 358ms transform and 100ms linear opacity, 100ms leave exit fade. Origin `--radix-popover-content-transform-origin`; default offset 4px. Collision-resolved side determines entry travel. Reduced motion: 120/80ms linear fades.
+**Motion:** anchored preset with reversible snappy entry and overshoot-free exit, 140ms linear opacity in / 80ms leave out. Origin `--radix-popover-content-transform-origin`; collision-resolved side determines the 4px entry offset. Reduced motion: 140/80ms fades only.
 
 **Accessibility:** Title/Description automatically share IDs with Content through context; include both, or supply explicit `aria-label`/`aria-describedby` for custom compositions. Escape/outside click close and restore trigger focus. Interactive content belongs in a Popover, never a Tooltip.
 
@@ -149,41 +166,45 @@ export function MarketActions() {
 import { Button } from "@sift-design/ui/button";
 import { Popover, PopoverTrigger, PopoverContent, PopoverHeader,
   PopoverTitle, PopoverDescription } from "@sift-design/ui/popover";
+import { Checkbox } from "@sift-design/ui/checkbox";
+import { Label } from "@sift-design/ui/label";
 
-export function Reminder() {
-  return <Popover><PopoverTrigger asChild><Button>Reminder details</Button></PopoverTrigger>
-    <PopoverContent><PopoverHeader><PopoverTitle>Before closing</PopoverTitle>
-      <PopoverDescription>Check the misting nozzles at 16:30.</PopoverDescription>
-    </PopoverHeader></PopoverContent>
+export function ProductFilters({ inStockOnly, onInStockChange }: {
+  inStockOnly: boolean; onInStockChange: (value: boolean) => void;
+}) {
+  return <Popover><PopoverTrigger asChild><Button>Product filters</Button></PopoverTrigger>
+    <PopoverContent><PopoverHeader><PopoverTitle>Availability</PopoverTitle>
+      <PopoverDescription>Choose which products appear in the catalog.</PopoverDescription>
+    </PopoverHeader><Label><Checkbox checked={inStockOnly} onCheckedChange={value => onInStockChange(value === true)} />In-stock products only</Label></PopoverContent>
   </Popover>;
 }
 ```
 
 ## Hover card
 
-**When:** supplementary previews for a person or destination. Essential information must also exist on the destination. **Anatomy:** Root → focusable Trigger link → portalled Content.
+**When:** supplementary previews for a person or destination. Essential information must also exist on the destination. **Structure:** Root → focusable Trigger link → portalled Content.
 
-**Motion:** anchored spring preset, `--spring-snappy` / 358ms transform and 100ms linear opacity, 100ms leave fade out. Origin `--radix-hover-card-content-transform-origin`; offset 4px. `openDelay={200}` is a discovery threshold, not animation duration. Reduced motion: 120/80ms linear fades.
+**Motion:** anchored preset with reversible snappy entry and exit-spring departure, 140ms linear opacity in / 80ms leave out. Origin `--radix-hover-card-content-transform-origin`; offset 4px. `openDelay={200}` remains a discovery threshold, not animation duration. Reduced motion: 140/80ms fades only.
 
 **Accessibility:** pointer hover and trigger focus both reveal it. Do not put required actions or essential form fields in the preview; use Popover for those. Preserve a real link destination.
 
 ```tsx
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@sift-design/ui/hover-card";
 
-export function GrowerPreview() {
+export function AuthorPreview() {
   return <HoverCard openDelay={200}><HoverCardTrigger asChild>
-    <a href="/people/tomas">John Smith</a></HoverCardTrigger>
-    <HoverCardContent><p className="font-semibold">John Smith</p>
-      <p className="text-muted-foreground">Grower · Propagation house</p></HoverCardContent>
+    <a href="/authors/alex-lee">Alex Lee</a></HoverCardTrigger>
+    <HoverCardContent><p className="font-semibold">Alex Lee</p>
+      <p className="text-muted-foreground">Editor of the monthly reading guide.</p></HoverCardContent>
   </HoverCard>;
 }
 ```
 
 ## Tooltip
 
-**When:** optional clarification or a shortcut. Never the sole accessible name or the only place for critical instructions. **Anatomy:** Provider → Root → Trigger + portalled Content. Quiet surface and hairline replace stock inverted styling; no decorative arrow.
+**When:** optional clarification or a shortcut. Never the sole accessible name or the only place for critical instructions. **Structure:** Provider → Root → Trigger + portalled Content. Uses the panel background and a thin border rather than an inverted color scheme; no decorative arrow.
 
-**Motion:** anchored spring preset, `--spring-snappy` / 358ms transform and 100ms linear opacity, 100ms leave exit fade. Both instant-open and delayed-open work. Origin `--radix-tooltip-content-transform-origin`; offset 6px. Reduced motion: 120/80ms linear fades.
+**Motion:** delayed discovery uses the reversible anchored preset, with snappy entry, exit-spring departure and 140/80ms opacity. Instant-open hints, including discovery within the provider’s skip-delay window, reveal immediately without replaying scale, travel or fade. Origin `--radix-tooltip-content-transform-origin`; offset 6px. Reduced delayed discovery: 140/80ms fades only; instant-open remains instant.
 
 **Accessibility:** accessible trigger, focus/hover discovery, Escape dismissal. No interactive controls inside tooltip content. Tooltip shortcuts supplement, not replace, button labels.
 
@@ -191,19 +212,19 @@ export function GrowerPreview() {
 import { Button } from "@sift-design/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@sift-design/ui/tooltip";
 
-export function SearchHint() {
+export function PrintHint({ onPrint }: { onPrint: () => void }) {
   return <TooltipProvider delayDuration={300}><Tooltip>
-    <TooltipTrigger asChild><Button>Search tasks</Button></TooltipTrigger>
-    <TooltipContent>Find a task <kbd className="font-mono">⌘ K</kbd></TooltipContent>
+    <TooltipTrigger asChild><Button onClick={onPrint}>Print document</Button></TooltipTrigger>
+    <TooltipContent>Opens your browser's print options.</TooltipContent>
   </Tooltip></TooltipProvider>;
 }
 ```
 
 ## Dropdown menu
 
-**When:** secondary actions behind an explicit button. **Anatomy:** Root/Trigger → Content → optional Label/Group, Item, CheckboxItem/RadioGroup, Separator, Shortcut; Sub → SubTrigger + SubContent.
+**When:** secondary actions behind an explicit button. **Structure:** Root/Trigger → Content → optional Label/Group, Item, CheckboxItem/RadioGroup, Separator, Shortcut; Sub → SubTrigger + SubContent.
 
-**Motion:** root uses the anchored spring preset, `--spring-snappy` / 358ms transform, 100ms linear opacity and 100ms leave exit fade. Origin `--radix-dropdown-menu-content-transform-origin`. Submenus spring **12px away from their parent item**, portalled outside parent scrolling; no animated dimensions. Highlights remain instant. Reduced motion: 120/80ms linear fades at every level.
+**Motion:** root uses the reversible anchored preset: snappy entry, exit-spring departure and 140/80ms opacity. Origin `--radix-dropdown-menu-content-transform-origin`. Portalled submenus enter 12px away from their parent and exit toward a smaller 4px offset on the exit spring; interruption retargets the current frame. Highlights remain instant for keyboard speed. Reduced motion: 140/80ms fades at every level.
 
 **Accessibility:** Arrow keys, Home/End, typeahead, Enter, Escape and submenu arrow navigation remain primitive-owned. Disabled actions are visibly disabled. Use `inset` for a consistent text column when mixing checkable rows with ordinary actions. Use a confirmation dialog rather than immediate deletion for irreversible actions.
 
@@ -212,10 +233,10 @@ import { Button } from "@sift-design/ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
   DropdownMenuItem, DropdownMenuSeparator } from "@sift-design/ui/dropdown-menu";
 
-export function TaskActions({ onOpen, onArchive }: { onOpen: () => void; onArchive: () => void }) {
-  return <DropdownMenu><DropdownMenuTrigger asChild><Button>Task actions</Button></DropdownMenuTrigger>
-    <DropdownMenuContent><DropdownMenuItem onSelect={onOpen}>Open task</DropdownMenuItem>
-      <DropdownMenuSeparator /><DropdownMenuItem variant="destructive" onSelect={onArchive}>Archive task</DropdownMenuItem>
+export function DocumentActions({ onOpen, onDownload }: { onOpen: () => void; onDownload: () => void }) {
+  return <DropdownMenu><DropdownMenuTrigger asChild><Button>Document actions</Button></DropdownMenuTrigger>
+    <DropdownMenuContent><DropdownMenuItem onSelect={onOpen}>Open document</DropdownMenuItem>
+      <DropdownMenuSeparator /><DropdownMenuItem onSelect={onDownload}>Download PDF</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>;
 }
@@ -223,46 +244,46 @@ export function TaskActions({ onOpen, onArchive }: { onOpen: () => void; onArchi
 
 ## Context menu
 
-**When:** a secondary shortcut on an existing object, with an equivalent visible action elsewhere. **Anatomy:** Root → focusable Trigger → portalled Content → items/groups/checkable items, separators, shortcuts and optional submenus.
+**When:** a secondary shortcut on an existing object, with an equivalent visible action elsewhere. **Structure:** Root → focusable Trigger → portalled Content → items/groups/checkable items, separators, shortcuts and optional submenus.
 
-**Motion:** anchored spring preset, `--spring-snappy` / 358ms transform with 100ms linear opacity and 100ms leave exit fade. Origin `--radix-context-menu-content-transform-origin`; the pointer or focused trigger anchors it. Submenus spring 12px away from the parent in a portal. Reduced motion: 120/80ms linear fades.
+**Motion:** reversible anchored preset with snappy entry, exit-spring departure and 140/80ms opacity. Origin `--radix-context-menu-content-transform-origin`; pointer or focused trigger anchors it. Portalled submenus enter from 12px and leave toward 4px, side-aware. Highlights stay instant. Reduced motion: 140/80ms fades only.
 
 **Accessibility:** use `tabIndex={0}` on a non-native trigger so Shift+F10 / the context-menu key can reach it. Keep equivalent actions available without right-click. Primitive keyboard navigation, submenu handling and Escape are unchanged.
 
 ```tsx
 import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem } from "@sift-design/ui/context-menu";
 
-export function TaskContext({ onOpen }: { onOpen: () => void }) {
+export function ImageContext({ onOpen }: { onOpen: () => void }) {
   return <ContextMenu><ContextMenuTrigger tabIndex={0} className="rounded-md border p-4">
-    Restock the herb bench before Saturday</ContextMenuTrigger>
-    <ContextMenuContent><ContextMenuItem onSelect={onOpen}>Open task</ContextMenuItem></ContextMenuContent>
+    Collection cover.jpg</ContextMenuTrigger>
+    <ContextMenuContent><ContextMenuItem onSelect={onOpen}>Open image</ContextMenuItem></ContextMenuContent>
   </ContextMenu>;
 }
 ```
 
 ## Menubar
 
-**When:** repeated application commands grouped in a stable, compact toolbar. Not general website navigation. **Anatomy:** Menubar → Menu → Trigger/Content → items, shortcuts, checkable groups or submenus.
+**When:** repeated application commands grouped in a stable, compact toolbar. Not general website navigation. **Structure:** Menubar → Menu → Trigger/Content → items, shortcuts, checkable groups or submenus.
 
-**Motion:** anchored spring preset, `--spring-snappy` / 358ms transform with 100ms linear opacity and 100ms leave exit fade. Origin `--radix-menubar-content-transform-origin`; submenus spring 12px away from their parent item. Highlights remain instant. Reduced motion: 120/80ms linear fades.
+**Motion:** reversible anchored preset with snappy entry, exit-spring departure and 140/80ms opacity. Origin `--radix-menubar-content-transform-origin`. Submenus enter from a side-aware 12px offset and leave toward 4px. Highlights remain instant. Reduced motion: 140/80ms fades only.
 
 **Accessibility:** horizontal arrows switch menus; vertical arrows enter the active menu. Preserve menu semantics and use `onSelect`, not click-only handlers. Keyboard legends only advertise shortcuts that the host application implements.
 
 ```tsx
 import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } from "@sift-design/ui/menubar";
 
-export function WorkspaceMenu({ onNew }: { onNew: () => void }) {
-  return <Menubar><MenubarMenu><MenubarTrigger>Work</MenubarTrigger>
-    <MenubarContent><MenubarItem onSelect={onNew}>New task</MenubarItem></MenubarContent>
+export function EditorMenu({ onNew }: { onNew: () => void }) {
+  return <Menubar><MenubarMenu><MenubarTrigger>File</MenubarTrigger>
+    <MenubarContent><MenubarItem onSelect={onNew}>New document</MenubarItem></MenubarContent>
   </MenubarMenu></Menubar>;
 }
 ```
 
 ## Navigation menu
 
-**When:** related destination links, not task commands. **Anatomy:** Root → List → Item → Trigger/Content/Link; default floating Viewport is included. Optional Indicator and `viewport={false}` remain supported.
+**When:** related destination links, not commands that change data. **Structure:** Root → List → Item → Trigger/Content/Link; default floating Viewport is included. Optional Indicator and `viewport={false}` remain supported.
 
-**Motion:** viewport grows from scale .94 and y=-4px with `--spring-snappy` / 358ms plus a 100ms linear fade. It leaves with a 100ms fade. Origin top left; no anchor-origin variable exists for this primitive. Contents cross-fade 140ms in / 100ms out, without animated dimensions. A shared grid cell preserves the correct paint layer inside the clipped viewport. Chevron state uses the snappy spring. Reduced motion: 120/80ms linear fades, no chevron travel.
+**Motion:** viewport reversibly grows from scale .94 and y=-4px on the snappy spring, then leaves toward scale .97 on the exit spring, with separate 140/80ms opacity. Origin top left; this primitive has no anchor-origin variable. Content handoff remains a short cross-fade, without animated dimensions. The shared grid paint layer and snappy chevron remain unchanged. Reduced motion: 140/80ms fades, no chevron travel.
 
 **Accessibility:** semantic navigation landmark, real links, ArrowDown entry and native Tab sequence through the focus proxy. Visible focus rings are not removed from nested links. Give separate nav landmarks distinct labels.
 
@@ -270,38 +291,38 @@ export function WorkspaceMenu({ onNew }: { onNew: () => void }) {
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem,
   NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "@sift-design/ui/navigation-menu";
 
-export function AreaNavigation() {
-  return <NavigationMenu aria-label="Growing areas"><NavigationMenuList><NavigationMenuItem>
-    <NavigationMenuTrigger>Growing areas</NavigationMenuTrigger>
-    <NavigationMenuContent><NavigationMenuLink href="/areas/propagation">Propagation house</NavigationMenuLink></NavigationMenuContent>
+export function CatalogNavigation() {
+  return <NavigationMenu aria-label="Shop"><NavigationMenuList><NavigationMenuItem>
+    <NavigationMenuTrigger>Homeware</NavigationMenuTrigger>
+    <NavigationMenuContent><NavigationMenuLink href="/shop/table-linen">Table linen</NavigationMenuLink></NavigationMenuContent>
   </NavigationMenuItem></NavigationMenuList></NavigationMenu>;
 }
 ```
 
 ## Select
 
-**When:** one value from a short known set. **Anatomy:** Root → Trigger/Value → portalled Content → Group/Label/Item, optional Separator, scroll buttons. Popper positioning is the default so every selection emerges from its trigger rather than jumping to the selected row.
+**When:** one value from a short known set. **Structure:** Root → Trigger/Value → portalled Content → Group/Label/Item, optional Separator, scroll buttons. Popper positioning is the default so every selection emerges from its trigger rather than jumping to the selected row.
 
-**Motion:** anchored spring preset, `--spring-snappy` / 358ms transform with 100ms linear opacity and 100ms leave exit fade. Origin `--radix-select-content-transform-origin`, default popper offset 4px. Highlights remain instant. Reduced motion: 120/80ms linear fades. Explicit item-aligned positioning retains the primitive’s selected-row geometry instead of trigger-origin popper geometry.
+**Motion:** reversible anchored preset with snappy entry, exit-spring departure and 140/80ms opacity. Origin `--radix-select-content-transform-origin`; default popper offset 4px. Highlights remain instant. Reduced motion: 140/80ms fades only. Explicit item-aligned positioning retains the primitive’s selected-row geometry.
 
 **Accessibility:** label the trigger via `Label htmlFor` or `aria-label`. Arrow keys and typeahead select; disabled options remain unavailable. No shadow on the trigger; floating content uses `--shadow-float`. Large sets should use Combobox.
 
 ```tsx
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@sift-design/ui/select";
 
-export function TaskPriority() {
-  return <Select defaultValue="normal"><SelectTrigger aria-label="Task priority"><SelectValue /></SelectTrigger>
-    <SelectContent><SelectItem value="high">High</SelectItem><SelectItem value="normal">Normal</SelectItem>
-      <SelectItem value="low">Low</SelectItem></SelectContent>
+export function DigestFrequency() {
+  return <Select defaultValue="weekly"><SelectTrigger aria-label="Email digest frequency"><SelectValue /></SelectTrigger>
+    <SelectContent><SelectItem value="daily">Daily</SelectItem><SelectItem value="weekly">Weekly</SelectItem>
+      <SelectItem value="off">Off</SelectItem></SelectContent>
   </Select>;
 }
 ```
 
 ## Combobox
 
-**When:** filter a longer set by typing; supports Base UI controlled selection, multiple values and chips. **Anatomy:** Root(items) → Input (input-group + trigger/optional clear) → Content (Portal/Positioner/Popup) → List(render function)/Item + Empty. Chips/Chip/ChipsInput and `useComboboxAnchor` support multiple selection.
+**When:** filter a longer set by typing; supports Base UI controlled selection, multiple values and removable selected-value labels (chips). **Structure:** Root(items) → Input (input-group + trigger/optional clear) → Content (Portal/Positioner/Popup) → List(render function)/Item + Empty. Chips/Chip/ChipsInput and `useComboboxAnchor` support multiple selection.
 
-**Motion:** anchored spring preset, `--spring-snappy` / 358ms transform with 100ms linear opacity and 100ms leave exit fade. Base UI origin `--transform-origin`; offset 6px. Uses data-open/data-closed for exit presence. Filtering/list height never animate. Reduced motion: 120/80ms linear fades.
+**Motion:** reversible anchored preset with snappy entry, exit-spring departure and 140/80ms opacity. Base UI origin `--transform-origin`; offset 6px. Filtering, active descendant and list height remain immediate; the empty-result message alone fades in over 140ms. Uses data-open/data-closed for exit presence. Reduced motion: fades only, no list reflow travel.
 
 **Accessibility:** label the editable input; clear and chip-remove buttons have default accessible names (override with more specific names where needed). Keyboard active descendant and filtering are primitive-owned. Root preserves generic item/multiple-value types. Keep the empty result useful.
 
@@ -309,11 +330,11 @@ export function TaskPriority() {
 import { Combobox, ComboboxInput, ComboboxContent, ComboboxList,
   ComboboxItem, ComboboxEmpty } from "@sift-design/ui/combobox";
 
-export function Assignee() {
-  return <Combobox items={["Jane Doe", "John Smith", "Alex Lee", "Sam Taylor"]}>
-    <ComboboxInput aria-label="Assign task" placeholder="Find a person…" showClear />
-    <ComboboxContent><ComboboxEmpty>No people found.</ComboboxEmpty>
-      <ComboboxList>{(person: string) => <ComboboxItem key={person} value={person}>{person}</ComboboxItem>}</ComboboxList>
+export function Destination() {
+  return <Combobox items={["Bristol", "Edinburgh", "Leeds", "Manchester"]}>
+    <ComboboxInput aria-label="Destination city" placeholder="Find a city…" showClear />
+    <ComboboxContent><ComboboxEmpty>No cities found.</ComboboxEmpty>
+      <ComboboxList>{(city: string) => <ComboboxItem key={city} value={city}>{city}</ComboboxItem>}</ComboboxList>
     </ComboboxContent>
   </Combobox>;
 }
@@ -321,9 +342,9 @@ export function Assignee() {
 
 ## Command
 
-**When:** keyboard-first action search or quick destination switching. **Anatomy:** inline Command → Input/List → Empty/Group/Item/Shortcut, or CommandDialog with the same children. Title and Description live inside dialog content, not beside a portal where their context is disconnected.
+**When:** search actions with the keyboard or switch destinations quickly. **Structure:** inline Command → Input/List → Empty/Group/Item/Shortcut, or CommandDialog with the same children. Title and Description live inside dialog content, not beside a portal where their context is disconnected.
 
-**Motion:** inline Command does not animate. CommandDialog uses the Dialog center-origin smooth spring rise (y=8px, scale .97, `--spring-smooth` / 538ms), 140ms opacity in, 120ms leave fade out, backdrop 200/100ms linear. Filtering and active-row selection are instant, with no list-sizer height transition. Reduced motion: 120/80ms linear fades.
+**Motion:** inline results and active-row selection stay instant; only a newly shown empty-result message fades in over 140ms. No list-sizer height transition. CommandDialog inherits the reversible Dialog rise on the smooth spring and exit-spring scale departure, with 140/80ms content and 180/80ms backdrop fades. Reduced motion: fades only.
 
 **Accessibility:** cmdk manages combobox/listbox roles and active descendants. Name the search, supply Empty, and use `onSelect` for mouse and keyboard parity. Programmatically opened CommandDialog accepts `onCloseAutoFocus` to restore a known opener; do not leave focus on BODY. Shortcut badges are descriptive, not global event registrations.
 
@@ -331,10 +352,10 @@ export function Assignee() {
 import { Command, CommandInput, CommandList, CommandEmpty,
   CommandGroup, CommandItem } from "@sift-design/ui/command";
 
-export function AreaSearch({ onOpen }: { onOpen: (area: string) => void }) {
-  return <Command><CommandInput aria-label="Find an area" placeholder="Find an area…" />
-    <CommandList><CommandEmpty>No matching areas.</CommandEmpty><CommandGroup heading="Areas">
-      {["Propagation house", "Retail benches"].map(area => <CommandItem key={area} onSelect={() => onOpen(area)}>{area}</CommandItem>)}
+export function SettingsSearch({ onOpen }: { onOpen: (setting: string) => void }) {
+  return <Command><CommandInput aria-label="Find a setting" placeholder="Find a setting…" />
+    <CommandList><CommandEmpty>No matching settings.</CommandEmpty><CommandGroup heading="Account">
+      {["Profile", "Notifications"].map(setting => <CommandItem key={setting} onSelect={() => onOpen(setting)}>{setting}</CommandItem>)}
     </CommandGroup></CommandList>
   </Command>;
 }
@@ -342,9 +363,9 @@ export function AreaSearch({ onOpen }: { onOpen: (area: string) => void }) {
 
 ## Sonner
 
-**When:** confirm a completed action or surface a recoverable nonblocking error. Do not hide required recovery steps in an expiring toast. **Anatomy:** one Toaster at the app root; call `toast`, `toast.success`, `toast.error`, etc. from `sonner`. Actions and descriptions are optional.
+**When:** confirm a completed action or show a recoverable error without interrupting input. A toast is a brief notification; do not hide required recovery steps in one that expires. **Structure:** one Toaster at the app root; call `toast`, `toast.success`, `toast.error`, etc. from `sonner`. Actions and descriptions are optional.
 
-**Motion:** Sonner owns edge-relative translation, depth scale stacking, hover expansion and swipe dismissal. Transform arrival/reflow uses `--spring-snappy` / 358ms, opacity 140ms linear; removal uses `--spring-smooth` / 538ms transform and 100ms opacity. Removed layers are noninteractive immediately. Pointer swipes remain direct; Sonner decides release dismissal. Default edge is bottom-right, configurable with position. Reduced motion: 120ms opacity in / 80ms out only; stack offsets are static without transform transitions.
+**Motion:** Sonner retains edge-relative translation, depth stacking, hover expansion and direct swipe geometry. Arrival/reflow use the snappy spring and 140ms linear opacity; removal now uses the quicker overshoot-free exit spring and 80ms leave opacity. Swipe-out uses the same exit spring timing instead of a separate timed curve. Stack contents fade over 140ms. Removed layers are immediately noninteractive. Reduced motion: 140/80ms opacity only, instant static stack offsets, and no swipe-out travel.
 
 **Theme:** observes the live `<html class="dark">` value using MutationObserver; no next-themes provider or dependency is required. Cleanup disconnects the observer. Explicit `theme` still overrides this when embedding. Surface/text/border/shadow and icon/action roles use kit tokens, including descriptions and rich-color calls.
 
@@ -355,16 +376,19 @@ import { toast } from "sonner";
 import { Toaster } from "@sift-design/ui/sonner";
 import { Button } from "@sift-design/ui/button";
 
-export function MarketSave({ onSave }: { onSave: () => void }) {
-  return <><Button onClick={() => { onSave(); toast.success("Market checklist saved", {
-    description: "Ready for Saturday’s load-out.",
-  }); }}>Save market checklist</Button><Toaster /></>;
+export function SavePreferences({ saving, onSave }: { saving: boolean; onSave: () => Promise<void> }) {
+  return <><Button loading={saving} onClick={async () => {
+    try { await onSave(); toast.success("Preferences saved"); }
+    catch { toast.error("Preferences could not be saved", { description: "Your changes are still here. Try again." }); }
+  }}>Save preferences</Button><Toaster /></>;
 }
 ```
 
-## Verification reference
+Keep `saving` tied to the real request, retain edits on failure, and mount just one Toaster in the app; it is shown beside the button here only to make the setup visible.
 
-The live family is `specimen/?section=overlays`; every component has an operable Larkspur example and a one-line usage/motion note. Run:
+## Live examples and verification
+
+The live group is `specimen/?section=overlays`; every component has an interactive Larkspur greenhouse example and a one-line behavior note. Those task actions, fields, and notifications are isolated demonstrations, not a required product workflow or a live service. Run:
 
 ```sh
 npx tsc --noEmit -p specimen

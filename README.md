@@ -2,32 +2,37 @@
 
 # Sift Design
 
-**A design reference for my agents to use on my personal projects.**
+**Reusable visual design for coding agents and the products they build.**
 
-This repo captures the design language first built for [Sift](https://github.com/akstspace/sift), a local-first task workspace where people and scheduled agents share one board. It turns that language into four things an agent can use directly:
+This repo collects the visual design first built for [Sift](https://github.com/akstspace/sift). It gives coding agents four things they can reuse without copying that app's features:
 
-- normative tokens;
-- written guidelines, with a full motion system;
-- a complete shadcn/ui kit, restyled and animated;
-- full-page React blocks with reference screenshots and motion recordings.
+- shared settings for colors, fonts, sizes, and animation, called design tokens;
+- guides for building clear, consistent interfaces;
+- shadcn/ui components with the styles and animations built in;
+- five optional example screens, with source code, screenshots, and recordings.
 
-Browse it at **[akstspace.github.io/sift-design](https://akstspace.github.io/sift-design/)**. If you are an agent, start with **[AGENTS.md](AGENTS.md)** or the site's [llms.txt](https://akstspace.github.io/sift-design/llms.txt).
+Keep your product's own purpose, data model, storage, and navigation. You do not
+need a task board, a day timeline, scheduled helpers, or a sidebar to use this
+system. Dashboards, chat, editors, and other interfaces are welcome when they
+fit the product.
 
-![The workbench block: a Today board with a slate navigation rail, oatmeal canvas and four task columns](screenshots/workbench/01-today-light.png)
+Browse it at **[chaioverflow.com/sift-design](https://chaioverflow.com/sift-design/)**. If you are an agent, start with **[AGENTS.md](AGENTS.md)** or the site's [llms.txt](https://chaioverflow.com/sift-design/llms.txt).
 
-> The blocks use **Larkspur**, a made-up product for a small greenhouse, so no reference image shows Sift itself. Everything about the system (tokens, kit, docs) is Sift Design; only the sample content is Larkspur. See [blocks/_shared/LARKSPUR.md](blocks/_shared/LARKSPUR.md).
+![The Workbench example: today’s tasks in four columns beside a dark sidebar](screenshots/workbench/01-today-light.png)
+
+> The optional blocks use **Larkspur**, a made-up greenhouse app. Their tasks, automations, time tracking, and setup choices belong to that fictional product; they are not design-system requirements. The source code and screenshots show how the shared components work together. See [blocks/_shared/LARKSPUR.md](blocks/_shared/LARKSPUR.md).
 
 ## What is here
 
 | Path | What it is |
 |---|---|
-| [DESIGN.md](DESIGN.md) | The whole system in one file: tokens in the frontmatter, then overview, colors, typography, layout, elevation, shapes, components, do's and don'ts. |
+| [DESIGN.md](DESIGN.md) | An overview of colors, fonts, layout, borders, shadows, components, and animation, with settings in the file header. |
 | [AGENTS.md](AGENTS.md) | How an agent should use this repo when building UI. |
 | [docs/](docs) | Topic guides: [principles](docs/principles.md), [color](docs/color.md), [typography](docs/typography.md), [layout](docs/layout.md), [components](docs/components.md), [motion](docs/motion.md), [data visualization](docs/data-visualization.md), [writing](docs/writing.md), [accessibility](docs/accessibility.md), [retheming](docs/retheming.md), [review](docs/review.md). |
 | [tokens/](tokens) | `tokens.css` (light and dark), `tokens.json` (W3C design tokens), `motion.ts` (springs and motion presets), `fonts.css` and fonts, `themes/` (alternate palettes). |
 | [packages/ui/](packages/ui) | Every shadcn/ui component, restyled to the tokens with motion on by default, plus page transitions, a scroll-linked title and a time picker. Copy from here. |
-| [blocks/](blocks) | Five full-page compositions built with the kit, each a standalone Vite app, like [shadcn/ui blocks](https://ui.shadcn.com/blocks). |
-| [specimen/](specimen) | Every kit component, live and operable. |
+| [blocks/](blocks) | Five optional fictional app screens, each a standalone Vite app, like [shadcn/ui blocks](https://ui.shadcn.com/blocks). |
+| [specimen/](specimen) | Try every component in one app. |
 | [screenshots/](screenshots) | Reference stills (light, dark, 390px), motion clips, and axe reports. |
 | [brand/](brand) | The Sift Design mark: static, animated, on-dark and one-color versions, with geometry and entrance spec. |
 | [site/](site) | The website, built with the kit. |
@@ -36,7 +41,7 @@ Browse it at **[akstspace.github.io/sift-design](https://akstspace.github.io/sif
 
 ## The look in brief
 
-A precise studio workbench: a slate navigation rail, an oatmeal canvas, calm surfaces with hairlines, and one accent per view. It is not a metrics dashboard and not stock shadcn.
+Warm backgrounds, slate text, thin borders, and one accent color per view. When a sidebar fits the product, it uses the dark slate navigation colors. The fonts, spacing, components, and motion work with other layouts too.
 
 | Role | Light | Dark |
 |---|---|---|
@@ -48,62 +53,62 @@ A precise studio workbench: a slate navigation rail, an oatmeal canvas, calm sur
 | Primary | Slate | Sea `#bed3cc` |
 | Accent and success | `#386254` | Sea `#bed3cc` |
 
-Type is Albert Sans at a 14px base, with IBM Plex Mono for counts, times, durations, IDs and keys. Radii are 6, 8 and 12px. Shadows appear only on things that float. Full detail is in [docs/color.md](docs/color.md) and [docs/typography.md](docs/typography.md).
+Text uses Albert Sans at a 14px base, with IBM Plex Mono for counts, times, durations, IDs, and keys. Most corners use 6, 8, or 12px rounding. Shadows are reserved for floating panels such as menus and dialogs. See [color](docs/color.md) and [typography](docs/typography.md) for details.
 
 ## Motion
 
-Motion is a core part of this language, not a final polish pass. Anything that travels or scales moves on a spring, so it can be interrupted, reversed or grabbed mid-flight without a jump. Fades and color changes use short durations.
+Animations are built in from the start. Movement and scaling use shared spring settings, which let a transition reverse from its current position without a jump. Fades and color changes have their own short durations.
 
 - Menus grow out of the control that opened them.
 - Panels slide in from the edge they belong to.
-- Moving deeper into a page pushes in from the trailing edge, and going back reverses it.
+- Opening details slides them in from the right in left-to-right layouts; going back reverses the movement.
 - Selection highlights travel between items.
 - Lists close their gaps on a spring.
 - Drags follow the pointer and resist past their limits.
 - Reduced motion keeps cross-fades and drops all travel.
 
-The presets live in [tokens/motion.ts](tokens/motion.ts), with CSS twins as `--spring-*` easings in [tokens/tokens.css](tokens/tokens.css). The full guide is [docs/motion.md](docs/motion.md).
+The presets are in [tokens/motion.ts](tokens/motion.ts). Matching CSS curves use `--spring-*` variables in [tokens/tokens.css](tokens/tokens.css). See [the motion guide](docs/motion.md) for usage and code examples.
 
 | Menu from its trigger | Segmented control | Push and pop |
 |---|---|---|
 | ![Dropdown menu growing from its trigger](screenshots/specimen/clip-dropdown-menu.webp) | ![Segmented control selection travelling between options](screenshots/specimen/clip-segmented.webp) | ![A detail page pushing in and popping back](screenshots/specimen/clip-push-pop.webp) |
 
-The [motion page](https://akstspace.github.io/sift-design/motion) plays these as video, with a playground for every preset.
+The [motion page](https://chaioverflow.com/sift-design/motion) plays these as video, with a playground for every preset.
 
-## Retheming
+## Use your own colors
 
-The palette above is the default and stays the default. For a project with its own brand, change the colors through the roles and leave the structure alone. [docs/retheming.md](docs/retheming.md) walks through it:
+Keep the palette above as the default. For another brand, change the shared color variables rather than rewriting each component. [The palette guide](docs/retheming.md) walks through it:
 
-1. Choose the brand colors and map each one to a role in light mode.
-2. Build dark mode as its own set of steps.
+1. Choose colors for each purpose, such as text, backgrounds, and actions, in light mode.
+2. Choose dark-mode colors separately.
 3. Check contrast for every text and control pair.
-4. Re-check the categorical data colors.
-5. Swap fonts if needed.
+4. Test chart category colors and labels.
+5. Keep Albert Sans and IBM Plex Mono, along with the shared type sizes, spacing, and animation. A palette change changes colors, not the rest of the system.
 6. Capture and review the result.
 
-Role names, spacing, component anatomy and motion do not change. The worked example is [tokens/themes/harbor.css](tokens/themes/harbor.css), switched on with `?palette=harbor`:
+Variable names, spacing, component structure, and animation stay the same. Try the included [Harbor palette](tokens/themes/harbor.css) with `?palette=harbor`:
 
 | Default | Harbor |
 |---|---|
 | ![Specimen in the default palette](screenshots/specimen/controls-section-light.png) | ![Specimen in the Harbor palette](screenshots/specimen/retheme-harbor-light.png) |
 
-## Blocks
+## Optional example screens
 
-Each block is a standalone app with its own README, a list of its screenshots, and the motion recipes it uses. All of them run live on the [blocks page](https://akstspace.github.io/sift-design/blocks), where you can resize them and read their source.
+Blocks are complete screens showing one fictional product, not a starter app or feature checklist. Reuse the components and interactions that fit your request; do not add a board or timeline just because an example has one. Each is a standalone app with a README, screenshots, and animation examples. Try them on the [examples page](https://chaioverflow.com/sift-design/blocks), where you can resize the preview and read the code. Their data and service activity are simulated.
 
-### [Component specimen](specimen)
-All kit components, live and operable, in three families: [controls](packages/ui/docs/controls.md), [overlays and menus](packages/ui/docs/overlays.md), and [display, layout and navigation](packages/ui/docs/display.md).
+### [Component examples](specimen)
+Try the components in three groups: [controls](packages/ui/docs/controls.md), [overlays and menus](packages/ui/docs/overlays.md), and [display, layout and navigation](packages/ui/docs/display.md).
 
 | Light | Dark |
 |---|---|
 | ![Controls section, light](screenshots/specimen/controls-section-light.png) | ![Overlays section, dark](screenshots/specimen/overlays-section-dark.png) |
 
 ### [Workbench](blocks/workbench)
-The daily board:
-- a 256px rail that collapses to 72px;
+A fictional daily task board:
+- a 256px sidebar that collapses to 72px;
 - board and list views, with drag and drop;
-- live tasks arriving from helpers;
-- a task inspector that opens to a full page;
+- simulated tasks arriving from an automation;
+- a task detail panel that can expand to a full page;
 - completion with undo;
 - moving into an area and back.
 
@@ -112,20 +117,20 @@ The daily board:
 | ![Workbench, dark](screenshots/workbench/02-today-dark.png) | ![Workbench at 390px](screenshots/workbench/03-today-light-mobile.png) | ![Area drill-in motion](screenshots/workbench/workbench-motion-area-drill.webp) |
 
 ### [Routines](blocks/routines)
-Scheduled helpers, with honest status:
+An example automation manager, called helpers in Larkspur:
 - running, paused with a reason, failed, or needing action;
 - a schedule editor that previews the next runs;
-- run history, and a live log that arrives in batches.
+- sample run history, and a simulated live log that arrives in batches.
 
 | Light | Dark | Status change |
 |---|---|---|
 | ![Routines, light](screenshots/routines/01-helpers-light.png) | ![Routines, dark](screenshots/routines/02-helpers-dark.png) | ![Status change motion](screenshots/routines/routines-motion-status-desktop.webp) |
 
 ### [Timeline](blocks/timeline)
-Time spent:
-- a ribbon of the day, with eight category colors in a fixed order;
+An example time log, for products that need to show recorded time:
+- a day timeline with eight consistent category colors;
 - labeled duration bars;
-- a session rail and a week view;
+- a session list and a week view;
 - editing with protection for unsaved changes.
 
 | Light | Dark | Day navigation |
@@ -133,7 +138,7 @@ Time spent:
 | ![Timeline, light](screenshots/timeline/01-day-light.png) | ![Timeline, dark](screenshots/timeline/02-day-dark.png) | ![Day navigation motion](screenshots/timeline/timeline-motion-day-navigation.webp) |
 
 ### [Assistant](blocks/assistant)
-An assistant:
+An example chat interface with simulated replies:
 - docked beside the work, or expanded to a full page;
 - streaming replies that arrive in calm batches;
 - tool activity, attachments, and plain-language recovery notices.
@@ -143,11 +148,11 @@ An assistant:
 | ![Assistant docked, light](screenshots/assistant/01-docked-light.png) | ![Assistant full page, dark](screenshots/assistant/02-full-page-dark.png) | ![Dock to full page motion](screenshots/assistant/assistant-motion-morph.webp) |
 
 ### [Onboarding](blocks/onboarding)
-First run:
+An example setup flow, with browser-saved preferences rather than real desktop integrations:
 - the mark assembles, then anchors each setup step;
-- connection checks show honest results;
+- connection checks fetch local fixtures and show the actual request result;
 - optional steps can be skipped or revisited;
-- a handoff into the workspace;
+- a transition from setup to the workspace;
 - settings with a smooth theme change.
 
 | Welcome | Connection checks | Mark assembly |
@@ -196,23 +201,25 @@ Locally, `npm run site:dev` serves the site with `/raw` and `npm run site:build`
 Give an agent this prompt, or use your own host's address:
 
 ```text
-Use Sift Design for this project's UI. Fetch https://akstspace.github.io/sift-design/llms.txt
-and follow it. First ask me whether to keep the default Sift Design palette or use a custom one.
-Read AGENTS.md, DESIGN.md and docs/motion.md before writing UI, copy the tokens and the kit
-components instead of stock shadcn/ui, match the reference screenshots of the closest block,
-and sign off with docs/review.md: both themes, 390px wide, reduced motion, axe at zero.
+Build this project's UI with Sift Design. Read https://chaioverflow.com/sift-design/llms.txt,
+then AGENTS.md, DESIGN.md, and docs/motion.md. Ask whether I want the default colors or a
+custom palette before you start. Reuse the tokens, fonts, spacing, animated components,
+and shared motion settings rather than stock shadcn/ui. Keep this project's features,
+data model, storage, and navigation. The example screens are optional references, not
+requirements to add tasks, timelines, helpers, or a sidebar. Follow docs/review.md to
+check both themes, a 390px screen, reduced motion, and zero axe accessibility violations.
 ```
 
 The website's "Use with your agent" page shows this and task-specific prompts with your real address already filled in.
 
 ## How this was reviewed
 
-Every block was signed off the same way, described in [docs/review.md](docs/review.md):
+Each block was checked using [the review guide](docs/review.md):
 
 - captures in both themes and at 390px;
 - motion filmstrips judged frame by frame;
 - axe-core at zero violations;
-- [Impeccable](https://impeccable.style/) detect and critique rounds until nothing actionable was left.
+- [Impeccable](https://impeccable.style/) code checks and visual reviews, with issues fixed together.
 
 The axe reports sit next to the screenshots (`screenshots/*/*axe.json`). The few deliberate detector exceptions are recorded with their reasons in `.impeccable/config.json`. These are the spring easings and a square status marker.
 

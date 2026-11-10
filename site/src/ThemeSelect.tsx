@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@sift-design/ui/select";
 import { setTheme, storedTheme, type ThemeChoice } from "@sift-design/ui/lib/theme";
+import { changeAppearance } from "./landing/changeAppearance";
 
 const choices = [
   { value: "light", label: "Light", Icon: IconSun },
@@ -15,7 +16,11 @@ export default function ThemeSelect() {
   useEffect(() => {
     const update = () => chooseTheme(storedTheme());
     window.addEventListener("popstate", update);
-    return () => window.removeEventListener("popstate", update);
+    window.addEventListener("themechange", update);
+    return () => {
+      window.removeEventListener("popstate", update);
+      window.removeEventListener("themechange", update);
+    };
   }, []);
   return (
     <Select
@@ -25,8 +30,10 @@ export default function ThemeSelect() {
         const url = new URL(location.href);
         url.searchParams.delete("theme");
         history.replaceState(history.state, "", url);
-        chooseTheme(choice);
-        setTheme(choice);
+        changeAppearance(() => {
+          chooseTheme(choice);
+          setTheme(choice);
+        });
       }}
     >
       <SelectTrigger aria-label="Color theme" className="theme-select">

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
 import { IconPlayerPauseFilled, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { Button } from "@sift-design/ui/button";
 import { cn } from "cn";
@@ -25,10 +24,20 @@ export function Clip({
   className?: string;
 }) {
   const video = useRef<HTMLVideoElement>(null);
-  const reduced = useReducedMotion();
+  const [reduced, setReduced] = useState(() => matchMedia("(prefers-reduced-motion: reduce)").matches);
   const [paused, setPaused] = useState(true);
   const [held, setHeld] = useState(false);
   const base = at(`/raw/screenshots/${src}`);
+
+  useEffect(() => {
+    const preference = matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      setReduced(preference.matches);
+      if (preference.matches) video.current?.pause();
+    };
+    preference.addEventListener("change", update);
+    return () => preference.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const node = video.current;
@@ -43,7 +52,10 @@ export function Clip({
       { threshold: 0.35 },
     );
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      node.pause();
+    };
   }, [reduced, held]);
 
   const toggle = () => {

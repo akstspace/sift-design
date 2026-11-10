@@ -9,7 +9,7 @@ export default function SiftDesignMark({
 }: {
   size?: number;
   className?: string;
-  entrance?: "rail" | "hero";
+  entrance?: "rail" | "hero" | "close";
 }) {
   const reduced = !!useReducedMotion();
   const [play] = useState(() => !!entrance && !entered.has(entrance));

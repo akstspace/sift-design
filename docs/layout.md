@@ -1,87 +1,111 @@
-Keep a stable navigation shell around an inset, task-oriented workspace.
-Use source-derived density and responsive changes; preserve focus and independent scrolling.
+Keep navigation in a predictable place and leave enough room for the main content. Let layouts adapt to smaller screens without losing controls, focus, or scroll position.
 
 # Layout
 
-## Compose the shell
+## Choose the structure from the content
 
-- Use a 256px rail, collapsing to 72px. Keep the collapse/menu toggle in the header, not hidden in the rail. Preserve icon tooltips in collapsed mode.
-- Keep the workspace flexible with `min-width: 0`, `margin: 8px 8px 8px 0`, and Sift’s workspace radius of 14px. The canonical reusable container radius is 12px; the shell’s 14px is a product-specific exception.
-- Use a 66px desktop header, `padding: 0 26px`, 14px gap, `--surface`, and a bottom `--line`. Include semantic breadcrumb and bounded search; do not let search consume the task title’s layout.
-- Default page padding is `39px 38px 24px`; board pages override top padding to 24px. Keep headings and toolbars aligned with the work below, not with unrelated viewport edges.
-- Keep the right-edge detail sheet at `inset: 12px 12px 12px auto`, width `min(520px, calc(100vw - 24px))`, and height `calc(100dvh - 24px)`. Use separate pinned header/footer and a scrolling middle. Sift’s sheet radius is 20px, an explicit exception to the core scale.
-- Expanded task view uses a 1088px reading layout, a 288px property sidebar, and 64px gap. At 1100px, reduce the sidebar to 264px and gap to 40px; at 919px and below, stack properties above the body with a 736px reading layout. Preserve a reading anchor when changing between panel and full task view.
+Start with the primary activity and the relationships among the information. The design language does not require a sidebar, a board, a timeline, a detail panel, or a fixed number of columns.
 
-Do: keep task details spatially attached to the board. Don’t: reset the route or scroll position just to inspect a task.
-
-## Consolidate spacing on the observed grid
-
-Use a 2px grid for new layout. The consolidated source-derived steps are 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 56, and 64px. These are written tokens in `tokens.json`, not CSS variables currently provided by `tokens.css`.
-
-Use 2–6px for tightly related inline marks, 8–12px for control/card groups, 14–20px for internal surfaces, and 24–40px for section separation. Sift’s includes optical exceptions such as 3px, 5px, 7px, 9px, 13px gaps and 39px page top padding. Preserve an exception when reproducing that exact composition; do not promote every odd measurement into the canonical spacing scale.
-
-## Preserve operating density
-
-| Pattern | Sift’s size | Rule |
+| Content and activity | Useful structure | Keep clear |
 |---|---|---|
-| Desktop rail item | 40px high; 10px 12px padding | Keep labels and icons aligned |
-| Mobile rail item | At least 44px high | Keep touch interaction usable |
-| Header | 66px desktop; 58px mobile | Keep pinned, not part of page travel |
+| Browsing products or media | Responsive grid with relevant filters | Item identity, availability, and the next action |
+| Comparing transactions or records | Table or aligned list | Column labels, units, sorting, and row actions |
+| Reading an article or editing content | Bounded reading column with nearby tools | Reading order, document hierarchy, and save state |
+| Exploring analytical results | Charts and summaries arranged around a question | Data scope, comparisons, filters, and a non-visual alternative |
+| Holding conversations | Conversation list and message view, or a single view on small screens | Current conversation, message order, and composer draft |
+| Inspecting an item without leaving a collection | Inline expansion, split view, or temporary panel | Source selection, return path, and independent focus |
+
+Use the simplest structure that exposes the necessary relationships. A dashboard is appropriate for meaningful comparisons; a board is appropriate for items grouped by an actual workflow. Neither is a default page template.
+
+## Align navigation, content, and actions
+
+- Choose top navigation, tabs, a rail, or another navigation pattern from the number and depth of destinations. Do not add empty navigation sections to match an example.
+- Keep shared navigation stable during content transitions. Use the same alignment for page headings, filters, content, and related actions.
+- Include breadcrumbs for meaningful hierarchy and search when there is something useful to search. They are not mandatory header decoration.
+- Use `min-width: 0` on flexible content so long text, tables, and charts do not force the entire page wider.
+- Keep primary actions near the content they affect. Pin controls only when persistent access outweighs the space they consume.
+- Choose a full detail page when content needs substantial room or a shareable destination. For quick inspection, preserve the source selection, filters, draft, and scroll position.
+
+## Use consistent spacing
+
+Use multiples of 2px for new layout spacing: 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 56, and 64px. These values are listed in `tokens/tokens.json`; `tokens/tokens.css` does not currently provide them as variables.
+
+Use 2–6px between closely related icons and text, 8–12px between controls or cards, 14–20px inside panels, and 24–40px between sections. Align repeated groups and document optical adjustments rather than treating every measurement in a screenshot as another spacing token.
+
+## Fit the content without crowding controls
+
+The following compact presets are available when they fit the content. They do not require every screen to have these components, and they are not fixed heights for text that must wrap.
+
+| Pattern | Reference size | Rule |
+|---|---|---|
+| Desktop navigation item | 40px high; 10px 12px padding | Keep labels and icons aligned |
+| Touch navigation item | At least 44px high | Keep touch interaction usable |
+| Optional shell header | 66px desktop; 58px compact | Keep shared header out of content travel |
 | Toolbar | 42px minimum; controls 34px high | Keep filters near the work they affect |
 | Input/select | 8px 10px input padding; select min-height 36px | Grow with content/errors |
-| Board column heading | 48px high | Show status, name, count, add action |
-| Board card | 16px 14px 14px padding; 8px stack gap | Do not impose a fixed card height |
-| Compact task row | Minimum 70px; 15px 10px padding | Retain metadata and nesting |
-| Task list virtualization | 84px estimate, overscan 8 | Measure real rows; estimate is not a fixed height |
-| Activity legend chip | 28px high | Expand hit area as needed on touch |
-| Activity part header | 44px high | Align time rail and section label |
-| Task check | 24px square | Keep keyboard focus visible |
+| Compact text card | 16px 14px 14px padding; 8px stack gap | Grow with descriptions and actions |
+| Multi-line record row | Minimum 70px; 15px 10px padding | Use only when primary text and supporting metadata need this space |
+| Filter or legend chip | 28px high | Expand hit area as needed on touch |
+| Small state control | 24px square | Keep focus visible and provide an adequate target area |
 
-Sift’s density is not proof of target-size conformance. Compact icons must retain adequate non-overlapping hit areas; see [accessibility](accessibility.md).
+Density is not proof of target-size conformance. Compact icons must retain adequate non-overlapping hit areas; see [accessibility](accessibility.md). Measure actual rows if virtualizing a long catalog, ledger, or message list; an estimate is not a fixed row height.
 
-## Use the observed responsive thresholds
+## Adapt to screen width
 
-These are CSS media-query values, not invented framework breakpoints. The mobile rail hook uses below 768px, aligned to the CSS maximum of 767px.
+Change a layout when its content or controls stop fitting, not because an unrelated example has a breakpoint. Start by allowing wrapping and flexible widths, then change structure when necessary.
 
-| Query | Sift’s adaptation |
-|---|---|
-| max-width 640px | Compact update notice |
-| min-width 640px | Wider run/report composition |
-| max-width 720px | Activity heading stacks, smaller overview, 46px time column / 32px rail, task-time feed tightens |
-| max-width 767px | Modal rail, edge-to-edge workspace, 58px header, mobile detail and board |
-| max-width 919px | Full-task properties stack above reading body |
-| max-width 950px | Page padding `30px 24px 20px`, header padding `0 24px`, narrower search, responsive settings/run layout |
-| max-width 960px | Tracker setup stacks and hides preview |
-| max-width 1100px | Full-task property column and gap tighten |
-| max-width 1250px | Settings/run columns tighten, job controls stack |
-| min-width 1500px | Workspace side padding grows to 46px |
-| hover: hover | Reveal supplementary hover actions without hiding keyboard access |
-| hover: none | Keep row actions visible |
-| pointer: coarse | Expand specified session/day/link targets to at least 44px |
-| prefers-reduced-motion: reduce | Remove spatial animation; preserve state feedback |
+- Let a product grid use fewer columns without hiding prices or actions. Let an article keep a readable measure rather than filling a wide display.
+- Let related metadata stack when a split view becomes too narrow. Preserve its reading order and access to the main action.
+- Give tables, code, and charts local horizontal overflow when their structure matters. Do not turn every screen into a horizontally scrolling page.
+- Keep essential controls available without hover. `hover: hover` may reveal supplementary actions, but keyboard focus must reveal them too; `hover: none` needs a visible path.
+- Use `pointer: coarse` to check and, where needed, expand touch targets to at least 44px. Keep target areas non-overlapping.
+- Under `prefers-reduced-motion: reduce`, remove spatial animation and preserve useful state feedback.
+- Test at 390px as well as desktop widths, with long content and zoom. The review width is a test case, not a universal layout breakpoint.
 
-At the mobile threshold, set workspace margin/radius to 0; hide the breadcrumb and its separator, give search flexible width, use a 16px search input, and set page padding to `27px 18px 20px` (board top 20px). Let task properties and description editors use 16px input text.
+If a rail becomes a mobile overlay, use a modal Sheet with a title, contained keyboard focus, Escape dismissal, and trigger focus return. Top navigation or a conversation list may need a different adaptation. Do not squeeze a desktop structure into an unusable permanent strip.
 
-Use the rail as a modal Sheet with overlay, focus trap, accessible title, Escape dismissal, and trigger focus return. Do not squeeze the desktop rail into a permanent strip.
+## Define scrolling deliberately
 
-## Lay out boards and scrolling regions
+Use ordinary document scrolling unless a split view or persistent context needs independent regions. Keep the active scroll owner clear and reachable by keyboard. Sticky controls must not cover focused content or the last row.
 
-Use horizontal board overflow with 18px column gaps. Columns are `flex: 1 0 245px`, maximum 480px; column task lists scroll independently with `overscroll-behavior: contain`. Keep Sift’s focus-ring-safe inset (`4px 4px 12px`) inside column lists.
+Use `min-height: 0` through flex scroll parents; otherwise the scrolling child expands the page. Add enough inset that focus rings are not clipped. Use `overscroll-behavior: contain` only for a region that intentionally owns scrolling, not every nested container.
 
-On mobile, use 13px gaps and columns `0 0 min(285px, 82vw)` with proximity scroll snapping. Preserve an indication that more columns exist; do not shrink every column to fit.
+Opening and closing a panel should not reset the source view. Follow new chat messages only when the reader is already near the latest content; do not pull someone away from an older message. Live updates should preserve the item being read or edited.
 
-Use `min-height: 0` through flex scroll parents; otherwise the scrolling child expands the page. Keep the detail sheet edge-to-edge at mobile sizes, with 100dvh height, no outer shadow/border/radius, and an independent scroll body. Do not stack competing page and panel scroll areas that trap keyboard users.
+## Optional layout presets
 
-## Apply radius and elevation roles
+These measurements are reusable compositions, not a required app shell. Adopt only the presets that support the product; keep the shared tokens unchanged.
 
-Use core radii 6/8/12px and pill 999px for new reusable primitives. Sift’s exceptions include 7px fields, 10px columns/menus, 14px workspace, 16px activity overview, and 20px detail sheet. Keep these explicit rather than inventing extra global tokens.
+### Sidebar shell
 
-Use `--line` for decorative separation and `--control-line` for controls. Keep cards flat. Use `--shadow-float` only for floating layers and `--shadow-raise` only for a justified elevated control. Sift’s task sheet uses a custom shadow; do not multiply bespoke shadows across the kit.
+- Use a 256px rail that can collapse to 72px. Keep its toggle discoverable outside collapsed content, such as in the header; collapsed icons still need names and tooltips.
+- An inset content area can use `margin: 8px 8px 8px 0` and `--radius-shell` (14px). The header preset is 66px high with `padding: 0 26px`, a 14px gap, `--surface`, and a bottom `--line`.
+- The compact version switches below 768px (CSS maximum 767px): use modal navigation, a 58px header, and no outer content margin or radius. Search, if present, takes available width and uses 16px input text; keep breadcrumbs only if they remain useful and fit.
+- Use shared spacing for new page padding. Exact source-screen padding, such as `39px 38px 24px`, is a reproduction detail, not a new universal spacing step.
+
+### Edge-attached inspection
+
+- The desktop panel preset uses `inset: 12px 12px 12px auto`, width `min(520px, calc(100vw - 24px))`, and height `calc(100dvh - 24px)`. Use a scrolling body; pin its header or footer only when useful. A 20px outer radius belongs to this composition, not every dialog.
+- A full-screen compact panel uses 100dvh height, no outer shadow, border, or radius, and its own scroll body. Retain a visible close or back action and restore focus on dismissal.
+- A wider reading-and-properties composition can use a 1088px container, a 288px secondary column, and 64px gap. Its reference adjustment at 1100px uses a 264px secondary column and 40px gap; at 919px and below it stacks into a 736px maximum-width layout. Use these thresholds only if the project’s content fits them, and preserve the reading anchor across changes.
+
+### Horizontally grouped content
+
+When a real workflow or comparison benefits from separate columns, the reference preset uses 18px gaps and columns `flex: 1 0 245px`, maximum 480px. A column list may scroll independently with `4px 4px 12px` focus-ring-safe inset. Neither the number of columns nor their labels are prescribed.
+
+The compact preset uses 13px gaps, columns `0 0 min(285px, 82vw)`, and proximity scroll snapping. Keep an indication that more content exists; do not shrink all columns until their contents become unreadable. Use a grid, table, or list instead when horizontal grouping adds no value.
+
+## Use the shared corners, borders, and shadows
+
+Use core radii 6/8/12px and pill 999px for reusable primitives. The optional shell has dedicated 14px and 20px roles. Keep composition-specific shapes explicit rather than inventing extra global tokens or applying a shell radius everywhere.
+
+Use `--line` for decorative separation and `--control-line` for controls. Keep cards flat. Use `--shadow-float` only for floating layers and `--shadow-raise` only for a justified elevated control. Do not multiply bespoke shadows across the kit.
 
 ## Checklist
 
-- Rail widths, header heights, and mobile threshold match Sift.
-- Board columns and the detail body scroll without moving the shell.
-- Spacing uses consolidated steps or an identified Sift’s exception.
+- The structure fits the primary activity without importing unrelated features.
+- Navigation, content, and actions remain aligned and accessible as the layout changes.
+- Scroll ownership is clear; opening details preserves the source context.
+- Spacing uses the shared steps or a documented exception.
 - Cards grow with content; virtualized rows are measured.
-- Mobile rail/dialog focus and touch targets remain usable.
+- Mobile navigation, dialog focus, and touch targets remain usable.

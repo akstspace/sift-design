@@ -1,6 +1,8 @@
 # Helpers
 
-Larkspur’s scheduled automations for Fernbrook Greenhouse. Deterministic example data uses Tuesday 10 November 2026 at 10:00 in Europe/London. Sources, sign-in, saved changes, and runs are simulated in memory; reloading restores the example.
+Manage scheduled automations, called helpers in Larkspur. The example uses fictional Fernbrook Greenhouse data, set on Tuesday 10 November 2026 at 10:00 in Europe/London. Connections and runs use sample results, not real services. Changes last until you reload.
+
+This optional example demonstrates status lists, configuration forms, and activity history. Use these patterns when the product needs them; the design system does not require scheduled automations, integrations, or Larkspur's helper lifecycle.
 
 ## Run
 

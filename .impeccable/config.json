@@ -35,7 +35,8 @@
         "rule": "design-system-color",
         "value": "#000",
         "files": [
-          "packages/ui/src/motion/controls.css"
+          "packages/ui/src/motion/controls.css",
+          "site/src/landing.css"
         ],
         "createdAt": "2026-11-10T10:42:35.791Z",
         "reason": "The time wheel fades its edges with mask-image, which reads only alpha. #000 is the opaque mask stop and is never painted."
@@ -66,6 +67,33 @@
         ],
         "createdAt": "2026-11-10T10:42:35.791Z",
         "reason": "The website landing page uses display sizes for its hero and section headlines. They sit above the app type ramp on purpose and are not used in product UI."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "16px",
+        "files": [
+          "site/src/landing.css"
+        ],
+        "createdAt": "2026-11-10T16:03:51.529Z",
+        "reason": "Landing ledes and closing copy are long-form reading text on a marketing page; 16px keeps line length and legibility at section scale."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "44px",
+        "files": [
+          "site/src/landing.css"
+        ],
+        "createdAt": "2026-11-10T16:03:51.529Z",
+        "reason": "Landing section headings scale fluidly from 30px to 44px, and the hero headline from 44px to 84px; display sizes for the website only, not product UI."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "38px",
+        "files": [
+          "site/src/landing.css"
+        ],
+        "createdAt": "2026-11-10T16:03:51.529Z",
+        "reason": "On phones the landing headline scales from 38px to 52px; a display size for the website hero only."
       }
     ]
   }

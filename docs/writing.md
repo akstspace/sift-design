@@ -1,79 +1,100 @@
-Write plain, specific, calm operating copy that names the thing, its state, and the next useful action.
-Use Larkspur examples only; never disguise a missing result with cheerful or vague language.
+Use words people can understand on the first read. Say what happened, what it means, and what they can do next.
 
 # Writing
 
-## Use the actual UX voice
+## Start with what the person needs to know
 
-Derive voice from Sift’s real action labels, empty states, inline errors and service messages, not from its old introductory prose. The ones worth studying cover clipboard failure with recovery; saved, backup and restore outcomes; review with eligible undo; empty work with an add action; read failure with retry and honest absent data; reconnection versus interruption; and service state, stale revisions, stream interruption, restore effects, schedule pause reasons and validation.
+Lead with the result or problem. Add a consequence or next step only when it helps. “Changes saved” is enough for a routine save. A failed save needs more: “The address couldn’t be saved. Your changes are still here. Try again.” Only promise that the draft is safe if the app really keeps it.
 
-The useful pattern is factual state plus consequence plus recovery, where known. A short success label is enough when the result is unambiguous; a failure often needs a sentence and action. Do not turn every successful save into a celebratory paragraph.
+Use familiar words without discarding precise terms the audience needs. In general guidance, prefer “sidebar” to “navigation rail” and “component structure” to “anatomy.” Keep exact CSS variables, API props, and accessibility attributes in technical instructions. Explain unfamiliar terms the first time they matter; for example, a timezone determines which local date and time an instant appears under.
 
-Read `blocks/_shared/LARKSPUR.md` before writing example content. Use Fernbrook Greenhouse, its areas and tasks, and its fictional helpers. All examples below are Larkspur copy, not quotes of Sift-branded strings. Do not put the real product, agent runtime, company, or person into example UI or screenshots.
+Describe behavior directly rather than inventing an internal vocabulary: “Keep navigation in place as pages change,” not “preserve the workbench shell.” The visual system supplies a voice, not a task-app dictionary. Use the product’s actual nouns and keep them consistent.
 
 ## Name the action and object
 
-- Use sentence case for headings, controls, placeholders, and notices. Keep proper names as proper names. Small Sift’s structural eyebrows sometimes use uppercase through CSS; do not write all-caps button labels.
-- Use a direct verb for an action: Create task, Save changes, Add time, Pause helper, Resume helper, Run test, Restore backup. Use a noun phrase for a destination: Today, Areas, Helpers, Run history.
-- Distinguish action from current state: Pause helper is an action; Paused is a state. Do not label a state pill as if it were a command unless it is actually interactive.
-- Name the affected object in destructive confirmations and ambiguous outcomes. Prefer the task title or helper name over a generic item.
-- Keep button labels specific enough to predict the result. Use a short visible label plus an accessible name when an icon control needs more context.
+- Use sentence case for headings, controls, placeholders, and notices. Keep proper names as proper names. Do not write all-caps button labels.
+- Use a direct verb for an action: Add to cart, Save article, Export report, Reschedule appointment, Send message. Use a noun phrase for a destination: Catalog, Library, Reports, Appointments, Messages.
+- Distinguish action from state: Pause notifications is an action; Notifications paused is a state. A status label should not sound like a command unless it is interactive.
+- Name the affected object in destructive confirmations and ambiguous results. “Delete the draft reply?” is clearer than “Delete item?”
+- Keep visible labels specific enough to predict the result. An icon-only control needs an accessible name; a visible label’s text should be included in that accessible name.
 
-Do: “Remove this schedule” when removing a schedule. Don’t: “Delete” on a control that only pauses a helper or archives a task.
+Use verbs that match the consequence. Remove from cart, Cancel order, Archive conversation, and Delete account are not interchangeable. Do not label an action Delete if it merely hides a record or disables future notifications.
 
 ## Explain errors without blame
 
-State what could not happen, what remains true, and what the person can do. Preserve useful error detail, but do not expose raw implementation noise as the only explanation. Keep long diagnostics in a disclosure/copy path below the actionable summary.
+Say what failed, whether anything changed, and how to recover. Include a cause when it is known and useful. Keep long diagnostics and internal codes below the actionable explanation, with an expandable detail or copy action if needed.
 
-Do not say the operation failed if only following its progress disconnected. Do not tell the person to retry a possibly completed destructive action without first checking the result. Keep “could not read,” “could not save,” “stopped following,” “cancelled,” and “paused” distinct.
+An error should support the next decision, not just announce failure. “Choose a delivery date on or after 12 November” explains how to correct a field. “Date invalid” does not. Preserve input and connect errors to the relevant fields.
 
-Do: retain the draft and offer retry after a recoverable save failure. Don’t: clear the form, display “Something went wrong,” and leave no recovery path.
+Losing a connection does not prove an operation failed. If the result is unknown, explain the uncertainty before inviting a potentially duplicate purchase, deletion, or submission. Offer a way to check the result, or a retry that the implementation guarantees will not repeat the operation. Keep could not read, could not save, still sending, cancelled, and paused distinct when those states exist.
 
-## Attribute helpers without anthropomorphism
+Do: offer a supported retry after a recoverable save failure. Don’t: clear the form, display “Something went wrong,” and leave no recovery path.
 
-Name the helper, what it read or changed, the reason, and the outcome. Distinguish a person’s pause from an automatic safety pause. Say whether the schedule continues after a failed run. A helper’s assertion is attributed evidence, not independently verified truth.
+## Write useful loading and empty states
 
-Use “Climate watch filed this task” rather than a magical or collective “we noticed.” Do not say a helper is thinking, alive, excited, or working hard when the actual state is a queued request. When there is a real running request, label that state plainly and allow the supported stop action.
+Name the actual operation when waiting matters: Loading reports, Uploading photo, or Sending message. Use percentages only when the fraction is measurable and meaningful. Do not add artificial waits to make an operation appear more substantial.
 
-## Keep absence and uncertainty truthful
+Explain why a view is empty and offer the next valid action. A new reading list can invite browsing; a catalog with no matches can offer Clear filters; a restricted report can explain how to request access. Do not offer creation when people cannot create the missing content. A failed request is not an empty collection.
 
-- Distinguish no tasks from no matches. Offer create in an empty workspace and clear filters in a no-match state.
-- Distinguish no time recorded from no work done. A gap in observation is not proof of inactivity.
-- Do not invent a count, deadline, progress percentage, connection result, or evidence link. Use exact values from the record; use source-defined date/time formatting and the workspace timezone.
-- Keep pending, connecting, reconnecting, needs action, failed, and paused states separate. Do not call a normal connection grace period an outage.
-- Explain irreversible effects before confirmation. Show reversible recovery in context when supported; do not advertise stale undo.
+Missing data is not zero. No readings received does not mean a sensor measured zero, and no recorded activity does not prove inactivity. Counts, deadlines, connection results, and source links must come from actual state. Use the product’s locale, timezone, and date-format rules rather than assuming one audience’s format.
 
-## Before / after examples for Larkspur
+## Explain consequential changes and automation
 
-| Before — do not ship | After — apply the rule |
-|---|---|
-| “Oops! Something went wrong.” | “The task couldn’t be saved. Your changes are still here. Try again.” |
-| “Successfully configured your automation!” | “Climate watch is ready.” |
-| “Your AI has been hard at work.” | “Order sweep added a task from the orders inbox.” |
-| “Automation disabled.” | “Climate watch is paused. Resume it when the sensor hub is back.” |
-| “All systems go.” | “The sensor hub is connected.” — only after a real connection result |
-| “No activity.” | “Nothing recorded yet. Add time or turn on activity tracking.” |
-| “No results.” | “No tasks match these filters. Clear filters to see the rest.” |
-| “Are you sure?” | “Remove Climate watch? It will stop checking the sensor hub.” |
-| “Delete item” | “Move task to trash” — only when trash recovery exists |
-| “The run was cancelled.” | “Stopped following the run. Climate watch is still running.” — only when the run continues |
-| “Error: conflict” | “This task changed while you were editing. Reload it before saving again.” |
-| “Backup error” | “The safety backup couldn’t be created. Nothing was restored.” — only when the workspace is unchanged |
-| “Retry now” after an uncertain result | “Check the task before trying again. The connection ended before the result arrived.” |
-| “We completed your task.” | “Market prep marked the task done and added a reason. Review the change.” |
+When a change’s source matters, identify who or what made it, what changed, and the result. This applies to collaborators, payment providers, imports, recommendation systems, and automated jobs—not only agents. Include a reason or source when known. Do not invent a reason to make a message sound complete.
 
-These examples are models for structure, not fixed messages to use regardless of state. Do not claim a draft, schedule, backup, or run remains intact unless the implementation guarantees it.
+For example, “The import service added 18 products” is more useful than “We worked our magic.” If only a service reported success, do not present that as independently verified. Say that a request is queued rather than claiming it is already running. Explain cancellation, stopping, or future recurrence only when the product supports those concepts.
+
+Do not require an automation identity, task attribution line, or run history in products without those features. Routine local actions do not all need a paragraph of attribution. Explain the source where it affects trust, review, or recovery.
+
+## Be clear about consequences and recovery
+
+Explain irreversible effects before confirmation. Name the action on the confirmation button rather than using Yes or OK. Offer undo only when it is safe and genuinely available; do not promise that a stale action can overwrite newer work.
+
+Keep recovery discoverable near the affected content or in an appropriate persistent view. A short-lived toast should not be the only route to a critical next step. If someone must decide within a real deadline, state the deadline and result; do not manufacture urgency.
+
+## Before / after examples
+
+These examples span product types. They model message structure, not features every product must implement.
+
+| Context | Avoid | Write instead, when true |
+|---|---|---|
+| Store | “Oops! Payment error.” | “The payment was declined. Choose another payment method.” |
+| Store, unknown result | “Purchase failed. Retry now.” | “We couldn’t confirm the payment. Check your orders before paying again.” |
+| Reader | “Successfully processed your request!” | “Article saved to your reading list.” |
+| Reader, empty list | “Nothing here.” | “No saved articles yet. Browse articles to find something to read.” |
+| Analytics, filtered results | “No data.” | “No orders match these filters. Clear filters to see the rest.” |
+| Analytics, missing source | “Revenue: 0” | “Revenue data is unavailable. Try loading the report again.” |
+| Scheduling | “Invalid input.” | “Choose an end time after the start time.” |
+| Scheduling, deletion | “Are you sure?” | “Cancel this appointment? The time will become available to others.” |
+| Conversation | “Message error.” | “The message wasn’t sent. Your draft is still here. Try again.” |
+| Collaborative editor | “Error: conflict.” | “This document changed while you were editing. Review the newer version before saving.” |
+| Import | “Your AI has been hard at work.” | “The import service added 18 products. Two rows need review.” |
+
+Do not copy a claim about payment, drafts, availability, or imports unless the implementation can establish it. A scheduling confirmation, for example, must use that product’s actual cancellation and availability rules.
+
+## Keep copy accessible and translatable
+
+Use persistent labels, meaningful link text, and nearby instructions. Do not put required information only in placeholders, tooltips, icons, color, or punctuation. Keep screen-reader names aligned with visible labels and do not announce every small background update.
+
+Write complete messages rather than concatenating fragments. Allow translators to reorder variables, handle plural forms, and format dates and numbers for the locale. Leave room for longer labels; do not abbreviate important actions merely to match a narrow reference screenshot. Keep a small terminology glossary when several views share the same concepts.
+
+## Keep examples separate from product requirements
+
+Use fictional, nonprivate content in public documentation and reference captures. For the repository’s existing Larkspur block examples, read [`blocks/_shared/LARKSPUR.md`](../blocks/_shared/LARKSPUR.md) and keep their fictional names consistent. In those examples, a helper is a scheduled automation. That term and fictional world are not required vocabulary for another product.
+
+Guidance can use varied generic examples like the table above without recreating a greenhouse task app. Never expose private customers, conversations, credentials, or personal information in sample content or screenshots.
 
 ## Reject filler
 
-Remove exclamation marks, emoji, “Oops,” “Great job,” “seamlessly,” “effortlessly,” “supercharge,” and “unlock.” Do not greet the person inside every empty state. Do not add “please” to a plain required field instruction or “successfully” to an already clear success. Keep contractions natural; keep technical terms only where they help the intended operator act.
+Remove exclamation marks, emoji, Oops, Great job, seamlessly, effortlessly, supercharge, and unlock from interface copy. Skip repeated greetings and unnecessary please or successfully. Use natural contractions and adapt the tone to the consequence; payment, privacy, deletion, and lost work need particular care.
 
-Do: “Save changes.” Don’t: “Seamlessly optimize your greenhouse workflow.”
+Do: “Save changes.” Don’t: “Seamlessly supercharge your workflow.”
 
 ## Checklist
 
-- Copy names the affected thing and uses sentence case.
-- Every claimed state/result is backed by real implementation state.
-- Failures explain recovery and preserve uncertainty when the result is unknown.
-- Helper changes are attributed; paused/failed/stopped-following states are distinct.
-- Example strings use only the fictional Larkspur world and contain no filler.
+- Copy uses the product’s actual nouns, specific action labels, and sentence case.
+- Status, counts, timing, and outcomes match what the app knows.
+- Empty and error states explain the next valid action without inventing a feature.
+- Consequences and recovery are explicit, including uncertainty about a result.
+- Sources are attributed when useful; automation-specific language appears only where relevant.
+- Labels, live announcements, and translated messages preserve meaning without filler or private example data.

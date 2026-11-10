@@ -8,12 +8,12 @@ import { Markdown } from "./Markdown";
 import { Clip } from "./Clip";
 
 const clips = [
-  { title: "A menu opens from its trigger", src: "specimen/clip-dropdown-menu" },
+  { title: "A menu opens from its button", src: "specimen/clip-dropdown-menu" },
   { title: "Selection moves between options", src: "specimen/clip-segmented" },
-  { title: "A detail page pushes in and pops back", src: "specimen/clip-push-pop" },
+  { title: "Open details, then go back", src: "specimen/clip-push-pop" },
   { title: "A sheet slides in from its edge", src: "specimen/clip-sheet" },
-  { title: "The rail collapses on a spring", src: "workbench/workbench-motion-rail-collapse" },
-  { title: "An area opens deeper, then returns", src: "workbench/workbench-motion-area-drill" },
+  { title: "Collapse and expand the sidebar", src: "workbench/workbench-motion-rail-collapse" },
+  { title: "Open a growing area, then return to the list", src: "workbench/workbench-motion-area-drill" },
 ];
 export default function MotionPage() {
   const [preset, setPreset] = useState<keyof typeof spring>("smooth");
@@ -29,15 +29,16 @@ export default function MotionPage() {
   return (
     <>
       <p className="lead">
-        Anything that moves or scales runs on a spring, so it can be interrupted and reversed. Motion shows where things
-        come from and where they go.
+        Animations help you follow changes: a menu opens from its button, a panel slides in from the edge,
+        and a list makes room for a new item. Shared spring settings let movement reverse without a jump.
+        Use these patterns where your product needs them; the example screens are not required layouts.
       </p>
       <section className="playground" aria-labelledby="playground-title">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 id="playground-title">Try a spring</h2>
             <p className="support">
-              Pick a preset and run it. Run it again while it moves and it reverses from where it is.
+              Choose a preset, then run it. Click again while the block moves to reverse it.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -63,18 +64,18 @@ export default function MotionPage() {
             animate={reduced ? { x: 0, opacity: end ? 0.45 : 1 } : { x: end ? distance : 0, opacity: 1 }}
             transition={reduced ? { duration: 0.14 } : spring[preset]}
           />
-          <span>Origin</span>
-          <span>Destination</span>
+          <span>Start</span>
+          <span>End</span>
         </div>
         <code>{JSON.stringify(spring[preset])}</code>
         {reduced && (
           <p role="status" className="support">
-            Reduced motion is on: the block changes opacity instead of travelling.
+            Reduced motion is on: the block fades instead of moving.
           </p>
         )}
       </section>
       <section className="page-section">
-        <h2>Motion in the real interface</h2>
+        <h2>Motion in the components and examples</h2>
         <p className="support">Recorded in real time from the kit and the blocks. Each clip plays while it is on screen.</p>
         <div className="clip-grid">
           {clips.map((clip) => (

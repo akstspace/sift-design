@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { motion, useReducedMotion } from "motion/react"
-import { spring } from "@sift-design/tokens/motion"
+import { duration, leave, spring } from "@sift-design/tokens/motion"
 import { cn } from "cn"
 import { Collapsible as CollapsiblePrimitive } from "radix-ui"
 
@@ -21,6 +21,8 @@ export function DisclosureBody({ open, className, children }: { open: boolean; c
   const reduced = !!useReducedMotion()
   const content = React.useRef<HTMLDivElement>(null)
   const [height, setHeight] = React.useState(0)
+  const [settled, setSettled] = React.useState(false)
+  React.useLayoutEffect(() => { setSettled(false) }, [open, height])
   React.useLayoutEffect(() => {
     if (!content.current) return
     const measure = () => setHeight(content.current?.getBoundingClientRect().height ?? 0)
@@ -29,7 +31,7 @@ export function DisclosureBody({ open, className, children }: { open: boolean; c
     observer.observe(content.current)
     return () => observer.disconnect()
   }, [])
-  return <motion.div data-slot="disclosure-body" initial={false} animate={{ height: open ? height : 0, opacity: open ? 1 : 0 }} transition={reduced ? { height: { duration: 0 }, opacity: { duration: 0.1 } } : { ...spring.smooth, opacity: { duration: open ? 0.14 : 0.08 } }} className="overflow-hidden" inert={!open} aria-hidden={!open}>
+  return <motion.div data-slot="disclosure-body" initial={false} animate={{ height: open ? height : 0, opacity: open ? 1 : 0 }} transition={{ height: reduced ? { duration: 0 } : open ? spring.smooth : spring.exit, opacity: { duration: open ? duration.quick : duration.instant, ease: open ? "linear" : leave } }} onAnimationComplete={() => setSettled(true)} style={{ overflow: open && settled ? "visible" : "hidden" }} inert={!open} aria-hidden={!open}>
     <div ref={content} className={className}>{children}</div>
   </motion.div>
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CommandDialog,
   CommandInput,
@@ -11,6 +11,7 @@ import { Button } from "@sift-design/ui/button";
 import { IconSearch, IconFileText, IconHash } from "@tabler/icons-react";
 import { docText, headings, pages } from "./content";
 import { at } from "./base";
+import { revealHash } from "./useRouter";
 const headingEntries = pages.flatMap((page) =>
   page.file
     ? headings(docText(page.file)).map((heading) => ({
@@ -24,10 +25,16 @@ export default function CommandMenu() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [destination, setDestination] = useState<string>();
+  const trigger = useRef<HTMLButtonElement>(null);
+  const opener = useRef<HTMLElement | null>(null);
   useEffect(() => {
     const key = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
+        if (!document.querySelector('[data-slot="command-input"]')) {
+          opener.current = document.activeElement as HTMLElement;
+          setDestination(undefined);
+        }
         setOpen((value) => !value);
       }
     };
@@ -46,10 +53,12 @@ export default function CommandMenu() {
   return (
     <>
       <Button
+        ref={trigger}
         variant="outline"
         aria-label="Find a page or heading ⌘ K"
         className="search-trigger"
         onClick={() => {
+          opener.current = trigger.current;
           setDestination(undefined);
           setQuery("");
           setOpen(true);
@@ -68,17 +77,22 @@ export default function CommandMenu() {
         title="Find in Sift Design"
         description="Jump to a page or heading in the design reference."
         onCloseAutoFocus={(event) => {
+          event.preventDefault();
           if (destination) {
-            event.preventDefault();
             const url = new URL(destination, location.origin);
-            const target = url.hash
-              ? document.getElementById(decodeURIComponent(url.hash.slice(1)))
-              : document.querySelector<HTMLElement>('[data-transition-page="current"] h1');
+            if (url.hash) {
+              revealHash(url.hash, "auto");
+              return;
+            }
+            const target = document.querySelector<HTMLElement>('[data-transition-page="current"] h1');
             if (target) {
               target.tabIndex = -1;
               target.focus({ preventScroll: true });
-              if (url.hash) target.scrollIntoView();
             }
+          } else {
+            const target =
+              opener.current?.isConnected && opener.current !== document.body ? opener.current : trigger.current;
+            target?.focus({ preventScroll: true });
           }
         }}
       >

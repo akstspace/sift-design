@@ -339,8 +339,8 @@ export default function App() {
         />
       </SettingRow>
       <p className="fine">
-        Both are optional and revisitable in Settings. This browser example saves your choices; desktop permissions and
-        login integration are not connected.
+        Both are optional. You can change them later in Settings. This example saves your choices in the browser;
+        it does not enable desktop notifications or launch at login.
       </p>
     </div>
   );
@@ -431,7 +431,7 @@ export default function App() {
                         <br className="desktop-break" /> greenhouse workspace.
                       </h1>
                       <p className="step-description">
-                        Greenhouse tasks, incoming orders and a few scheduled helpers, in one workspace.
+                        Manage greenhouse tasks, incoming orders, and scheduled automations called helpers.
                       </p>
                       <div className="welcome-notes">
                         <div>
@@ -483,7 +483,7 @@ export default function App() {
                   )}
                   {step === 2 && (
                     <>
-                      <h1>Confirm the defaults.</h1>
+                      <h1>Check your timezone and storage.</h1>
                       <p className="step-description">
                         Helper schedules use the workspace timezone. Your data stays in one folder.
                       </p>
@@ -562,7 +562,7 @@ export default function App() {
                     <>
                       <h1>Choose a first helper.</h1>
                       <p className="step-description">
-                        A helper runs on a schedule and files tasks with a reason, never just a number.
+                        A helper checks a source on a schedule and adds tasks that explain what needs attention.
                       </p>
                       <div className="helper-choices" role="radiogroup" aria-label="First helper">
                         {helpers.map((item) => (
@@ -604,7 +604,7 @@ export default function App() {
                         ))}
                       </div>
                       <p className="fine">
-                        {prefs.timezone}. The first run waits for a healthy connection. No helper has run yet.
+                        {prefs.timezone}. A helper needs a working connection before it can run. No helper has run yet.
                       </p>
                       <div className="step-actions">
                         <Button variant="ghost" onClick={() => navigate(3)}>
@@ -625,7 +625,7 @@ export default function App() {
               </section>
             </main>
             <footer className="setup-footer">
-              <span>Interactive example · connections use local fixtures</span>
+              <span>Interactive example · connection checks use sample data</span>
               <Button variant="ghost" size="sm" onClick={() => setReplay((r) => r + 1)}>
                 <Refresh size={13} />
                 Replay opening

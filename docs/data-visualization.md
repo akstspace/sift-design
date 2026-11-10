@@ -1,66 +1,87 @@
-Use the activity ribbon for time placement and category bars for duration composition.
-Keep categorical identities fixed, marks thin, and the same information readable without color or hover.
+Choose a chart that answers a real question. Keep labels visible and make the information available without color or hovering.
 
 # Data visualization
 
-## Choose Sift form for its job
+## Start with the question, not a chart type
 
-Use Sift’s activity ribbon to show when recorded sessions happened in a selected local day. Use task-time category bars to compare composition of recorded duration. Use the chronological feed and labeled category durations as the non-graphical reading path. Do not turn an operating workspace into a collection of stat tiles or draw a chart when a plain value/row answers the question.
+Use a chart when a visual comparison, trend, or relationship is clearer than prose or a table. Do not add a chart simply because the page has room. A single value can answer “How many?”, while a table can be better for looking up exact records.
 
-Do: distinguish recorded time, checked intervals, unchecked gaps, a running check, and now. Don’t: fill unknown time with invented sessions or imply an absent record proves no work happened. Use the configured timezone for day boundaries, labels, and tooltips.
+| Question | Useful starting point | Watch for |
+|---|---|---|
+| Which groups have more or less? | Aligned bars | A consistent scale and readable category names |
+| How does a measure change over time? | Line chart | Irregular samples, missing observations, and time intervals |
+| What makes up a total? | Stacked bar | Whether parts are mutually exclusive and sum to that total |
+| When do intervals occur or overlap? | Timeline or calendar | Actual start/end positions, timezone, and overlap |
+| How are two measurements related? | Scatter plot | Units, outliers, and correlation not implying causation |
+| What is the precise value for a record? | Table or list | Clear headers, units, and sorting |
 
-## Keep the categorical slots stable
+A store might compare sales by product, an analytics view might show a weekly trend, and a booking tool might show occupied intervals. None needs to adopt the time-tracking model in the Timeline block. Choose only the views that serve the product.
 
-| Slot/token | Sift identity | Larkspur identity | Light | Dark | Light mark/surface | Dark mark/surface |
-|---|---|---|---|---|---:|---:|
-| 1 / `--cat-1` | Coding | Growing | `#017c5d` | `#017c5d` | 4.85:1 | 2.92:1 |
-| 2 / `--cat-2` | Reviewing | Inspection | `#aa84d4` | `#9d78c6` | 2.82:1 | 4.29:1 |
-| 3 / `--cat-3` | Meetings | Meetings and calls | `#976b03` | `#946800` | 4.43:1 | 3.07:1 |
-| 4 / `--cat-4` | Messages | Messages | `#6da9e7` | `#5b97d3` | 2.31:1 | 4.93:1 |
-| 5 / `--cat-5` | Admin | Admin | `#a1592e` | `#9d562b` | 4.92:1 | 2.75:1 |
-| 6 / `--cat-6` | Research | Research | `#8aab5f` | `#7c9c50` | 2.43:1 | 4.87:1 |
-| 7 / `--cat-7` | Writing | Writing | `#b85862` | `#b5555f` | 4.25:1 | 3.20:1 |
-| 8 / `--cat-8` | Other | Other | `#868bd1` | `#7a7ec4` | 2.96:1 | 4.06:1 |
+## Define what the values mean
 
-Assign in this fixed order, never cycle or re-rank colors. Filtered categories retain their slot. Fold a ninth identity into Other or change the representation; do not generate a hue. Keep `--good`, `--warn`, and `--danger` for status, not category identity. Keep text in `--ink`/`--muted`; the adjacent swatch carries category identity.
+Name the measure, unit, scope, and period. Explain aggregation when it changes interpretation: orders placed and orders fulfilled are different counts; net revenue and gross revenue are different measures. Show the source or last-updated time when freshness affects a decision.
 
-These contrast values are computed against the exact token surface, not a generic white/black background. Several data fills are below 3:1. Treat them as identity fills with persistent text/legend and a readable table/feed alternative; do not use them as tiny text or the sole essential indicator. Add an accessible outline, pattern, or other secondary encoding when a mark’s boundary itself is essential. Do not claim the palette alone proves WCAG non-text conformance.
+Distinguish zero, missing, pending, estimated, and unavailable values. Do not fill an observation gap with invented records or draw a continuous line across missing samples without explaining that choice. Label illustrative data as illustrative; never present it as live product performance.
 
-The categorical validator was run against both actual surfaces. Both palettes pass its adjacent-pair CVD and normal-vision separation checks; both return contrast warnings. Light warnings affect slots 2, 4, 6, and 8; dark warnings affect slots 1 and 5. Do not “fix” these by inventing replacement values outside the normative tokens. Retain labels and secondary reading/encoding; propose token changes separately if an essential boundary still fails. No Sift’s sequential/diverging ramps are defined; do not invent them for this reference.
+For percentages, identify the denominator. For overlapping groups, explain that group totals may exceed the unique overall total. A part-to-whole chart is appropriate only when its parts genuinely form that whole. Use a common baseline for comparisons and disclose a restricted range; bar-length comparisons normally start at zero.
 
-## Build the ribbon anatomy
+## Give categories consistent colors
 
-- Keep the timeline proportional to actual start/end times within the day’s displayed span. Do not use equal-width blocks for unequal sessions.
-- Use the 46px Sift’s ribbon track with a 10px rounded clipping container. Sift’s sessions have 4px radius and `clip-path: inset(0 1px round 4px)`, producing a 2px surface gap between touching marks.
-- Separate checked coverage, hatched gaps, and actual sessions. The now indicator is a 2px line with a 6px point; it is not another category. Sift’s running-gap scan is real-state feedback only; reduced mode removes it.
-- Use sparse 11px tabular hour labels with clear start/end alignment. Do not add a competing y-axis or a grid heavier than the data.
-- Preserve the selected day and the week strip. Week miniature tracks are 4px high; they summarize actual sessions, not invented streaks.
+The eight categorical tokens provide distinct identities, not an application taxonomy. Assign them to the product’s own series and keep that mapping through sorting, filtering, and theme changes. Do not recolor surviving categories because another one disappears.
 
-## Keep task-time bars thin and honest
+| CSS variable | Light | Dark | Light contrast | Dark contrast |
+|---|---|---|---:|---:|
+| `--cat-1` | `#017c5d` | `#017c5d` | 4.85:1 | 2.92:1 |
+| `--cat-2` | `#aa84d4` | `#9d78c6` | 2.82:1 | 4.29:1 |
+| `--cat-3` | `#976b03` | `#946800` | 4.43:1 | 3.07:1 |
+| `--cat-4` | `#6da9e7` | `#5b97d3` | 2.31:1 | 4.93:1 |
+| `--cat-5` | `#a1592e` | `#9d562b` | 4.92:1 | 2.75:1 |
+| `--cat-6` | `#8aab5f` | `#7c9c50` | 2.43:1 | 4.87:1 |
+| `--cat-7` | `#b85862` | `#b5555f` | 4.25:1 | 3.20:1 |
+| `--cat-8` | `#868bd1` | `#7a7ec4` | 2.96:1 | 4.06:1 |
 
-Use Sift task-time bar: 6px high, 2px gaps, minimum visible segment width 4px, 1px segment radius, and 3px rounded outer ends. Size segment flex-grow by category duration, not by rank or a decorative constant. The minimum segment width is a visibility exception; exact durations in the legend remain authoritative.
+These contrast values are against the token’s `--surface` background, not generic white or black. Several fills are below 3:1. Category text uses `--ink` or `--muted`, not the series color. Keep `--good`, `--warn`, and `--danger` for status rather than using them as interchangeable category colors.
 
-Show a persistent category label and duration for each visible segment. Sift’s task bars are `aria-hidden` because the adjacent list carries the meaning. Do not put essential information only in a CSS fill or native title attribute.
+Eight color slots do not limit the product to eight categories. For larger sets, use filtering, direct labels, small multiples, or a table. Aggregate into Other only when that grouping is meaningful, and explain what it contains. Do not cycle the palette and rely on repeated color alone to distinguish series.
 
-Explain overlapping sessions honestly: Sift counts an overlapping interval once in total elapsed time but in full for each category, so category totals can exceed elapsed total. Do not label those category proportions as mutually exclusive percentages of elapsed time.
+The reference palette’s validator checks adjacent color separation, including color-vision deficiency simulations; those checks do not establish accessibility for every chart. Light slots 2, 4, 6, and 8 and dark slots 1 and 5 have background-contrast warnings. When an essential mark or boundary needs 3:1 contrast, use an appropriate contrasting outline, pattern, or other accessible encoding and test the result. A legend or table does not automatically repair an inaccessible essential graphic.
 
-## Labels, legends, hover, and keyboard
+This reference defines categorical colors, not sequential or diverging scales. A sequential scale represents increasing magnitude; a diverging scale represents direction and magnitude on either side of a meaningful midpoint. Do not use the categorical rainbow for either role or invent private token replacements. If the product needs an additional scale, propose it as a reviewed shared extension.
 
-Keep category names and durations visible. For multiple categories retain the legend; Sift’s legend chips have 8px swatches, 28px height, and 12.5px labels. For one category, a direct label can supply identity without a redundant legend box. Never recolor surviving marks after a legend filter.
+## Keep geometry and scales honest
 
-Use tooltips for precise session title, local start/end time, duration, and category. Sift clamps the ribbon tooltip to stay within the useful plot region and uses a compact inverted surface; keep it legible at the viewport edges. Provide the same session details through the feed and keyboard-accessible action, not just pointer hover. Use expanded hit targets rather than making the thin marks visually bulky. Keep selection/filter state readable with `aria-pressed` where applicable.
+Use proportional positions and lengths when they encode quantities. Align comparable plots to the same scale or make any difference explicit. Keep grids and dividers quieter than the data. Use clear axis labels and tick spacing that remain readable at narrow widths.
 
-Provide a table/list alternative with session label, date/local time span, duration, category, linked task, and provenance. Sift’s session feed and category list already expose much of that information, but it is not a separate semantic table toggle. A derived chart must preserve an equivalent readable list or add a table when the feed does not cover all plotted values. Do not claim an absent table control exists in Sift.
+Separate incompatible units into labeled views rather than adding a second y-axis that can imply a misleading relationship. For time-based charts, use the relevant timezone and locale consistently in axes, details, and data alternatives. A local calendar day is not always 24 elapsed hours; handle daylight-saving transitions according to the product’s actual time model.
 
-## Never use a dual axis
+Thin marks and surface-colored gaps can make dense charts easier to read, but minimum visible widths or enlarged marks distort proportions. If such a visibility adjustment is necessary, disclose it, keep exact values available, and do not use the altered lengths for precise comparison. Do not adopt a block’s fixed track height, day strip, coverage states, or duration-accounting rules unless the product needs that representation.
 
-Use a single time scale for the ribbon and a single duration basis for the category bar. Put incompatible units in separate labeled views, not a second y-axis. Do not invent a rainbow magnitude scale. Use the same fixed categorical slots in both themes, with each theme’s own values rather than automatic inversion.
+## Labels, legends, and interaction
+
+Give the chart a useful title or accessible name and show units. Prefer direct labels when they are readable; keep a legend for multiple series when labels alone cannot identify them. Labels should name the product’s actual categories, not internal series keys. IBM Plex Mono and tabular figures help people compare compact numbers.
+
+Tooltips can supply precision, but must not be the only way to discover essential values or actions. Keep them within the viewport and useful plot area. Provide keyboard-accessible inspection for interactive marks, and keep thin marks operable without overlapping their hit targets. Use actual buttons or links for actions, with selected state such as `aria-pressed` only when that state fits the control.
+
+Supply a semantic table or list containing the plotted values with their labels and units. A short text summary can explain the main trend but does not replace access to the underlying values. The alternative should update with the chart’s filter and scope, or clearly explain any difference. Keep it usable in print, forced colors, and narrow layouts.
+
+## Use the chart component without changing its contract
+
+`ChartContainer` supplies named series and CSS variables; Recharts supplies the chart and axes. Configure stable series keys, labels, and token-based colors. `ChartTooltip` and `ChartLegend` help compose inspection and identification, but the application still supplies the accessible name, units, and equivalent data. Use Recharts’ `accessibilityLayer` and test its keyboard path in the chosen chart type.
+
+The kit disables repeated Recharts data-update animation. Bar marks have a one-time baseline entrance using the shared CSS spring; reduced motion uses a short fade. Existing keyed marks should not replay on every update. Do not add an animation wrapper that duplicates this behavior, delays access to values, or implies progress that has not happened. See the [Chart guide](../packages/ui/docs/display.md#chart) for the actual component API and motion details.
+
+## Optional examples, not required features
+
+The [Timeline block](../blocks/timeline/README.md) demonstrates interval placement and categorical duration summaries. Its selected day, observation coverage, session records, and overlap calculations belong to that example’s domain. Reuse its visual treatment only after deciding that interval data answers the product’s question; do not build a day timeline as a prerequisite for using this system.
+
+For an analytics chart, define the measure and comparison period instead. For a store, a sortable product table may be enough. For a reader, reading progress is useful only if its denominator and saved position are real. The shared requirements are accurate values, consistent styling, accessible interpretation, and honest state—not a particular dashboard or ledger.
 
 ## Checklist
 
-- Time position/length and category totals derive from real records and timezone rules.
-- Eight slots retain identity through filters; overflow folds into Other.
-- Thin marks keep 2px gaps and readable labels/legend.
-- Every plotted value is available without hover and without color.
-- Both palettes are checked against their actual surface; contrast warnings are resolved with accessible encoding, not ignored.
-- No dual axis, fake coverage, or misleading percentage appears.
+- The representation answers a specific product question and uses real or explicitly illustrative data.
+- Measures, units, period, aggregation, missing values, and percentage denominators are clear.
+- Geometry and scales preserve the intended comparison; overlapping groups are not falsely presented as exclusive parts.
+- Category identity survives sorting, filtering, and both themes without depending on color alone.
+- Every plotted value has a readable path outside hover; interactive marks work with a keyboard.
+- Essential marks and text are checked against their actual backgrounds, including forced colors and narrow layouts.
+- Motion reflects real changes and respects reduced motion; no timeline, category taxonomy, or task model is required.

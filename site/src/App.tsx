@@ -1,4 +1,4 @@
-import { useEffect, useRef, lazy, Suspense } from "react";
+import { useEffect, useLayoutEffect, useRef, lazy, Suspense } from "react";
 import {
   IconHome,
   IconTerminal2,
@@ -66,6 +66,12 @@ function Shell({ path }: { path: string }) {
     document.title = `${page?.title ?? "Page not found"} — Sift Design`;
   }, [path, page]);
   const family = path.split("/")[2] ?? "controls";
+  // Family navigation keeps its tabs mounted; only the examples below them change.
+  const routeKey = path === "/components" || path.startsWith("/components/") ? "/components" : path;
+  useLayoutEffect(() => {
+    if (previous.current === path) return;
+    scroller.current?.querySelector<HTMLElement>('[data-transition-page="current"] h1')?.focus({ preventScroll: true });
+  }, [path]);
   // Component and block pages use the full width; guides get the reading column and outline.
   const wide = path.startsWith("/components") || path.startsWith("/blocks");
   const file = page?.file ?? (path === "/components" ? "packages/ui/docs/controls.md" : undefined);
@@ -94,8 +100,8 @@ function Shell({ path }: { path: string }) {
       <Markdown file={file} />
     ) : (
       <>
-        <p className="lead">That page isn’t in the reference.</p>
-        <a href={at("/")}>Return to the overview</a>
+        <p className="lead">We couldn’t find that page. Use search or return to the home page.</p>
+        <a href={at("/")}>Go to the home page</a>
       </>
     );
   return (
@@ -136,7 +142,7 @@ function Shell({ path }: { path: string }) {
         </SidebarContent>
         <SidebarFooter>
           <div data-sidebar-label className="rail-footer">
-            <a href={at("/llms.txt")}>Agent entry point</a>
+            <a href={at("/llms.txt")}>Agent reading guide</a>
             <span>Plain-text guides for agents</span>
           </div>
         </SidebarFooter>
@@ -159,7 +165,7 @@ function Shell({ path }: { path: string }) {
             <ThemeSelect />
           </div>
         </header>
-        <SiblingTransition pageKey={path} direction={direction} className="page-transition">
+        <SiblingTransition pageKey={routeKey} direction={direction} className="page-transition" focusHeading={false}>
           <div className={`page-body ${wide ? "component-page" : ""}`}>
             <div className="page-heading-row">
               <h1 id="page-heading" data-page-heading tabIndex={-1}>
@@ -182,7 +188,7 @@ function Shell({ path }: { path: string }) {
               <SiftMark size={22} />
               <span>Sift Design</span>
               <a href={at("/reference")}>Full design reference</a>
-              <a href={at("/raw/manifest.json")}>Raw manifest</a>
+              <a href={at("/raw/manifest.json")}>Source file list</a>
               <a href={at("/credits")}>Credits</a>
             </footer>
           </div>

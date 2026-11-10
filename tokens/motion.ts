@@ -2,8 +2,8 @@
 //
 // Anything that travels through space moves on a spring, so it can be grabbed,
 // reversed or retargeted mid-flight and keeps its velocity when it is. Fades
-// and color changes use short durations. The shell never moves; only the work
-// surface changes. Things arrive from where they come from: menus grow out of
+// and color changes use short durations. Keep shared navigation stable when it
+// exists; a shell is not required. Things arrive from where they come from: menus grow out of
 // their trigger, panels slide from their edge, deeper pages push in from the
 // trailing edge and slide back out the way they came.
 //
@@ -27,7 +27,7 @@ export const spring = {
   smooth: { type: "spring", visualDuration: 0.28, bounce: 0 },
   /** Menus, popovers, selection highlights, toggles, small objects: quick, with a hint of overshoot. */
   snappy: { type: "spring", visualDuration: 0.2, bounce: 0.12 },
-  /** Rare moments of success (a task completed, setup finished). Never on routine navigation. */
+  /** Rare moments of real success (an upload completed, setup finished). Never on routine navigation. */
   lively: { type: "spring", visualDuration: 0.32, bounce: 0.22 },
   /** Press and release feedback. */
   press: { type: "spring", visualDuration: 0.12, bounce: 0 },

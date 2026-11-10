@@ -4,7 +4,15 @@
     "violations": []
   },
   {
+    "shot": "agent-dark-mobile",
+    "violations": []
+  },
+  {
     "shot": "agent-light",
+    "violations": []
+  },
+  {
+    "shot": "agent-light-mobile",
     "violations": []
   },
   {
@@ -44,6 +52,22 @@
     "violations": []
   },
   {
+    "shot": "data-visualization-dark",
+    "violations": []
+  },
+  {
+    "shot": "data-visualization-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "data-visualization-light",
+    "violations": []
+  },
+  {
+    "shot": "data-visualization-light-mobile",
+    "violations": []
+  },
+  {
     "shot": "doc-dark",
     "violations": []
   },
@@ -60,7 +84,19 @@
     "violations": []
   },
   {
+    "shot": "foundations-dark",
+    "violations": []
+  },
+  {
+    "shot": "foundations-dark-mobile",
+    "violations": []
+  },
+  {
     "shot": "foundations-light",
+    "violations": []
+  },
+  {
+    "shot": "foundations-light-mobile",
     "violations": []
   },
   {
@@ -88,6 +124,26 @@
     "violations": []
   },
   {
+    "shot": "landing-reduced",
+    "violations": []
+  },
+  {
+    "shot": "landing-tablet-dark",
+    "violations": []
+  },
+  {
+    "shot": "landing-top-dark",
+    "violations": []
+  },
+  {
+    "shot": "landing-top-light",
+    "violations": []
+  },
+  {
+    "shot": "landing-wide-dark",
+    "violations": []
+  },
+  {
     "shot": "mobile-rail-light",
     "violations": []
   },
@@ -96,7 +152,15 @@
     "violations": []
   },
   {
+    "shot": "motion-dark-mobile",
+    "violations": []
+  },
+  {
     "shot": "motion-light",
+    "violations": []
+  },
+  {
+    "shot": "motion-light-mobile",
     "violations": []
   },
   {
@@ -117,6 +181,70 @@
   },
   {
     "shot": "overview-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "principles-dark",
+    "violations": []
+  },
+  {
+    "shot": "principles-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "principles-light",
+    "violations": []
+  },
+  {
+    "shot": "principles-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "prompt-dark",
+    "violations": []
+  },
+  {
+    "shot": "prompt-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "prompt-expanded",
+    "violations": []
+  },
+  {
+    "shot": "prompt-light",
+    "violations": []
+  },
+  {
+    "shot": "prompt-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "prompt-reduced",
+    "violations": []
+  },
+  {
+    "shot": "review-dark",
+    "violations": []
+  },
+  {
+    "shot": "review-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "review-light",
+    "violations": []
+  },
+  {
+    "shot": "review-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "typography-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "typography-light-mobile",
     "violations": []
   }
 ]

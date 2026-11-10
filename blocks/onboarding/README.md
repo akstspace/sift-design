@@ -1,6 +1,8 @@
 # Larkspur first run & settings
 
-A local-first workspace for Fernbrook Greenhouse. This example follows the welcome → connections → defaults → optional setup → first helper → workspace handoff. Settings cover theme, motion, notifications, startup, timezone, backups, retention, and an update notice.
+Set up the fictional Fernbrook Greenhouse app: check connections, choose a timezone, set optional preferences, and add a scheduled automation. Then open the workspace or settings. The example saves preferences in your browser; it does not run automations or change desktop settings.
+
+This optional example demonstrates step navigation, validation, optional choices, and editable preferences. Choose setup steps and persistence for the actual product; connection checks, timezones, helpers, and browser storage are not universal requirements.
 
 ## Run
 

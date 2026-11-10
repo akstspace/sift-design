@@ -47,11 +47,11 @@ export const pages: Page[] = [
     group: "Patterns",
     file: `docs/${name}.md`,
   })),
-  { path: "/retheming", title: "Retheming", group: "The system", file: "docs/retheming.md" },
-  { path: "/blocks", title: "Blocks", group: "The system" },
+  { path: "/retheming", title: "Change the palette", group: "The system", file: "docs/retheming.md" },
+  { path: "/blocks", title: "Example screens", group: "The system" },
   ...["workbench", "routines", "timeline", "assistant", "onboarding"].map((name) => ({
     path: `/blocks/${name}`,
-    title: name[0].toUpperCase() + name.slice(1),
+    title: `${name[0].toUpperCase() + name.slice(1)} example`,
     group: "Blocks",
     file: `blocks/${name}/README.md`,
   })),
@@ -105,45 +105,45 @@ export function resolveRepoUrl(url: string, file: string, image = false) {
   return `${page ? page.path : `/raw/${repoPath}`}${resolved.search}${resolved.hash}`;
 }
 export type Block = { name: string; title: string; description: string; image: string; clip: string };
-/** Full-page compositions built with the kit, in the spirit of shadcn/ui blocks. */
+/** Optional fictional app screens built with the kit, not required product features. */
 export const blocks: Block[] = [
   {
     name: "workbench",
     title: "Workbench",
-    description: "A daily task board with a collapsible rail, drag and drop, and a task inspector.",
+    description: "An example task board with a collapsible sidebar, drag and drop, and a panel for task details.",
     image: "01-today-light.png",
     clip: "workbench-motion-area-drill",
   },
   {
     name: "routines",
     title: "Routines",
-    description: "Scheduled helpers with clear status, a schedule editor that previews the next runs, and run history.",
+    description: "An example automation manager with schedules, next-run previews, and sample run history.",
     image: "01-helpers-light.png",
     clip: "routines-motion-status-desktop",
   },
   {
     name: "timeline",
     title: "Timeline",
-    description: "A day of tracked time with eight category colors, labeled duration bars and a week view.",
+    description: "An example time log with day and week views, category colors, and labeled sessions and durations.",
     image: "01-day-light.png",
     clip: "timeline-motion-day-navigation",
   },
   {
     name: "assistant",
     title: "Assistant",
-    description: "An assistant docked beside the work or open full page, with streamed replies and tool activity.",
+    description: "An example chat beside a task or in a full-page view, with simulated replies and tool activity.",
     image: "01-docked-light.png",
     clip: "assistant-motion-morph",
   },
   {
     name: "onboarding",
     title: "Onboarding",
-    description: "First-run setup with connection checks, optional steps and a settings page.",
+    description: "An example setup flow with simulated connection checks, optional steps, and preference settings.",
     image: "01-welcome-light.png",
     clip: "onboarding-motion-assembly",
   },
 ];
 export const basePrompt = (origin: string, askPalette = true) =>
-  `Use Sift Design for this project's UI. Fetch ${origin}/llms.txt and follow it.${askPalette ? " First ask me whether to keep the default Sift Design palette or use a custom one." : ""} Before writing UI, read AGENTS.md, DESIGN.md, and docs/motion.md. Copy the tokens from ${rawUrl("tokens/")} and the kit components from ${rawUrl("packages/ui/src/")} instead of stock shadcn/ui. Match the reference screenshots of the closest block. Sign off with ${rawUrl("docs/review.md")}: both themes, 390px wide, reduced motion, and zero axe violations.`;
+  `Build this project's UI with Sift Design. Read ${origin}/llms.txt, then AGENTS.md, DESIGN.md, and docs/motion.md.${askPalette ? " Ask whether I want the default colors or a custom palette before you start." : ""} Reuse the tokens, fonts, spacing, animated components, and shared motion settings rather than stock shadcn/ui. Keep this project's features, data model, storage, and navigation. The example screens are optional references, not requirements to add tasks, timelines, helpers, or a sidebar. Find file paths at ${origin}/raw/manifest.json and read individual source files from ${rawUrl("")}. Follow ${rawUrl("docs/review.md")} to check both themes, a 390px screen, reduced motion, and zero axe accessibility violations.`;
 export const blockPrompt = (origin: string, block: Block) =>
-  `${basePrompt(origin)} Start from the ${block.title} block: read ${rawUrl(`blocks/${block.name}/README.md`)}, copy its source from ${rawUrl(`blocks/${block.name}/src/`)}, and adapt the content to this project. Compare your result with the block running at ${origin}/live/${block.name}/.`;
+  `${basePrompt(origin)} Use the ${block.title} example where it fits the requested screen. Read ${rawUrl(`blocks/${block.name}/README.md`)} and use the file list to find its sources under blocks/${block.name}/src/. Reuse the relevant components and interactions, not the fictional product's feature set or sample data. View the example at ${origin}/live/${block.name}/ for visual comparison.`;

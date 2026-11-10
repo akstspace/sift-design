@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
+import { AnimatePresence, motion, useIsPresent, useReducedMotion, type Variants } from "motion/react";
 import {
   IconArrowUpRight,
   IconBrandGithub,
@@ -35,10 +35,20 @@ type Width = keyof typeof widths;
 function syncTheme(frame: HTMLIFrameElement | null | undefined) {
   const root = document.documentElement;
   const doc = frame?.contentDocument?.documentElement;
-  if (!doc) return;
-  doc.classList.toggle("dark", root.classList.contains("dark"));
-  if (root.dataset.palette) doc.dataset.palette = root.dataset.palette;
+  const view = frame?.contentWindow;
+  if (!doc || !view) return;
+  const dark = root.classList.contains("dark");
+  const palette = root.dataset.palette;
+  if (doc.classList.contains("dark") === dark && doc.dataset.palette === palette) return;
+  // Freeze the block's own color transitions so it switches in the same frame as the page.
+  const freeze = doc.ownerDocument.createElement("style");
+  freeze.textContent = "*,*::before,*::after{transition:none!important}";
+  doc.ownerDocument.head.append(freeze);
+  doc.classList.toggle("dark", dark);
+  if (palette) doc.dataset.palette = palette;
   else delete doc.dataset.palette;
+  view.getComputedStyle(doc).color;
+  view.requestAnimationFrame(() => view.requestAnimationFrame(() => freeze.remove()));
 }
 
 function frameSrc(name: string) {
@@ -196,6 +206,7 @@ function Preview({ block, width, reload }: { block: Block; width: Width; reload:
 
 function Code({ block }: { block: Block }) {
   const reduced = !!useReducedMotion();
+  const present = useIsPresent();
   const files = useMemo(() => filesOf(block.name), [block.name]);
   const [current, setCurrent] = useState(files[0]?.key);
   const [code, setCode] = useState<{ key: string; text: string; html: string } | null>(null);
@@ -214,7 +225,7 @@ function Code({ block }: { block: Block }) {
     };
   }, [current]);
   return (
-    <div className="code-view">
+    <div className="code-view" inert={!present} aria-hidden={present ? undefined : true}>
       <nav className="code-files" aria-label={`${block.title} source files`}>
         {files.map((f) => (
           <button
@@ -242,11 +253,11 @@ function Code({ block }: { block: Block }) {
           <code>
             blocks/{block.name}/{file?.path}
           </code>
-          {code && <CopyButton text={code.text} label="Copy file" />}
+          {code?.key === current && <CopyButton text={code.text} label="Copy file" />}
         </div>
         {failed ? (
           <p className="code-state" role="status">
-            This file couldn’t be loaded. Open it from <a href={rawUrl(`blocks/${block.name}/${file?.path}`)}>the raw file</a>{" "}
+            This file couldn’t be loaded here. Open <a href={rawUrl(`blocks/${block.name}/${file?.path}`)}>the source file</a>{" "}
             instead.
           </p>
         ) : code ? (
@@ -295,7 +306,13 @@ export function BlockViewer({ block, standalone = false }: { block: Block; stand
               key={block.name}
               initial={{ opacity: 0, y: reduced ? 0 : 6 }}
               animate={{ opacity: 1, y: 0, transition: swap }}
-              exit={{ opacity: 0, y: reduced ? 0 : -4, transition: { duration: 0.1, ease: leave } }}
+              exit={{
+                opacity: 0,
+                y: reduced ? 0 : -4,
+                transition: reduced
+                  ? { duration: duration.instant }
+                  : { ...spring.exit, opacity: { duration: duration.instant, ease: leave } },
+              }}
             >
               {block.description}
             </motion.p>
@@ -376,7 +393,14 @@ export function BlockViewer({ block, standalone = false }: { block: Block; stand
           animate={
             view === "preview"
               ? { opacity: 1, scale: 1, visibility: "visible", transition: swap }
-              : { opacity: 0, scale: reduced ? 1 : 0.99, transitionEnd: { visibility: "hidden" }, transition: { duration: 0.12, ease: leave } }
+              : {
+                  opacity: 0,
+                  scale: reduced ? 1 : 0.99,
+                  transitionEnd: { visibility: "hidden" },
+                  transition: reduced
+                    ? { duration: duration.instant }
+                    : { ...spring.exit, opacity: { duration: duration.instant, ease: leave } },
+                }
           }
           inert={view !== "preview"}
         >
@@ -404,12 +428,13 @@ export function BlocksPage() {
   return (
     <>
       <p className="lead">
-        Full-page compositions built with the kit, in the spirit of{" "}
+        Blocks are optional example screens you can copy and adapt, like{" "}
         <a href="https://ui.shadcn.com/blocks" target="_blank" rel="noreferrer">
           shadcn/ui blocks
         </a>
-        . Each one is running below. Read its source, resize it, or copy a prompt that tells your agent to start from it.
-        The sample content is Larkspur, a made-up greenhouse business.
+        . Try each one below, change its preview width, or read its code. All use fictional greenhouse work in an app
+        called Larkspur. Copy a prompt to reuse the parts that fit your project, not to add its tasks, automations,
+        timeline, or sidebar. The sample data and simulated activity are not connected to a real service.
       </p>
       <div className="block-list">
         {blocks.map((block) => (
@@ -426,6 +451,7 @@ export function BlockPage({ name }: { name: string }) {
   return (
     <>
       <p className="lead">{block.description}</p>
+      <p className="support">An optional Larkspur example. Reuse the visual and interaction patterns that fit your product; its features and sample data are not requirements.</p>
       <BlockViewer block={block} standalone />
       <section className="block-notes" aria-labelledby="notes-title">
         <h2 id="notes-title">Notes</h2>

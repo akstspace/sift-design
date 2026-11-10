@@ -9,6 +9,7 @@ import { basePrompt, pages } from "./content";
 import { CopyButton, Markdown } from "./Markdown";
 import SiftDesignMark from "./SiftDesignMark";
 import { at, rawUrl, siteUrl } from "./base";
+import { changeAppearance } from "./landing/changeAppearance";
 
 function Prompt({ title, text, open = false }: { title: string; text: string; open?: boolean }) {
   return (
@@ -42,8 +43,8 @@ export function Overview() {
         <SiftDesignMark size={64} className="hero-mark" entrance="hero" />
         <h2>What Sift Design is</h2>
         <p className="lead">
-          The design language first built for Sift, written down for coding agents: tokens, a restyled shadcn/ui kit,
-          spring motion presets and five full-page blocks, all available as plain files.
+          A reusable visual design system: colors, fonts, spacing, components, and motion for your product.
+          It includes light and dark themes and five optional example screens, not a prescribed set of features.
         </p>
         <div className="flex flex-wrap gap-3">
           <Button asChild>
@@ -53,7 +54,7 @@ export function Overview() {
             </a>
           </Button>
           <Button variant="outline" asChild>
-            <a href={at("/blocks")}>Browse the blocks</a>
+            <a href={at("/blocks")}>Browse the examples</a>
           </Button>
         </div>
       </div>
@@ -64,14 +65,14 @@ export function Overview() {
             src={at("/raw/screenshots/workbench/01-today-light.png")}
             width={1440}
             height={900}
-            alt="The workbench example: a Today board with a slate navigation rail, oatmeal canvas and four task columns"
+            alt="The Workbench example: today’s tasks in four columns beside a dark sidebar"
           />
         </a>
         <div>
-          <h2>The look: a studio workbench</h2>
+          <h2>One visual language, your product’s features</h2>
           <p>
-            The navigation rail and toolbar stay put while the work area changes. Surfaces are separated by hairlines,
-            each view has one accent color, and motion shows where things came from and went.
+            Thin borders, clear type, and shared animations carry across products. The task board shown here is one
+            example, not the required layout. Use a dashboard, chat, editor, or another structure when it fits the work.
           </p>
           <a href={at("/foundations/principles")}>
             Read the principles <IconArrowRight size={16} aria-hidden />
@@ -82,16 +83,16 @@ export function Overview() {
         <h2>Sections</h2>
         <div className="link-list">
           {[
-            ["/foundations", "Foundations", "Color roles, typography, layout, shapes, and depth."],
-            ["/motion", "Motion", "Spring presets, drag behavior and page transitions."],
-            ["/components", "Components", "Controls, overlays and display components, live, with their docs."],
-            ["/patterns", "Patterns and writing", "Component patterns, writing, data visualization and accessibility."],
+            ["/foundations", "Foundations", "Colors, fonts, spacing, borders, and shadows."],
+            ["/motion", "Motion", "Animation settings, dragging, and transitions between pages."],
+            ["/components", "Components", "Try buttons, forms, menus, and more. Each has a usage guide."],
+            ["/patterns", "Patterns and writing", "Combine components, write clear messages, show data, and support accessibility."],
             [
               "/retheming",
-              "Retheming",
-              "Changing the colors for another brand while structure and motion stay the same.",
+              "Change the palette",
+              "Use your brand colors without changing how the components work.",
             ],
-            ["/blocks", "Blocks", "Five full-page compositions, running live, with their source."],
+            ["/blocks", "Example screens", "Five optional fictional app screens with source code you can adapt."],
             ["/review", "Review", "The checks to run before calling UI work done."],
           ].map(([path, title, description]) => (
             <a href={at(path)} key={path}>
@@ -112,28 +113,31 @@ export function AgentPage() {
   const base = basePrompt(origin);
   return (
     <>
-      <p className="lead">Paste one of these into your coding agent. The links already point at this website.</p>
+      <p className="lead">
+        Paste one of these into your coding agent to reuse the visual design while keeping your product’s own
+        features, storage, and navigation. The links already point at this website.
+      </p>
       <Prompt
         title="Set up a new project"
-        text={`${base} Set up a React 19, Vite, TypeScript, and Tailwind CSS v4 project. Preserve the authored light and dark themes, font files, semantic roles, and reduced-motion behavior.`}
+        text={`${base} For a new web project, use React 19, Vite, TypeScript, and Tailwind CSS v4 unless the brief specifies another stack. If a project already exists, keep its framework. Include both themes, the font files, the named CSS variables, and support for reduced motion.`}
       />
       <Prompt
         title="Build a screen"
-        text={`${base} Build the requested screen using the closest worked example as the reference. Keep the shell stable, reuse the kit anatomy, and explain state changes with the shared motion presets.`}
+        text={`${base} Build only the requested screen and interactions. Choose the layout from this product's needs, reuse the relevant components, and use shared animations to show changes. Consult an example only where it helps; do not add a sidebar, board, or timeline to match it.`}
       />
       <Prompt
         title="Review existing UI"
-        text={`Review this project's UI against Sift Design. Fetch ${origin}/llms.txt; read AGENTS.md, DESIGN.md, docs/motion.md, and ${rawUrl("docs/review.md")}. Compare the existing screen to the closest reference screenshots. Report specific mismatches, fix them with the tokens and kit, and verify both themes, 390px, reduced motion, and zero axe violations.`}
+        text={`Check this project's UI against Sift Design. Read ${origin}/llms.txt, AGENTS.md, DESIGN.md, docs/motion.md, and ${rawUrl("docs/review.md")}. Review colors, fonts, spacing, components, motion, and accessibility. Compare relevant component reference images without treating the example apps' layouts or features as requirements. Keep this project's behavior and data model. Report and fix specific visual or usability problems. Check both themes, a 390px screen, reduced motion, and zero axe accessibility violations.`}
       />
       <Prompt
-        title="Retheme for another brand"
-        text={`${basePrompt(origin, false)} Retheme it for my brand: ask me for the brand colors, then follow ${rawUrl("docs/retheming.md")}, using ${rawUrl("tokens/themes/harbor.css")} as a worked example. Map the colors to the semantic roles in both themes. Keep anatomy, spacing, motion and the categorical order; check contrast rather than inverting colors for dark mode.`}
+        title="Use my brand colors"
+        text={`${basePrompt(origin, false)} Ask for my brand colors, then follow ${rawUrl("docs/retheming.md")}. Use ${rawUrl("tokens/themes/harbor.css")} as an example. Update the color variables in both themes. Keep component structure, spacing, animation, and chart category order unchanged. Choose dark colors separately and test contrast; do not invert the light palette.`}
       />
       <section className="page-section">
         <h2>Files for agents</h2>
         <div className="link-list">
           {[
-            ["/llms.txt", "llms.txt", "The compact entry point: reading order and links to every source."],
+            ["/llms.txt", "llms.txt", "Start here: the reading order and links to source files."],
             [
               "/llms-full.txt",
               "llms-full.txt",
@@ -141,13 +145,13 @@ export function AgentPage() {
             ],
             [
               "/raw/manifest.json",
-              "Raw manifest",
-              "A machine-readable list of reference files with their paths and sizes.",
+              "Source file list",
+              "A JSON list of repository paths and file sizes. Read each file at /raw/ followed by its path.",
             ],
             [
               "/raw/tokens/tokens.css",
               "/raw/<repo path>",
-              "Plain source files at their original repository paths. Use the manifest to find files inside directories.",
+              "Source files at their original repository paths. Use the source file list to find files in a folder.",
             ],
           ].map(([href, title, description]) => (
             <a key={href} href={at(href)}>
@@ -160,8 +164,8 @@ export function AgentPage() {
           ))}
         </div>
         <p className="measure mt-5">
-          Every doc page includes <strong>View raw</strong> and <strong>Copy Markdown</strong>. The browsable guide and
-          the agent’s source are the same repository Markdown, bundled at build time.
+          Each guide has <strong>Open source</strong> and <strong>Copy Markdown</strong> buttons.
+          You and your agent read the same text; there is no separate agent-only version to keep in sync.
         </p>
       </section>
       <Markdown file="AGENTS.md" />
@@ -172,8 +176,8 @@ export function Patterns() {
   return (
     <>
       <p className="lead">
-        Guides for the parts that sit around components: how they combine, what the words say, how data is shown, and
-        how everything stays accessible.
+        Combine components to fit your product, write useful messages, present data clearly,
+        and make the interface accessible. Use the patterns you need; they are not a feature checklist.
       </p>
       <div className="link-list">
         {pages
@@ -195,14 +199,14 @@ export function Retheming() {
   return (
     <>
       <p className="lead">
-        To use your own brand colors, change the color roles and leave everything else alone. Harbor is a worked
-        example: switch it on to see this whole site in it.
+        Use your own colors by changing the shared CSS variables, not each component.
+        Try the Harbor palette below to see an example across the whole site.
       </p>
       <section className="palette-toggle">
         <div>
           <h2>Harbor palette</h2>
           <p className="support">
-            Cool neutrals, a blue accent for actions and a warm rail selection, with its own light and dark sets.
+            Navy and sand backgrounds, teal actions, and apricot sidebar selections, in light and dark themes.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -210,8 +214,10 @@ export function Retheming() {
             id="harbor"
             checked={harbor}
             onCheckedChange={(on) => {
-              setHarbor(on);
-              applyPalette(on ? "harbor" : null);
+              changeAppearance(() => {
+                setHarbor(on);
+                applyPalette(on ? "harbor" : null);
+              });
               const url = new URL(location.href);
               if (on) url.searchParams.set("palette", "harbor");
               else url.searchParams.delete("palette");

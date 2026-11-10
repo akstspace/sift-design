@@ -1,6 +1,8 @@
 # Ask Larkspur
 
-A deterministic, local-only assistant example for Fernbrook Greenhouse. No service, model or production data is contacted. Today is Tuesday 10 November 2026, Europe/London. Streaming begins only when a question is sent.
+Try an assistant beside fictional greenhouse tasks or in a full-page conversation. Replies use sample data; no model or external service is contacted. The example is set on Tuesday 10 November 2026 in Europe/London. Replies start only after you send a question.
+
+This optional example demonstrates conversation layout, streaming feedback, attachments, and recovery messages. Reuse the patterns that fit the product; a task board, tool activity, or assistant is not required by the design system.
 
 ## Run and verify
 

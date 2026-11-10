@@ -1,4 +1,7 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useId, useRef } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { selectionSpring } from "@sift-design/tokens/motion";
+import { SiblingTransition } from "@sift-design/ui/page-transition";
 import { Button } from "@sift-design/ui/button";
 import { Spinner } from "@sift-design/ui/spinner";
 import { Markdown } from "./Markdown";
@@ -7,55 +10,77 @@ const Controls = lazy(() => import("../../specimen/src/sections/Controls"));
 const Overlays = lazy(() => import("../../specimen/src/sections/Overlays"));
 const Display = lazy(() => import("../../specimen/src/sections/Display"));
 const families = [
-  { name: "controls", title: "Controls", description: "Buttons, fields, selection, forms, and direct input." },
+  { name: "controls", title: "Controls", description: "Buttons, text fields, checkboxes, pickers, and forms." },
   {
     name: "overlays",
     title: "Overlays and menus",
-    description: "Dialogs, sheets, menus, commands, and anchored context.",
+    description: "Dialogs, slide-in panels, menus, tooltips, and search.",
   },
   {
     name: "display",
     title: "Display and navigation",
-    description: "Rails, tables, feedback, disclosure, and page continuity.",
+    description: "Sidebars, tables, messages, expandable sections, and page transitions.",
   },
 ];
 export default function ComponentsPage({ family = "controls" }: { family?: string }) {
   const Section = family === "display" ? Display : family === "overlays" ? Overlays : Controls;
+  const reduced = !!useReducedMotion();
+  const selectionId = useId();
+  const previous = useRef(family);
+  const direction =
+    families.findIndex((item) => item.name === family) >= families.findIndex((item) => item.name === previous.current)
+      ? 1
+      : -1;
+  // This ref records only committed selections, including interrupted navigation.
+  useEffect(() => {
+    previous.current = family;
+  }, [family]);
   return (
     <>
       <p className="lead">
-        These are the kit components themselves, running on this page. Use the controls, open a sheet, and click again
-        during a transition to reverse it.
+        Try reusable controls, menus, and layout components: fill in a form, open a menu, or switch views.
+        Choose only what your product needs. Each example explains the component’s behavior, not a required app feature.
       </p>
       <nav className="family-tabs" aria-label="Component families">
         {families.map((item) => (
-          <Button key={item.name} asChild variant={family === item.name ? "default" : "outline"}>
+          <Button key={item.name} asChild variant="outline">
             <a aria-current={family === item.name ? "page" : undefined} href={at(`/components/${item.name}`)}>
-              {item.title}
+              {family === item.name && (
+                <motion.span
+                  className="family-selection"
+                  aria-hidden
+                  layoutId={reduced ? undefined : selectionId}
+                  initial={false}
+                  transition={reduced ? { duration: 0 } : selectionSpring}
+                />
+              )}
+              <span className="family-label">{item.title}</span>
             </a>
           </Button>
         ))}
       </nav>
-      <p className="support">
-        {families.find((item) => item.name === family)?.description} The sample content is illustrative; changes stay in
-        your browser.
-      </p>
-      <div className="live-specimen">
-        <Suspense
-          fallback={
-            <p className="flex items-center gap-2" role="status">
-              <Spinner />
-              Loading the live specimen…
-            </p>
-          }
-        >
-          <Section />
-        </Suspense>
-      </div>
-      <section className="page-section">
-        <h2>Using this family</h2>
-        <Markdown file={`packages/ui/docs/${family}.md`} />
-      </section>
+      <SiblingTransition pageKey={family} direction={direction} focusHeading={false}>
+        <p className="support">
+          {families.find((item) => item.name === family)?.description} The examples use fictional data; they do not
+          change real product data or require the example’s data model.
+        </p>
+        <div className="live-specimen">
+          <Suspense
+            fallback={
+              <p className="flex items-center gap-2" role="status">
+                <Spinner />
+                Loading the examples…
+              </p>
+            }
+          >
+            <Section />
+          </Suspense>
+        </div>
+        <section className="page-section">
+          <h2>How to use these components</h2>
+          <Markdown file={`packages/ui/docs/${family}.md`} />
+        </section>
+      </SiblingTransition>
     </>
   );
 }

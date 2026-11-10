@@ -5,7 +5,7 @@ import { type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui"
 import { LayoutGroup, motion, useReducedMotion } from "motion/react"
-import { selectionSpring } from "../../../../tokens/motion"
+import { duration, leave, selectionSpring } from "../../../../tokens/motion"
 import { toggleVariants } from "./toggle"
 
 const ToggleGroupContext = React.createContext<VariantProps<typeof toggleVariants> & {
@@ -52,11 +52,13 @@ function ToggleGroupItem({ className, children, variant, size, ...props }:
         "relative w-auto min-w-0 shrink-0 px-3 data-[state=on]:bg-transparent", className)}
       {...props}
     >
-      {selected && <motion.span aria-hidden="true" data-slot="selection-highlight"
+      {(selected || context.multiple) && <motion.span aria-hidden="true" data-slot="selection-highlight"
         layoutId={context.multiple || reduced ? undefined : "selection"}
         className="pointer-events-none absolute inset-0 z-0 rounded-[6px] bg-background"
-        initial={false} animate={{ opacity: 1 }}
-        transition={reduced ? { duration: 0.14 } : selectionSpring} />}
+        initial={false} animate={{ opacity: selected ? 1 : 0 }}
+        transition={context.multiple
+          ? { duration: selected ? duration.quick : duration.instant, ease: selected ? "linear" : leave }
+          : reduced ? { duration: 0 } : selectionSpring} />}
       <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
     </ToggleGroupPrimitive.Item>
   )

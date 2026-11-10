@@ -53,11 +53,17 @@ const stills = [
   { name: '23-areas-light-mobile', path: '/?page=areas', viewport: mobile },
   { name: '24-filters-light', prepare: click('Filters') },
   { name: '25-reduced-inspector-dark', path: '/?open=FG-104', theme: 'dark', reduced: true },
+  { name: '29-mobile-navigation-light', viewport: mobile, prepare: click('Toggle navigation') },
+  ...['light', 'dark'].map(theme => ({ name: `mobile-navigation-closed-${theme}`, theme, viewport: mobile, prepare: async page => { await click('Toggle navigation')(page); await click('Close navigation')(page); } })),
+  { name: 'mobile-navigation-reduced', viewport: mobile, reduced: true, prepare: click('Toggle navigation') },
 ];
 const films = [
   { name: '26-filmstrip-rail', filmstrip: { trigger: click('Toggle navigation'), frames: [0, 80, 160, 260, 420] } },
   { name: '27-filmstrip-area', path: '/?page=areas', filmstrip: { trigger: click('Propagation house Seedlings, cuttings and the next batch. 3 open'), frames: [0, 80, 160, 260, 420] } },
   { name: '28-filmstrip-inspector', filmstrip: { trigger: openInspector, frames: [0, 60, 120, 220, 420] } },
+  { name: 'mobile-navigation-open-filmstrip', viewport: mobile, filmstrip: { trigger: click('Toggle navigation'), frames: [0, 60, 140, 280, 420] } },
+  { name: 'mobile-navigation-close-filmstrip', viewport: mobile, prepare: click('Toggle navigation'), filmstrip: { trigger: click('Close navigation'), frames: [0, 60, 120, 200, 420] } },
+  { name: 'mobile-navigation-reduced-filmstrip', viewport: mobile, reduced: true, filmstrip: { trigger: click('Toggle navigation'), frames: [0, 60, 140, 280, 420] } },
 ];
 const interactions = [
   ['rail-collapse', '/', async page => { await click('Toggle navigation')(page); await page.waitForTimeout(650); await click(page.viewportSize().width < 768 ? 'Close navigation' : 'Toggle navigation')(page); }, 1800],
@@ -73,4 +79,5 @@ const videos = interactions.flatMap(([what, path, trigger, duration]) => [
   { name: `workbench-motion-${what}-mobile`, path, viewport: mobile, video: { trigger, duration } },
 ]);
 videos.push({ name: 'workbench-motion-mobile-rail-sheet', viewport: mobile, video: { trigger: async page => { await click('Toggle navigation')(page); await page.waitForTimeout(750); await click('Close navigation')(page); }, duration: 2000 } });
+videos.push({ name: 'workbench-motion-mobile-rail-reversal', viewport: mobile, video: { trigger: async page => { await click('Toggle navigation')(page); await page.waitForTimeout(80); await page.keyboard.press('Escape'); await page.waitForTimeout(60); await page.keyboard.press('Control+b'); await page.waitForTimeout(400); await click('Close navigation')(page); }, duration: 1200 } });
 export default [...stills, ...films, ...videos];

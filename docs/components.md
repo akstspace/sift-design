@@ -1,88 +1,117 @@
-Build product patterns from real state, not from a demo component inventory.
-Keep task anatomy, helper attribution, recovery, and focus behavior intact across board, list, and detail views.
+Combine components around the information people need and the actions they can take. Choose patterns for the product, not features to fill a reference layout.
 
 # Components
 
-Use `packages/ui` for primitives and interaction semantics. Read the family contracts before composition: [overlays](../packages/ui/docs/overlays.md), [controls](../packages/ui/docs/controls.md), and [display](../packages/ui/docs/display.md). Do not import pristine upstream copies. This document specifies product patterns rather than duplicating per-family APIs.
+Use the components in `packages/ui`, which include interaction, focus styling, and animation behavior. Read their guides: [overlays](../packages/ui/docs/overlays.md), [controls](../packages/ui/docs/controls.md), and [display](../packages/ui/docs/display.md). Keep the kit versions rather than replacing them with unmodified upstream components. Accessible labels, application state, validation, persistence, and routing remain the consuming app’s responsibility.
 
-## Task card and compact row
+The blocks demonstrate combinations of these components. Their record types, statuses, schedules, and storage choices are example application behavior, not part of the design-system contract.
 
-Keep anatomy in this order: completion action, readable title with optional topical icon, task metadata, parent/child progress and disclosure, and nested real subtasks. Show priority only when useful; Larkspur’s Normal default is not badged. Use project/area, due state, tags, and helper attribution only when actual data exists. Do not fill every card with every possible property.
+## Choose a pattern for the job
 
-Use a 12px radius, surface background, quiet border, and `16px 14px 14px` padding. Make the title’s hit area cover the card without swallowing the independent completion, disclosure, status, and nested-task controls. Use a visible whole-card focus outline when the title is focused. Hover changes the border; selection uses the accent border. Completed titles strike through and use muted ink; retain readable identity.
+| Need | Useful starting point | Decision to make |
+|---|---|---|
+| Compare records by the same properties | Table | Which columns help people compare or act? |
+| Scan a collection with titles and supporting details | List with Item | Which details distinguish one result from another? |
+| Browse records whose images or descriptions matter | Cards | Does a separate boundary help, or would a list be clearer? |
+| Read an article or document | Heading, prose, optional contents navigation | What reading width and navigation support this content? |
+| Inspect something without losing a collection | Detail panel or split view | Must the collection remain usable, or should focus be modal? |
+| Complete a focused decision or short edit | Dialog or alert dialog | What makes interruption necessary, and how can it be cancelled? |
+| Understand a comparison or trend | Chart plus readable data | What question does the chart answer? |
+| Read and contribute to an exchange | Message list and composer | How will new messages arrive without displacing earlier reading? |
 
-Compact rows use a bottom divider, no outer radius/background, minimum 70px height, and `15px 10px` padding. Do not remove context just to force a single-line row. Preserve nested tasks; a child remains independently actionable without being duplicated as a default top-level card. Distinguish checklist progress from real child-task progress.
+These are alternatives, not a required screen inventory. A store can center a catalog, a reader can center prose, and an analytics product can center charts without adopting a task board or permanent sidebar.
 
-## Board columns
+## Actions and choices
 
-Use a semantic section with status mark, heading, actual count, and labeled add button. Keep the header 48px high and task stack gaps 8px. Empty columns offer a direct add action, not filler cards. Respect the user’s column order and stable status identifiers. Sift has exactly one completion column; custom columns remain active work.
+Use a button for an operation and a link for a destination. Give the primary action more emphasis than secondary actions; do not make every control primary. Icon-only actions need accessible names. Preserve hover, focus-visible, invalid, busy, and disabled states.
 
-Make drop targets visibly respond using the accent wash. Keep mouse/touch dragging and the keyboard grip separate from opening a title. Preserve scroll while dragging. See [motion](motion.md) for the exact activation and overlay behavior.
+Choose controls by their meaning: a checkbox for an independent choice, a radio group for one choice from a visible set, a switch for an immediate on/off setting, and a toggle for a reversible pressed state. Tabs switch related panels; filters change the contents of the same result set. Use a native select or Select for a short set and a Combobox when typing helps find an option in a longer set.
 
-Do: derive counts from actual tasks. Don’t: display a fabricated count to make a column appear active.
+The kit supplies press and selection feedback. Do not add a second press transform or animation wrapper to the same control. A loading Button retains its label in the accessibility tree, sets `aria-busy`, and prevents repeated submission; only set `loading` while the operation actually runs, and do not combine it with `asChild`. See [controls](../packages/ui/docs/controls.md) for supported props and sizes.
+
+## Lists, tables, and cards
+
+Start with a clear title or identifier, then the details needed for the next decision. A product card might need an image and price; a document row might need author and last-edited time; a booking row might need a date and location. Completion controls, priorities, subtasks, and time totals belong only to products whose records have those concepts.
+
+Keep list semantics, table headers, and meaningful headings. Use aligned numeric columns when comparison matters. Let long titles wrap or provide another readable path rather than hiding identity to enforce uniform row height. Keep selection distinct from hover and keyboard focus.
+
+The kit’s Card is a static surface with an 8px radius and no implicit button or heading role. It does not lift on hover or animate on mount. Custom cards in blocks can have different composition and spacing; those example dimensions do not redefine Card. Put real links or buttons inside a card. If a title link’s hit area extends across the card, keep sibling actions separately reachable and show focus on the relevant boundary; never nest interactive controls inside another button or link.
+
+For hierarchical data, make the relationship and expansion state clear. Whether children also appear in search results or other collections is a product decision, not a universal rule about duplication.
+
+## Grouped collections and drag and drop
+
+Use sections or board columns when grouping helps people understand a real relationship, such as order fulfillment stages or a publishing workflow. Derive names, counts, allowed transitions, and terminal states from that product’s model. There is no required number of columns or universal completion status.
+
+Give each group a heading, and show a count only if it is useful and accurately defined. Offer an add action only where creation is allowed. An empty group can explain the next step without containing filler records.
+
+When dragging is useful, show a clear source, destination, and accepted or rejected drop state. Keep opening a record separate from dragging it. Provide keyboard operation and a single-pointer alternative that does not require dragging, such as a Move menu. Use the selected drag library’s actual keyboard contract and announcements; do not assume every collection moves left or right. See [motion](motion.md) and [accessibility](accessibility.md).
 
 ## Toolbars and filters
 
-Place the result scope near filters and the board/list toggle. Show a count of active filters only when filters are active. Keep search terms visibly attributable to the result set, clearable, and bounded rather than allowed to displace primary actions. Use labeled toggles with a persistent selected state; icons supplement labels.
+Keep search, filters, sorting, and view choices close to the content they affect. Show the current scope and selected values. Search terms should remain visible and easy to clear without displacing the primary action. Show an active-filter count only when it adds useful information.
 
-Keep filters together above the affected work. Disclosure must not reset values or scroll the person away from their task. Distinguish a genuine empty workspace from a filtered no-match state and offer the appropriate create/clear action.
+Opening filter options must not reset values or lose the reader’s place. Distinguish a genuinely empty collection from no matches, missing permission, and a read failure. Offer an appropriate action: clear filters for hidden results, retry for a recoverable failure, or create only when creating is possible and useful.
 
-## Attached detail sheet
+## Details, dialogs, and panels
 
-Use a right-edge inspector with pinned top controls, a scroll body, and pinned action area. Include title editing, task properties, description/Markdown, attachments, checklist, real subtasks, time spent, and activity only as supported by the record. Keep failures near the action they affect, not only in a toast.
+Choose a full page for substantial reading or editing, a split view for repeated comparison, or a panel for short contextual inspection. Use a dialog when the decision genuinely requires protected focus. Do not require every record to open in a right-edge inspector.
 
-Preserve board scroll on open/close and reading anchor when expanding panel to page. Keep header/footer controls at their own size during the morph; do not stretch the text. When the title scrolls out of the expanded view, reveal its header equivalent. Preserve draft guard behavior before leaving or switching records. Restore focus to the trigger or a logical surviving row after close.
+The kit’s Sheet is a modal primitive: by default it opens from the right on desktop and becomes a draggable bottom sheet below 640px. It traps focus while open. A nonmodal inspector that keeps the underlying page interactive needs a deliberately different focus and interaction contract; do not describe a modal Sheet as a nonmodal split view. The lower-level `sheetMotion` helper provides animation only, not Sheet’s responsive or accessibility behavior.
 
-## Activity and attribution lines
+Include only fields and actions supported by the record. Keep errors beside the operation they affect. For long content, make scrolling and any pinned actions work without covering content or focus. When opening details, preserve the collection’s scroll position; on close, restore focus to the opener or a logical surviving control. If a panel can expand to a page, retain the reading position and draft, and do not stretch text during the size change.
 
-Show actor (person or helper badge), action, affected object, and time. Add the concise reason and evidence links where supplied. Use plain language, not raw JSON diffs. Keep provenance attached to automated changes, including completion/reopening and automatic parent changes.
+## History and attribution, when needed
 
-Offer review acknowledgment separately from undo: acknowledgment says the person saw a change, not that it happened differently. Offer undo only for an eligible current change; Sift checks the recorded revision against the current task revision. Do not advertise an undo that would silently overwrite newer work.
+Show who or what changed a consequential record when that information helps people trust, review, or recover the change. Include what changed and when; add a reason or source link when one is available. For example, an order history can distinguish a customer’s cancellation from a payment service’s refund, and an editor can identify a collaborator’s revision.
+
+Do not add automation badges or activity logs to products that do not need them. When automation does change data, name the responsible service or automation rather than implying a person did it. Use plain words instead of raw JSON differences. A review acknowledgment means someone saw a change; it is not an undo. Offer undo only when the current data can be safely restored without silently overwriting newer work.
 
 ## Notices and inline errors
 
-Use a calm icon-plus-word state with specific cause and next action. Use `role="status"` for nonurgent connection/busy feedback and `role="alert"` for blocking action errors. Keep long diagnostics behind a named disclosure/copy action without hiding the actionable sentence. Retain the form draft after failure.
+Explain the condition and the next useful action in words, with an icon when it helps. Use `role="status"` for nonurgent updates and `role="alert"` for urgent errors that need immediate attention. Not every persistent notice needs a live announcement. The kit’s Alert defaults to `role="alert"`; override the role for nonurgent or explanatory content.
 
-A reconnect grace period is not an outage. Do not immediately show a red disconnection banner on the first transport retry. Failed runs, paused schedules, and expired sign-ins require different copy and actions.
+Keep field errors connected to their inputs and preserve a draft after a failed save. Put long diagnostics behind an expandable detail and copy action without hiding the recovery instruction. Distinguish connecting, retrying, unknown outcome, and confirmed failure when the product has a network connection; a transport interruption alone does not prove the underlying operation failed.
 
-## Empty states
+## Empty, loading, and unavailable states
 
-State what is absent and offer the next valid action. Distinguish no work, no matches, no time recorded, no tracker configured, and a read failure. Hide an irrelevant time section when neither tracking nor sessions exist rather than manufacturing an empty metric. Empty columns get an inline add action; a whole empty workspace may get a larger centered explanation. Do not use illustrations, sample data, or motivational filler as a substitute for the action.
+Say why the content is absent. First use, no matches, unavailable data, restricted access, and a failed request need different explanations. A reader with no saved articles might offer Browse articles; a store with no matching products might offer Clear filters. Do not promise a creation or recovery action the person cannot use.
 
-## Confirmation and undo
+Use a skeleton when the approximate shape of pending content is known, a spinner for actual activity with unknown extent, and determinate progress only when a meaningful fraction is known. A missing value is not automatically zero. Do not fill empty space with invented statistics, sample records presented as real, or artificial waits. Optional sections can be omitted when they have no purpose in the product.
 
-Use an explicit confirmation for irreversible/destructive or consequential operations; name the object and consequence. Keep cancel visually available, choose a safe initial focus, and never make closing an overlay submit the action. Show progress only while a real request runs; report a failure without dismissing the form prematurely.
+## Confirmation and recovery
 
-Prefer undo for eligible reversible task changes. Keep stale-revision protection and refresh/re-read guidance. Preserve the distinction between stopping a run, pausing a schedule, deleting a task, archiving it, and restoring it. A toast may confirm success, but essential recovery remains discoverable in context/history.
+Ask for confirmation before an irreversible or high-impact operation when the consequence is not already clear and deliberate. Name the affected object and the consequence, keep Cancel available, and choose safe initial focus. Closing the dialog must never confirm the action. Keep recoverable failures visible rather than dismissing the form as if the operation succeeded.
 
-## Live updates
+Prefer undo for changes that can safely be reversed. Reversal rules depend on the operation: removing something from a reading list is not the same as issuing a refund or deleting an account. If newer changes prevent undo, explain the available review or recovery path. A toast can confirm an outcome, but essential recovery must not exist only in an expiring message.
 
-Batch change notifications before refreshing; preserve keyed records so already-present cards do not replay arrival motion. Keep the task being edited, read, or dragged stable. Never animate streamed tokens individually. Announce a useful aggregate outcome rather than overwhelming the live region with every diff.
+## Forms and settings
 
-## Forms and settings rows
+Use persistent field labels, nearby hints, related groups, and connected validation messages. Keep required and optional treatment consistent. Arrange descriptions and controls for the available width; stack them before labels or actions become cramped. Do not import a block’s breakpoints or field inventory as requirements for every form.
 
-Use persistent field labels, nearby hints, sensible grouped rows, and inline validation. Keep settings descriptions and their controls aligned but let them stack at Sift breakpoints. Use a switch for a true enabled/disabled setting and a button for an operation. Show saved/unsaved/error state honestly; do not quietly discard a draft on external refresh.
+Show saved, unsaved, busy, and error states accurately. Preserve typed input after validation or network failure, and do not quietly replace it with an external refresh. Explain an unsaved-change guard only where leaving would actually lose changes. Storage location and synchronization strategy belong to the application, not the component styling.
 
-Use searchable choice controls for long task/entity/icon lists, not an unbounded native select. Use a named date entry plus picker, preserve typed input, and handle invalid dates with plain guidance. Keep disclosure and overlays keyboard-complete.
+Use date and time controls only when the product needs them. For a booking, distinguish a date from an instant in time, explain relevant timezone rules, preserve typed input, and give plain guidance for invalid values. Kit controls do not supply the product’s business rules.
 
-## Schedules and status pills
+## Scheduling interfaces, when needed
 
-Group each schedule as a labeled fieldset with repeat type, local time/interval/cron input, optional weekdays, and a remove action. Keep timezone visible and describe the combined next-run behavior in plain words. Sift supports at most 20 schedules per job and requires at least one; do not leave an enabled job without a schedule. After adding/removing a row, move focus to the new input or a nearby surviving control.
+Start with the person’s scheduling goal: a one-time appointment, a recurring reminder, or an automated job may need different fields. Show only supported recurrence options; advanced cron expressions are not a default requirement. Group related inputs with a fieldset and legend, and show the timezone when it affects interpretation.
 
-Distinguish running now, next run, paused by a person, paused automatically with reason, failed run with schedule continuing, and needs action. Use icon plus label, not just a colored dot. Show the next occurrence only when computed from real schedule state. Keep stop and pause actions semantically distinct.
+Describe the resulting recurrence and next occurrence only when they can be computed from actual state. Derive schedule limits, required rows, conflict handling, and pause behavior from the product. Keep the distinction between stopping an active operation and pausing future occurrences. Adding or removing a repeated row should leave focus on the new input or a nearby surviving action.
 
-## Chat transcript
+## Conversations and live updates
 
-Keep chat contextual: a dock expands from its own pill; the task workspace remains primary. Separate person messages, helper responses, thinking disclosures, tool calls, result cards, notices, and questions. Show tool name, meaningful summary, state glyph, optional duration, and expandable details. Attribute resulting task changes and link back to the records.
+Chat can be the main product view or contextual support beside other content. Attribute messages, keep their text selectable, and distinguish sent, pending, failed, and delivered states only when the product knows them. Assistant processing details, tool calls, attachments, and result cards are optional capabilities, not required transcript content. When a tool changes something, expose a useful summary, result, and affected record where relevant.
 
-Use a polite additions-only log for conversation, not an assertive stream of tokens. Auto-follow only while the person is already near the latest message. If they scroll back, preserve position and offer a jump-to-latest action. Keep the composer draft, keyboard shortcut ownership, slash-menu semantics, attachments, stop action, and question timeout outcomes explicit. A spinner or timer must reflect a real running operation/deadline.
+Use a polite log for meaningful new messages rather than announcing every streamed word. Follow new messages only while the reader is near the latest message; otherwise preserve their place and offer Jump to latest. Keep the composer draft and give attachment failures or interrupted sends a recovery path. Timers and activity indicators must correspond to real deadlines or work.
 
-Do: expose what a helper did and whether it succeeded. Don’t: turn every low-level tool event into an interruptive toast or repeated entrance animation.
+For any live collection, keep stable record keys so refreshes do not replay entrances for existing content. Coalesce bursts when useful without imposing a universal delay or postponing a person’s action. Preserve editing, reading, selection, and active gestures. Explain conflicts rather than silently replacing local input. Announce a useful summary instead of every low-level event.
 
 ## Checklist
 
-- Board, compact row, and detail preserve the same task semantics.
-- Helper changes expose actor, reason, evidence when present, and eligible undo.
-- Empty, no-match, loading, failure, and paused states are distinguishable.
-- Forms retain drafts; overlays return focus; schedule row edits keep a logical focus path.
-- Live updates and transcript additions do not steal reading/drag ownership.
+- The chosen pattern fits the product’s content and decisions, not an example app’s feature set.
+- Controls keep their actual kit behavior, labels, and keyboard semantics.
+- Loading, empty, no-match, unavailable, and failed states are distinguishable where relevant.
+- Forms retain drafts; overlays manage focus; changes leave a useful recovery path.
+- Attribution is accurate where it matters, and undo is offered only when safe.
+- Live updates do not interrupt reading, editing, selection, or dragging.

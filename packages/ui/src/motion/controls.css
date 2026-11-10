@@ -2,12 +2,13 @@
 :is([data-slot="button"], [data-ui-button]), [data-slot="toggle"], [data-slot="toggle-group-item"],
 [data-slot="tabs-trigger"], [data-slot="input"], [data-slot="textarea"],
 [data-slot="native-select"], [data-slot="input-group"], [data-slot="checkbox"],
-[data-slot="radio-group-item"], [data-slot="switch"], [data-slot="input-otp-slot"] {
-  transition-duration: 140ms;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+[data-slot="radio-group-item"], [data-slot="switch"], [data-slot="input-otp-slot"],
+:is(input, textarea, select)[data-slot="form-control"] {
+  transition-duration: var(--dur-quick);
+  transition-timing-function: var(--ease-settle);
 }
 :is([data-slot="button"], [data-ui-button]), [data-slot="toggle"], [data-slot="toggle-group-item"], [data-slot="tabs-trigger"] {
-  transition: transform var(--spring-press-duration) var(--spring-press), background-color 140ms linear, color 140ms linear, border-color 140ms linear, box-shadow 140ms linear;
+  transition: transform var(--spring-press-duration) var(--spring-press), background-color var(--dur-quick) linear, color var(--dur-quick) linear, border-color var(--dur-quick) linear, box-shadow var(--dur-quick) linear;
 }
 :is([data-slot="button"], [data-ui-button]):not(:disabled):not([aria-disabled="true"]):active,
 [data-slot="toggle"]:not(:disabled):active,
@@ -17,7 +18,7 @@
 :is([data-slot="button"], [data-ui-button])::after, [data-slot="toggle"]::after,
 [data-slot="toggle-group-item"]::after, [data-slot="tabs-trigger"]::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-  background: currentColor; opacity: 0; transition: opacity 140ms linear;
+  background: currentColor; opacity: 0; transition: opacity var(--dur-quick) linear;
 }
 [data-slot="toggle"] { position: relative; }
 :is([data-slot="button"], [data-ui-button]):not(:disabled):active::after, [data-slot="toggle"]:not(:disabled):active::after,
@@ -59,8 +60,8 @@
 }
 [data-slot="label"], [data-slot="field-label"], [data-slot="form-label"] { font-size: 13px; font-weight: 500; }
 [data-slot="field-description"], [data-slot="field-error"], [data-slot="form-description"], [data-slot="form-message"] { font-size: 12.5px; }
-[data-slot="field-error"], [data-slot="form-message"] { animation: controls-message var(--spring-snappy-duration) var(--spring-snappy) both, controls-fade 140ms linear both; }
-@keyframes controls-message { from { clip-path: inset(0 0 100%); transform: translateY(-4px); } to { clip-path: inset(0); transform: none; } }
+[data-slot="field-error"], [data-slot="form-message"] { animation: controls-message var(--spring-snappy-duration) var(--spring-snappy) both, controls-fade var(--dur-quick) linear both; }
+@keyframes controls-message { from { transform: translateY(-4px); } to { transform: none; } }
 
 /* Keep the compact 16px drawing while giving pointer users a 24px hit area. */
 [data-slot="checkbox"], [data-slot="radio-group-item"] { position: relative; width: 16px; height: 16px; transition-property: border-color, background-color, box-shadow, color; }
@@ -72,16 +73,22 @@
 /* Persistent marks can reverse mid-flight instead of replaying a keyframe. */
 [data-slot="checkbox-indicator"], [data-slot="radio-group-indicator"] {
   opacity: 0; transform: scale(0.55);
-  transition: transform var(--spring-snappy-duration) var(--spring-snappy), opacity 100ms linear;
+  transition: transform var(--spring-exit-duration) var(--spring-exit), opacity var(--dur-instant) var(--ease-leave);
 }
 [data-slot="checkbox-indicator"][data-state="checked"], [data-slot="checkbox-indicator"][data-state="indeterminate"],
-[data-slot="radio-group-indicator"][data-state="checked"] { opacity: 1; transform: scale(1); }
+[data-slot="radio-group-indicator"][data-state="checked"] {
+  opacity: 1; transform: scale(1);
+  transition: transform var(--spring-snappy-duration) var(--spring-snappy), opacity var(--dur-quick) linear;
+}
 [data-slot="checkbox-indicator"] svg {
   stroke-dasharray: 22; stroke-dashoffset: 22;
-  transition: stroke-dashoffset var(--spring-snappy-duration) var(--spring-snappy);
+  transition: stroke-dashoffset var(--spring-exit-duration) var(--spring-exit);
 }
 [data-slot="checkbox-indicator"][data-state="checked"] svg,
-[data-slot="checkbox-indicator"][data-state="indeterminate"] svg { stroke-dashoffset: 0; }
+[data-slot="checkbox-indicator"][data-state="indeterminate"] svg {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--spring-snappy-duration) var(--spring-snappy);
+}
 [data-slot="switch"] { width: 32px; height: 20px; padding: 1px; border: 1px solid var(--control-line); transition-property: background-color, border-color, box-shadow; }
 [data-slot="switch"][data-state="unchecked"] { background: var(--control-line); }
 [data-slot="switch"][data-state="checked"] { border-color: var(--primary); background: var(--primary); }
@@ -90,7 +97,7 @@
   width: 16px; height: 16px; background: var(--surface);
   transform: translateX(var(--thumb-x)) scale(var(--thumb-scale-x), var(--thumb-scale-y));
   transform-origin: left center;
-  transition: transform var(--spring-snappy-duration) var(--spring-snappy), background-color 140ms linear;
+  transition: transform var(--spring-snappy-duration) var(--spring-snappy), background-color var(--dur-quick) linear;
 }
 [data-slot="switch-thumb"][data-state="checked"] { --thumb-x: 12px; transform-origin: right center; background: var(--primary-foreground); }
 [data-slot="switch"]:not(:disabled):active [data-slot="switch-thumb"] { --thumb-scale-x: 1.12; --thumb-scale-y: 0.94; }
@@ -99,9 +106,9 @@
 [data-slot="switch"][data-size="sm"] [data-slot="switch-thumb"][data-state="checked"] { --thumb-x: 10px; }
 [data-slot="slider"] { min-height: 28px; }
 /* Position follows the pointer directly; only the held affordance springs. */
-[data-slot="slider-thumb"] { transition: transform var(--spring-press-duration) var(--spring-press), box-shadow 140ms linear; }
-[data-slot="slider"][data-dragging="true"] [data-slot="slider-thumb"], [data-slot="slider-thumb"]:active { transform: scale(1.15); }
-[data-slot="input-otp-character"] { display: inline-block; animation: controls-code-pop var(--spring-snappy-duration) var(--spring-snappy) both, controls-fade 100ms linear both; }
+[data-slot="slider-thumb"] { transition: transform var(--spring-press-duration) var(--spring-press), box-shadow var(--dur-quick) linear; }
+[data-slot="slider"][data-dragging="true"] [data-slot="slider-thumb"]:focus, [data-slot="slider-thumb"]:active { transform: scale(1.15); }
+[data-slot="input-otp-character"] { display: inline-block; animation: controls-code-pop var(--spring-snappy-duration) var(--spring-snappy) both, controls-fade var(--dur-instant) linear both; }
 @keyframes controls-code-pop { from { transform: scale(0.8); } to { transform: scale(1); } }
 [data-slot="input-otp-caret"] { animation: controls-caret 1000ms steps(2, jump-none) infinite; }
 @keyframes controls-caret { 50% { opacity: 0; } }
@@ -109,37 +116,40 @@
 /* DayPicker owns the dual month trees, focus and interruption. Only their
    transforms/opacity animate; the surrounding calendar stays still. */
 [data-slot="calendar"] { --rdp-animation_duration: var(--spring-smooth-duration); --rdp-animation_timing: var(--spring-smooth); }
-[data-slot="calendar"] .rdp-weeks_before_enter { animation: controls-month-back var(--spring-smooth-duration) var(--spring-smooth) both, controls-fade 140ms linear both; }
-[data-slot="calendar"] .rdp-weeks_after_enter { animation: controls-month-next var(--spring-smooth-duration) var(--spring-smooth) both, controls-fade 140ms linear both; }
-[data-slot="calendar"] .rdp-weeks_before_exit { animation: controls-month-left-exit var(--spring-snappy-duration) var(--spring-snappy) both, controls-fade 100ms linear reverse both; }
-[data-slot="calendar"] .rdp-weeks_after_exit { animation: controls-month-right-exit var(--spring-snappy-duration) var(--spring-snappy) both, controls-fade 100ms linear reverse both; }
+[data-slot="calendar"] .rdp-weeks_before_enter { animation: controls-month-back var(--spring-smooth-duration) var(--spring-smooth) both, controls-fade var(--dur-quick) linear both; }
+[data-slot="calendar"] .rdp-weeks_after_enter { animation: controls-month-next var(--spring-smooth-duration) var(--spring-smooth) both, controls-fade var(--dur-quick) linear both; }
+[data-slot="calendar"] .rdp-weeks_before_exit { animation: controls-month-left-exit var(--spring-exit-duration) var(--spring-exit) both, controls-fade-out var(--dur-instant) var(--ease-leave) both; }
+[data-slot="calendar"] .rdp-weeks_after_exit { animation: controls-month-right-exit var(--spring-exit-duration) var(--spring-exit) both, controls-fade-out var(--dur-instant) var(--ease-leave) both; }
 [data-slot="calendar"][dir="rtl"] .rdp-weeks_before_enter { animation-name: controls-month-next, controls-fade; }
 [data-slot="calendar"][dir="rtl"] .rdp-weeks_after_enter { animation-name: controls-month-back, controls-fade; }
-[data-slot="calendar"][dir="rtl"] .rdp-weeks_before_exit { animation-name: controls-month-right-exit, controls-fade; }
-[data-slot="calendar"][dir="rtl"] .rdp-weeks_after_exit { animation-name: controls-month-left-exit, controls-fade; }
-[data-slot="calendar"] :is(.rdp-caption_before_enter, .rdp-caption_after_enter) { animation: controls-fade 140ms linear; }
-[data-slot="calendar"] :is(.rdp-caption_before_exit, .rdp-caption_after_exit) { animation: controls-fade 80ms linear reverse both; }
+[data-slot="calendar"][dir="rtl"] .rdp-weeks_before_exit { animation-name: controls-month-right-exit, controls-fade-out; }
+[data-slot="calendar"][dir="rtl"] .rdp-weeks_after_exit { animation-name: controls-month-left-exit, controls-fade-out; }
+[data-slot="calendar"] :is(.rdp-caption_before_enter, .rdp-caption_after_enter) { animation: controls-fade var(--dur-quick) linear; }
+[data-slot="calendar"] :is(.rdp-caption_before_exit, .rdp-caption_after_exit) { animation: controls-fade-out var(--dur-instant) var(--ease-leave) both; }
 @keyframes controls-month-next { from { transform: translateX(14px); } to { transform: translateX(0); } }
 @keyframes controls-month-back { from { transform: translateX(-14px); } to { transform: translateX(0); } }
 @keyframes controls-month-left-exit { from { transform: translateX(0); } to { transform: translateX(-14px); } }
 @keyframes controls-month-right-exit { from { transform: translateX(0); } to { transform: translateX(14px); } }
 @keyframes controls-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes controls-fade-out { from { opacity: 1; } to { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
   :is([data-slot="button"], [data-ui-button]):not(:disabled):not([aria-disabled="true"]):active,
   [data-slot="toggle"]:not(:disabled):active, [data-slot="toggle-group-item"]:not(:disabled):active,
   [data-slot="tabs-trigger"]:not(:disabled):active, [data-slot="slider-thumb"]:active,
-  [data-slot="slider"][data-dragging="true"] [data-slot="slider-thumb"] { transform: none; }
-  [data-slot="switch-thumb"] { transition: background-color 140ms linear; }
+  [data-slot="slider"][data-dragging="true"] [data-slot="slider-thumb"]:focus { transform: none; }
+  [data-slot="switch-thumb"] { transition: background-color var(--dur-quick) linear; }
   [data-slot="switch"]:not(:disabled):active [data-slot="switch-thumb"] { --thumb-scale-x: 1; --thumb-scale-y: 1; }
-  [data-slot="checkbox-indicator"], [data-slot="radio-group-indicator"] { transform: none; transition: opacity 100ms linear; }
+  [data-slot="checkbox-indicator"], [data-slot="radio-group-indicator"] { transform: none; transition: opacity var(--dur-instant) linear; }
   [data-slot="checkbox-indicator"][data-state="checked"], [data-slot="checkbox-indicator"][data-state="indeterminate"],
-  [data-slot="radio-group-indicator"][data-state="checked"] { transform: none; }
-  [data-slot="checkbox-indicator"] svg { transition: none; }
+  [data-slot="radio-group-indicator"][data-state="checked"] { transform: none; transition: opacity var(--dur-quick) linear; }
+  [data-slot="checkbox-indicator"] svg,
+  [data-slot="checkbox-indicator"][data-state="checked"] svg,
+  [data-slot="checkbox-indicator"][data-state="indeterminate"] svg { transition: none; }
   [data-slot="field-error"], [data-slot="form-message"], [data-slot="input-otp-character"],
   [data-slot="calendar"] :is(.rdp-weeks_before_enter, .rdp-weeks_after_enter, .rdp-caption_before_enter, .rdp-caption_after_enter),
-  [data-slot="calendar"][dir="rtl"] :is(.rdp-weeks_before_enter, .rdp-weeks_after_enter) { animation: controls-fade 140ms linear both; }
+  [data-slot="calendar"][dir="rtl"] :is(.rdp-weeks_before_enter, .rdp-weeks_after_enter) { animation: controls-fade var(--dur-quick) linear both; }
   [data-slot="calendar"] :is(.rdp-weeks_before_exit, .rdp-weeks_after_exit, .rdp-caption_before_exit, .rdp-caption_after_exit),
-  [data-slot="calendar"][dir="rtl"] :is(.rdp-weeks_before_exit, .rdp-weeks_after_exit) { animation: controls-fade 80ms linear reverse both; }
+  [data-slot="calendar"][dir="rtl"] :is(.rdp-weeks_before_exit, .rdp-weeks_after_exit) { animation: controls-fade-out var(--dur-instant) var(--ease-leave) both; }
   [data-slot="input-otp-caret"] { animation: none; }
   [data-slot="button-spinner"] { animation: none; }
 }
@@ -151,7 +161,7 @@
 [data-slot="time-wheel-column"] { position: relative; width: 52px; height: 180px; padding-block: 72px; overflow-y: auto; overscroll-behavior: contain; scroll-snap-type: y mandatory; scrollbar-width: none; border-radius: var(--radius-md); font-family: var(--font-code); font-variant-numeric: tabular-nums; mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent); }
 [data-slot="time-wheel-column"]::-webkit-scrollbar { display: none; }
 [data-slot="time-wheel-column"]:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; mask-image: none; }
-[data-slot="time-wheel-option"] { display: grid; place-items: center; height: 36px; scroll-snap-align: center; color: var(--muted); font-size: 14px; cursor: pointer; transition: color 140ms linear; }
+[data-slot="time-wheel-option"] { display: grid; place-items: center; height: 36px; scroll-snap-align: center; color: var(--muted); font-size: 14px; cursor: pointer; transition: color var(--dur-quick) linear; }
 [data-slot="time-wheel-option"]:hover { color: var(--ink); }
 [data-slot="time-wheel-option"][aria-selected="true"] { color: var(--ink); font-weight: 550; }
 [data-slot="time-wheel-separator"] { display: grid; place-items: center; width: 8px; color: var(--muted); font-family: var(--font-code); }

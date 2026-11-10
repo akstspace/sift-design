@@ -1,5 +1,5 @@
 /* Display motion is state-driven. Static surfaces do not enter on page load. */
-[data-slot="accordion-content"], [data-slot="collapsible-content"] { overflow: hidden; animation: none !important; }
+[data-slot="accordion-content"], [data-slot="collapsible-content"] { overflow: visible; animation: none !important; }
 [data-slot="accordion-trigger"] > svg,
 [data-slot="collapsible-trigger"] > svg { transition: transform var(--spring-snappy-duration) var(--spring-snappy); }
 [data-slot="collapsible-trigger"][data-state="open"] > svg { transform: rotate(180deg); }
@@ -27,7 +27,6 @@
 [data-slot="sidebar"][data-state="collapsed"] [data-slot="sidebar-group-label"] { visibility: hidden; margin-top: 0; opacity: 0; }
 
 [data-slot="progress-indicator"] { transition: none; }
-[data-slot="progress-indicator"][data-backwards] { transition-duration: 80ms; }
 [data-slot="skeleton"]::after { position: absolute; inset: 0; content: ""; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--ink) 5%, transparent), transparent); animation: sift-shimmer 1800ms var(--spring-smooth) 2; transform: translateX(-100%); }
 @keyframes sift-shimmer { to { transform: translateX(100%); } }
 [data-slot="spinner"] { animation: sift-spin 900ms linear infinite; }
@@ -40,7 +39,8 @@
 [data-slot="attachment-description"], [data-slot="marker-content"] time { font-family: var(--font-code); font-variant-numeric: tabular-nums; }
 [data-slot="bubble-content"] { border-radius: 8px; }
 [data-slot="message-scroller-viewport"] { scroll-behavior: auto; scrollbar-color: var(--control-line) transparent; scrollbar-width: thin; }
-[data-slot="message-scroller-button"] { transition: transform var(--spring-snappy-duration) var(--spring-snappy), opacity 100ms linear; }
+[data-slot="message-scroller-button"] { transition: translate var(--spring-snappy-duration) var(--spring-snappy), scale var(--spring-snappy-duration) var(--spring-snappy), opacity var(--dur-quick) linear; }
+[data-slot="message-scroller-button"][data-active="false"] { transition: translate var(--spring-exit-duration) var(--spring-exit), scale var(--spring-exit-duration) var(--spring-exit), opacity var(--dur-instant) var(--ease-leave); }
 [data-slot="scroll-area-viewport"] { scrollbar-color: var(--control-line) transparent; }
 [data-slot="resizable-handle"] { transition: background-color 140ms var(--ease-settle); }
 [data-slot="resizable-handle"]:hover, [data-slot="resizable-handle"]:focus-visible { background: var(--control-line); }
@@ -67,7 +67,9 @@
   [data-slot="chart"] .recharts-bar-rectangle path, [data-slot="chart"] .recharts-bar-rectangle rect { animation: sift-fade-in 140ms linear; }
   [data-slot="progress-indicator"] { transition-duration: 0ms; }
   [data-slot="sidebar-menu-button"] > span:last-child, [data-slot="sidebar"] [data-sidebar-label] { transition-delay: 0ms; }
-  [data-slot="message-scroller-button"] { transition: opacity 100ms linear; }
+  [data-slot="message-scroller-button"], [data-slot="message-scroller-button"][data-active="false"] { translate: -50% 0; scale: 1; transition: opacity var(--dur-quick) linear; }
+  [data-slot="message-scroller-button"][dir="rtl"], [dir="rtl"] [data-slot="message-scroller-button"] { translate: 50% 0; }
+  [data-slot="message-scroller-button"][data-active="false"] { transition: opacity var(--dur-instant) var(--ease-leave); }
   [data-slot="spinner"] { animation: none; }
 }
 @media (forced-colors: active) {
@@ -92,7 +94,10 @@
   [data-slot="chart"][data-chart-entering][data-layout="vertical"] .recharts-bar-rectangle path { animation: sift-fade-in 140ms linear; }
 }
 
-[data-slot="sidebar"][data-mobile="true"].sift-mobile-rail { animation: none !important; }
+/* These are Motion surfaces, not CSS/Vaul surfaces. A CSS transition on x
+   would chase each spring frame; a filled entrance fade would mask the exit. */
+[data-slot="sidebar"][data-mobile="true"].sift-mobile-rail,
+[data-slot="sheet-overlay"].sift-mobile-rail-overlay { animation: none !important; transition: none !important; }
 [data-slot="transition-page"]:focus-visible, [data-page-heading]:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
 [data-slot="sidebar-menu-button"]:active { scale: .97; }
 [data-slot="sidebar-menu-button"] { transition: scale var(--spring-press-duration) var(--spring-press), background-color 140ms linear, color 140ms linear; }

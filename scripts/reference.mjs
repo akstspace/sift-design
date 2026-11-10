@@ -87,9 +87,9 @@ export function llmsFiles({ site = "", raw = `${site}/raw` } = {}) {
 
   const llms = `# Sift Design
 
-> A design reference for coding agents: normative tokens, written guidelines, a spring-based motion system, every shadcn/ui component restyled and animated, and full-page React blocks with reference screenshots and motion clips. Built on shadcn/ui. ${site.startsWith("http") ? "" : "Links are relative to this site's origin. "}Every file is plain text, an image or a video.
+> A reusable visual design system for coding agents: colors, fonts, spacing, animated shadcn/ui components, and motion. Five optional fictional app screens show it in use. Source code, screenshots, and recordings are included. ${site.startsWith("http") ? "" : "Links are relative to this site's origin. "}Individual files can be read or downloaded directly.
 
-Read AGENTS.md first, then DESIGN.md and docs/motion.md before writing any UI. Copy tokens and components rather than recreating them. Check your work against the screenshots and the review checklist.
+Read AGENTS.md first, then DESIGN.md and docs/motion.md before writing UI. Copy the shared styles and components rather than recreating them. Use relevant screenshots as visual references and follow the review checklist. Keep the project's features, data model, storage, and navigation. Sift Design does not require tasks, helpers, a day timeline, local-first storage, or a sidebar, and does not exclude dashboards or chat.
 
 ## Ask about the palette first
 
@@ -109,11 +109,11 @@ ${link("DESIGN.md", "DESIGN.md")}
 
 ${guides.map((g) => link(g)).join("\n")}
 
-## Tokens
+## Shared styles and animation settings
 
-- [tokens.css](${raw}/tokens/tokens.css): light and dark roles, categorical colors, radii, shadows, durations, spring easings
+- [tokens.css](${raw}/tokens/tokens.css): named CSS variables for colors, corners, shadows, and animations in both themes
 - [tokens.json](${raw}/tokens/tokens.json): the same tokens in W3C design token format
-- [motion.ts](${raw}/tokens/motion.ts): spring presets and motion recipes for the motion library
+- [motion.ts](${raw}/tokens/motion.ts): shared spring settings and animation helpers for the Motion library
 - [fonts.css](${raw}/tokens/fonts.css): font loading (Albert Sans files in ${raw}/tokens/fonts/)
 - [themes/harbor.css](${raw}/tokens/themes/harbor.css): a worked alternate palette (see docs/retheming.md)
 
@@ -127,17 +127,17 @@ ${kitDocs.map((d) => link(d)).join("\n")}
 Component sources (copy these over stock shadcn/ui files):
 ${components.map((c) => `- [${c.replace(".tsx", "")}](${raw}/packages/ui/src/components/${c})`).join("\n")}
 
-## Blocks
+## Optional example screens
 
-Full-page compositions built with the kit, like shadcn/ui blocks: copy a block's source from ${raw}/blocks/<name>/src/ and adapt it. Each runs live at ${site}/live/<name>/, and its README lists its screenshots and motion recipes.
+Blocks are fictional app screens, like shadcn/ui blocks, not a product template or feature checklist. Reuse only the components and interactions that fit the project. Find source paths under blocks/<name>/src/ in the file list, then read individual files at ${raw}/<path>. Directories are not downloads. Try an example at ${site}/live/<name>/ and read its README for behavior, screenshots, and animation examples.
 
-${blocks.map((b) => `- [${b}](${raw}/blocks/${b}/README.md): ${summary(`blocks/${b}/README.md`)} Source: ${raw}/blocks/${b}/src/. Live: ${site}/live/${b}/`).join("\n")}
-- [Sample content](${raw}/blocks/_shared/LARKSPUR.md): Larkspur, the made-up greenhouse business the blocks use
-- [Component specimen](${raw}/specimen/README.md): every kit component, live at ${site}/live/specimen/
+${blocks.map((b) => `- [${b} example](${raw}/blocks/${b}/README.md): ${summary(`blocks/${b}/README.md`)} Source path: blocks/${b}/src/. Live: ${site}/live/${b}/`).join("\n")}
+- [Sample content](${raw}/blocks/_shared/LARKSPUR.md): Larkspur, a fictional greenhouse app used in the examples
+- [Component examples](${raw}/specimen/README.md): try every component at ${site}/live/specimen/
 
 ## Optional
 
-- [Manifest](${site}/raw/manifest.json): every raw file with its size
+- [Source file list](${site}/raw/manifest.json): a JSON list of repository paths and file sizes; read each file at ${raw}/<path>
 - [Capture script](${raw}/scripts/capture.mjs): screenshots, motion filmstrips and clips, with axe checks
 
 ## Credits

@@ -1,6 +1,8 @@
 # Larkspur daily workspace
 
-A working daily board for Fernbrook Greenhouse. Tuesday 10 November 2026 is fixed; all content is fictional and local to this example. Changes reset on reload.
+A daily task board for the fictional Fernbrook Greenhouse. The example is set on Tuesday 10 November 2026. You can edit tasks, switch views, and drag cards; reloading resets your changes.
+
+This optional example demonstrates navigation, collection views, drag-and-drop, and detail panels. Its columns, completion notes, daily progress, and helpers belong to Larkspur; they are not requirements for products using the design system.
 
 ## Run
 

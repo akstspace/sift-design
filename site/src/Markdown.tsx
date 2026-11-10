@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { spring } from "@sift-design/tokens/motion";
+import { duration, leave, spring } from "@sift-design/tokens/motion";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@sift-design/ui/collapsible";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -46,10 +46,18 @@ export function CopyButton({
         <AnimatePresence initial={false} mode="popLayout">
           <motion.span
             key={state === "copied" ? "check" : "copy"}
-            initial={reduced ? { opacity: 0 } : { scale: 0.4, opacity: 0 }}
+            initial={reduced ? { opacity: 0 } : { scale: state === "copied" ? 0.8 : 0.94, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={reduced ? { opacity: 0 } : { scale: 0.4, opacity: 0 }}
-            transition={reduced ? { duration: 0.12 } : spring.lively}
+            exit={{
+              opacity: 0,
+              scale: reduced ? 1 : 0.94,
+              transition: reduced
+                ? { duration: duration.instant }
+                : { ...spring.exit, opacity: { duration: duration.instant, ease: leave } },
+            }}
+            transition={reduced
+              ? { duration: duration.quick }
+              : { ...(state === "copied" ? spring.lively : spring.snappy), opacity: { duration: duration.quick, ease: "linear" } }}
           >
             {state === "copied" ? <IconCheck /> : <IconCopy />}
           </motion.span>
@@ -59,8 +67,28 @@ export function CopyButton({
     </Button>
   );
 }
-type MdNode = { type: string; value?: string; children?: MdNode[]; data?: { hProperties?: Record<string, unknown> } };
+type MdNode = {
+  type: string;
+  tagName?: string;
+  value?: string;
+  properties?: Record<string, unknown>;
+  children?: MdNode[];
+  data?: { hProperties?: Record<string, unknown> };
+};
 const textOf = (node: MdNode): string => node.value ?? (node.children ?? []).map(textOf).join("");
+/** Markdown checklist inputs need the visible item's text as their accessible name. */
+function checklistLabels() {
+  return (tree: MdNode) => {
+    const walk = (node: MdNode, label = "") => {
+      const itemLabel = node.tagName === "li" ? textOf(node).trim() : label;
+      if (node.tagName === "input" && node.properties?.type === "checkbox") {
+        node.properties.ariaLabel = itemLabel;
+      }
+      node.children?.forEach((child) => walk(child, itemLabel));
+    };
+    walk(tree);
+  };
+}
 /** Give every heading the same id the outline links to, once per parse. */
 function headingIds() {
   return (tree: MdNode) => {
@@ -118,8 +146,8 @@ export function Markdown({ file }: { file: string }) {
   }
   return (
     <div className="markdown">
-      <ReactMarkdown remarkPlugins={[remarkGfm, headingIds]} components={components}>
-        {file.startsWith("packages/ui/docs/") ? text.replaceAll("Larkspur", "Sift Design") : text}
+      <ReactMarkdown remarkPlugins={[remarkGfm, headingIds]} rehypePlugins={[checklistLabels]} components={components}>
+        {text}
       </ReactMarkdown>
     </div>
   );
@@ -129,7 +157,7 @@ export function DocActions({ file }: { file: string }) {
     <div className="doc-actions">
       <Button variant="ghost" size="sm" asChild>
         <a href={rawUrl(file)} target="_blank" rel="noreferrer">
-          View raw
+          Open source
         </a>
       </Button>
       <CopyButton text={docText(file)} label="Copy Markdown" />

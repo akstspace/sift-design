@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { AnimatePresence, animate, LayoutGroup, motion, useMotionValue, useReducedMotion } from "motion/react"
+import { AnimatePresence, animate, LayoutGroup, motion, useIsPresent, useMotionValue, useReducedMotion } from "motion/react"
 import { rubberBand, shellSpring, selectionSpring, spring } from "@sift-design/tokens/motion"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
@@ -72,6 +72,11 @@ function SidebarProvider({
   const selectionId = React.useId()
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
+
+  // A closed mobile rail must not reappear after returning from a wide layout.
+  React.useEffect(() => {
+    if (!isMobile) setOpenMobile(false)
+  }, [isMobile])
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -160,6 +165,57 @@ function SidebarProvider({
   )
 }
 
+function SidebarMobile({ side, className, children }: {
+  side: "left" | "right"
+  className?: string
+  children: React.ReactNode
+}) {
+  const { setOpenMobile, triggerRef } = useSidebar()
+  const present = useIsPresent()
+  const reduced = useReducedMotion()
+  const edge = side === "left" ? -1 : 1
+  const sheetX = useMotionValue(reduced ? 0 : edge * 288)
+  const dragStart = React.useRef(0)
+
+  // Presence retains only the exit visuals. Radix receives the real closing
+  // state, so focus trapping and modal isolation do not wait on a spring tail.
+  // Motion alone owns x and backdrop opacity; no Vaul/CSS transition may follow it.
+  return <Sheet responsive={false} open={present} onOpenChange={setOpenMobile}>
+    <SheetContent asChild forceMount side={side} showCloseButton={false}
+      data-sidebar="sidebar" data-slot="sidebar" data-mobile="true" data-side={side} aria-describedby={undefined}
+      onCloseAutoFocus={(event) => { event.preventDefault(); triggerRef.current?.focus(); }}
+      className={cn("sift-mobile-rail w-[288px] max-w-[calc(100vw-32px)] border-0 bg-sidebar p-0 text-sidebar-foreground", className)}
+      overlayClassName="sift-mobile-rail-overlay"
+      overlay={<motion.div
+        initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.14, ease: "linear" } }}
+        exit={{ opacity: 0, transition: { duration: 0.12, ease: "linear" } }}
+        style={{ pointerEvents: present ? "auto" : "none" }}
+      />}
+    ><motion.div
+      initial={reduced ? { opacity: 0 } : { x: edge * 288 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={reduced ? { opacity: 0, transition: { duration: 0.08 } } : { x: edge * 288, transition: spring.exit }}
+      transition={reduced ? { duration: 0.14 } : spring.smooth}
+      inert={!present}
+      aria-hidden={!present || undefined}
+      style={{ x: sheetX, touchAction: "pan-y", pointerEvents: present ? "auto" : "none" }}
+      onPanStart={() => { sheetX.stop(); dragStart.current = sheetX.get(); }}
+      onPan={(_, info) => {
+        const raw = dragStart.current + info.offset.x
+        sheetX.set(raw * edge >= 0 || reduced ? raw : rubberBand(raw, 288))
+      }}
+      onPanEnd={(_, info) => {
+        if (sheetX.get() * edge > 80 || info.velocity.x * edge > 550) setOpenMobile(false)
+        else animate(sheetX, 0, reduced ? { duration: 0 } : { ...spring.smooth, velocity: info.velocity.x })
+      }}
+    >
+      <SheetHeader className="sr-only"><SheetTitle>Navigation</SheetTitle></SheetHeader>
+      <div className="flex h-full w-full flex-col">{children}</div>
+      <SheetClose asChild><Button variant="ghost" size="icon" className="absolute right-3 top-5 size-8 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" aria-label="Close navigation"><IconX /></Button></SheetClose>
+    </motion.div></SheetContent>
+  </Sheet>
+}
+
 function Sidebar({
   side = "left",
   variant = "sidebar",
@@ -175,10 +231,8 @@ function Sidebar({
   /** Relative positioning for a bounded workbench or embedded demo. */
   position?: "fixed" | "relative"
 }) {
-  const { isMobile, state, openMobile, setOpenMobile, triggerRef } = useSidebar()
+  const { isMobile, state, openMobile } = useSidebar()
   const reduced = useReducedMotion()
-  const sheetX = useMotionValue(0)
-  const dragStart = React.useRef(0)
   const compact = state === "collapsed"
   const width = compact ? (collapsible === "icon" ? "var(--sidebar-width-icon)" : "0px") : "var(--sidebar-width)"
   const transition = reduced ? { duration: 0 } : { ...shellSpring, delay: compact ? 0.08 : 0 }
@@ -199,34 +253,7 @@ function Sidebar({
   }
 
   if (isMobile) {
-    const edge = side === "left" ? -1 : 1
-    return <AnimatePresence>{openMobile && <Sheet open onOpenChange={setOpenMobile}>
-      <SheetContent asChild forceMount side={side} showCloseButton={false}
-        data-sidebar="sidebar" data-slot="sidebar" data-mobile="true" data-side={side} aria-describedby={undefined}
-        onCloseAutoFocus={(event) => { event.preventDefault(); triggerRef.current?.focus(); }}
-        className={cn("sift-mobile-rail w-[288px] max-w-[calc(100vw-32px)] border-0 bg-sidebar p-0 text-sidebar-foreground", className)}
-        overlay={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.14 } }} exit={{ opacity: 0, transition: { duration: 0.12 } }} />}
-      ><motion.div
-        initial={reduced ? { opacity: 0 } : { x: edge * 288 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={reduced ? { opacity: 0, transition: { duration: 0.08 } } : { x: edge * 288, transition: spring.exit }}
-        transition={reduced ? { duration: 0.14 } : spring.smooth}
-        style={{ x: sheetX, touchAction: "pan-y" }}
-        onPanStart={() => { sheetX.stop(); dragStart.current = sheetX.get(); }}
-        onPan={(_, info) => {
-          const raw = dragStart.current + info.offset.x
-          sheetX.set(raw * edge >= 0 ? raw : rubberBand(raw, 288))
-        }}
-        onPanEnd={(_, info) => {
-          if (sheetX.get() * edge > 80 || info.velocity.x * edge > 550) setOpenMobile(false)
-          else animate(sheetX, 0, reduced ? { duration: 0 } : { ...spring.smooth, velocity: info.velocity.x })
-        }}
-      >
-        <SheetHeader className="sr-only"><SheetTitle>Navigation</SheetTitle></SheetHeader>
-        <div className="flex h-full w-full flex-col">{children}</div>
-        <SheetClose asChild><Button variant="ghost" size="icon" className="absolute right-3 top-5 size-8 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" aria-label="Close navigation"><IconX /></Button></SheetClose>
-      </motion.div></SheetContent>
-    </Sheet>}</AnimatePresence>
+    return <AnimatePresence>{openMobile && <SidebarMobile key="mobile-navigation" side={side} className={className}>{children}</SidebarMobile>}</AnimatePresence>
   }
 
   return (
@@ -554,7 +581,9 @@ function SidebarMenuButton({
     />
   )
 
-  if (!tooltip) {
+  // A hidden tooltip still mounts a dismissable layer and consumes Escape.
+  // Labels are already visible on mobile and in the expanded desktop rail.
+  if (!tooltip || isMobile || state !== "collapsed") {
     return <>{selection}{button}</>
   }
 
@@ -570,7 +599,6 @@ function SidebarMenuButton({
       <TooltipContent
         side="right"
         align="center"
-        hidden={state !== "collapsed" || isMobile}
         {...tooltip}
       />
     </Tooltip></>

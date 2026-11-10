@@ -1,38 +1,35 @@
-Retarget brand expression through tokens while preserving the language’s operating structure and spring-based behavior.
-Keep the default unchanged; Harbor demonstrates a complete opt-in role mapping with independently authored light and dark values.
+Use your own brand colors by changing the shared CSS color variables. Keep typography, spacing, component structure, and animation behavior consistent; choose the product’s layout independently.
 
-# Retheming
+# Change the palette
 
-## Preserve the contract
+## What changes and what stays the same
 
-Retheming is a token substitution, not an excuse to redesign component behavior. Keep the current palette as the default. Apply an alternate root attribute only when the project explicitly chooses it.
+Change colors in one place rather than adding overrides to each component. Keep the default palette available, and apply an alternate palette only when it is selected. Harbor is the example included in this repository, with separate light and dark values.
 
-| Swappable | Invariant |
+| You can change | Keep consistent |
 |---|---|
-| Six brand primitives and their semantic mapping | Existing role names and the separation of palette, interface, status, and data identity |
-| Every surface/text/action/rail/status/shadow color role | AA floors: 4.5:1 ordinary text; 3:1 essential non-text controls and large text |
-| Families through `--font-body`, `--font-heading`, `--font-code` | Type hierarchy, readable leading, numerical comparison, and field-label associations |
-| Core radius values through the existing radius roles | Consistent shape hierarchy; do not introduce a new radius per component |
-| Deliberately chosen density through control/row measurements | Spacing grammar, aligned groups, usable hit areas, and content-driven growth |
-| Independently chosen dark values | Dark is authored separately, not an image inversion |
-| Categorical values after re-validation | Eight fixed slots, stable identity through filters, no cycling, overflow into Other |
+| Brand colors and their purpose-based variables | Variable names; separate action, status, and chart colors |
+| Background, text, action, sidebar, status, and shadow colors | Contrast of at least 4.5:1 for ordinary text; 3:1 for large text and essential controls |
+| Dark-mode colors chosen separately | Dark is not an inverted image of light mode |
+| Chart colors, after testing | Eight category color roles, unchanged by filtering; use labels, filters, small multiples, or tables for larger sets |
 
-Do not change component anatomy, focus/keyboard/announcement behavior, the spacing grammar, shared motion presets, origin/direction, spring-based travel, direct manipulation, reduced-motion alternatives, or real-state/attribution rules. A different brand still uses the studio-workbench operating model.
+Keep Albert Sans, IBM Plex Mono, the type hierarchy, radius roles, spacing, and control measurements unchanged when changing the palette. Preserve component structure, keyboard access, focus, screen-reader announcements, and shared animations. Panels should still open from the expected edge, drags should follow the pointer, and reduced motion should still work.
 
-Do: map an action color through `--primary` and `--accent` roles. Don’t: add a private component color or replace a spring with a timed slide to match a brand mood.
+These invariants describe reusable components and interaction quality, not a fixed page template. A store can retain its catalog, a finance app its ledger, and a messaging product its conversations under either palette. Retheming does not add or remove product features, navigation, accounts, or storage requirements.
 
-## Retarget in this order
+Use `--primary` and `--accent` for action colors. Do not hardcode a new color in one component or replace its spring animation to suit a brand mood.
 
-- Choose six brand colors as input, not as six interface accents. Identify an anchor, ground, selection, supportive hue, supporting neutral, and attention hue. Keep the existing primitive variable names when replacing a default; do not require each component to know the new brand’s descriptive color names.
-- Map every semantic role in light mode: canvas, surface, rail, wells, hover/washes, ink, muted, decorative line, control boundary, primary pair, accent/wash, statuses/foregrounds, focus, rail states, categories, and shadows. Choose accessible derivatives rather than forcing a pale primitive into a text role. Harbor overrides roles only; its design intent is deep navy, warm sand, teal action, and apricot rail selection.
-- Build dark mode as its own steps. Re-evaluate the hierarchy among rail, ground, surface, subtle, and hover; choose text/control/status values against those actual surfaces. Preserve role names and update semantic pairs together.
-- Compute every actual text/background and control/background pair, including hovered/selected states and alpha compositing. List the results, not just “accessible.” Require 4.5:1 ordinary text and 3:1 essential non-text. Decorative dividers are not control boundaries. If an essential pair fails, change its role value or component pairing and re-test; do not dismiss the failure because another pair passes.
-- Re-validate all categorical slots against each exact chart surface for adjacent color-vision separation and normal-vision separation. Retain labels, gaps, and a readable feed/table alternative; a separation pass does not erase mark-contrast warnings. Never recolor surviving series after filtering.
-- Swap fonts only through `--font-*`. Load actual font files/weights; check fallback coverage, long names, italics, tabular figures, and every dense control. Keep labels at 13px and help at 12.5px unless the chosen face’s measured fit requires an explicit coordinated revision. Do not shrink text to hide overflow.
-- If adjusting radii or density, keep the existing roles, relative hierarchy, spacing grammar, target sizes, and responsive anatomy. Make the change as a coherent token/size contract, not scattered per-component overrides. Harbor deliberately leaves these unchanged to isolate palette retargeting.
-- Capture the real specimen in both themes, desktop and 390px mobile, plus focused/hovered/invalid/selected/disabled states. Look at the images, run axe and Impeccable review, fix in a batch, and recapture. Keep motion and reduced-motion evidence from the same shared behavior; palette changes do not authorize different physics.
+## Change the palette step by step
 
-## Apply the worked Harbor theme
+- Choose the brand colors for backgrounds, text, selections, actions, supporting details, and warnings. These are starting colors, not six competing accents. Keep existing variable names so components do not need to know the brand’s color names.
+- Set every light-mode variable: page and panel backgrounds, sidebar, hover and selection backgrounds, text, borders, actions, statuses, focus, chart categories, and shadows. Derive darker or lighter shades when needed for contrast. Harbor uses navy, sand, teal, and apricot.
+- Choose dark-mode values separately. Check how the sidebar, page, cards, and hover backgrounds look together. Update each background and its text color together.
+- Measure text and control contrast in normal, hovered, and selected states, including transparent colors over their actual backgrounds. Record the ratios. Ordinary text needs 4.5:1; essential control outlines need 3:1. If a combination fails, change it and test again. A decorative divider is not an input outline.
+- Test chart colors against the chart background and against neighboring categories, including with color-vision simulations. Keep labels, gaps, and an equivalent list or table. Distinguishable colors can still have poor background contrast. Filtering must not change a category’s color.
+- Keep the existing font files, 13px labels, 12.5px help text, radius roles, spacing, and control sizes. Do not shrink text to hide overflow or use a palette change to introduce a new component shape or density.
+- Capture the component examples in both themes, on desktop and at 390px wide. Include focus, hover, invalid, selected, and disabled states. Review the images, run axe and Impeccable, fix issues together, and confirm the result. Check animation and reduced motion without changing their settings.
+
+## Try the Harbor example
 
 Import `@sift-design/tokens/themes/harbor.css` after the default theme. It contains only role-variable overrides under `[data-palette="harbor"]` and `[data-palette="harbor"].dark`; no component selectors, font/radius overrides, or animation rules. Without the attribute, the default remains untouched.
 
@@ -78,7 +75,7 @@ The specimen initializer reads `?palette=harbor` and applies the root attribute.
 | `--shadow-float` | `0 16px 50px -14px #142d4533` | `0 16px 50px -14px #0009` |
 | `--shadow-raise` | `0 1px 2px #142d450f, 0 2px 8px -2px #142d451a` | `0 1px 2px #0006, 0 2px 8px -2px #0008` |
 
-## Verify the Harbor pair matrix
+## Check Harbor’s contrast results
 
 The ratios below are calculated from the exact sRGB values in `tokens/themes/harbor.css` using WCAG relative luminance; display rounding does not decide a pass. Text is tested against every permitted work fill, including hover and accent-soft. Control/focus boundaries are tested against the same fills. The role is not approved on any omitted arbitrary custom background.
 
@@ -136,9 +133,9 @@ The ratios below are calculated from the exact sRGB values in `tokens/themes/har
 
 Decorative `--line` and `--rail-line` are intentionally not approved as essential control outlines. Washes are not standalone selection indicators. Disabled states may be exempt from a contrast criterion, but must still read as disabled rather than disappear.
 
-Harbor retains the fixed categorical palette to show that brand retargeting does not require recoloring data. Validation against the actual Harbor surfaces passes adjacent color-vision and normal-vision separation in both themes. Mark-contrast warnings remain for light slots 2/4/6 and dark slots 1/3/5: retain visible labels and the equivalent feed/table, and add a contrasting boundary/secondary encoding where a mark boundary itself is essential. Do not claim a color-vision separation pass is a universal contrast pass.
+Harbor retains the fixed categorical palette to show that brand retargeting does not require recoloring data. Validation against the actual Harbor surfaces passes adjacent color-vision and normal-vision separation in both themes. Mark-contrast warnings remain for light slots 2/4/6 and dark slots 1/3/5: retain visible labels and an equivalent list or table, and add a contrasting boundary/secondary encoding where a mark boundary itself is essential. Do not claim a color-vision separation pass is a universal contrast pass.
 
-## Capture evidence and review
+## Capture and review the result
 
 Run from the repo root:
 
@@ -161,8 +158,8 @@ The initial automated capture had zero axe violation groups across all ten shots
 ## Checklist
 
 - Default palette is unchanged unless an alternate root attribute is selected.
-- Every role is mapped in light and independently authored in dark.
-- All permitted text/control/background pairs are listed and meet their floors.
-- Categories retain stable slots and pass separation validation; mark warnings have non-color reading/encoding.
-- Font/radius/density changes preserve hierarchy, grammar, anatomy, target sizes, and motion.
-- Both-theme desktop/mobile captures and actual-state accessibility checks are reviewed; remaining limits are explicit.
+- Every color variable has a light value and a separately chosen dark value.
+- Text and control contrast results are recorded for the backgrounds where they are used.
+- Chart categories keep their colors; labels and other cues cover contrast limitations.
+- Fonts, sizes, spacing, shapes, component behavior, and shared animation remain unchanged.
+- Both themes are reviewed on desktop and mobile; untested cases and remaining issues are listed.

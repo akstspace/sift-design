@@ -1,6 +1,8 @@
 # Time spent
 
-A Larkspur time ledger for Fernbrook Greenhouse. Fixed today: Tuesday 10 November 2026, 14:20, Europe/London. This is an interactive reference with deterministic, in-memory records; reloading restores the fixtures. No production service is called.
+Review recorded time for the fictional Fernbrook Greenhouse. The example is set on Tuesday 10 November 2026 at 14:20 in Europe/London. Explore sessions, change categories, and edit records without contacting a real service. Reloading resets your changes.
+
+This optional example demonstrates interval placement, labeled summaries, filtering, and editing. A day timeline, time categories, and linked tasks belong to this example—not to every product using Sift Design. Choose charts from the product's question and data; see [data visualization](../../docs/data-visualization.md).
 
 ## Run and verify
 
@@ -72,7 +74,7 @@ All evidence lives in `screenshots/timeline/`.
 
 Both normative categorical palettes pass computed lightness, chroma, adjacent CVD separation, and normal-vision separation. Contrast warnings are handled by persistent text, full table/feed alternatives, and available texture; category colors are not used for text.
 
-This example uses the strict `DESIGN.md` frontmatter ramp rather than the broader observed Sift’s inventory in `docs/typography.md`: 12px minimum for metadata and chart labels, 13px controls and compact subheadings, 14px task text, 18px task/empty-state headings and secondary counts, and 30px page headings and elapsed totals. Mobile form fields use 18px to remain on-ramp without triggering input zoom. Corners use 6/8/12px or the 999px avatar pill; miniature tracks and swatches are square data geometry, with 6px ribbon marks and bar ends. Local overrides also normalize inherited kit button text and the mobile sheet handle; no shared kit or token changes are needed.
+This example uses the shared type sizes: 12px for metadata and chart labels, 13px controls and compact subheadings, 14px task text, 18px task/empty-state headings and secondary counts, and 30px page headings and elapsed totals. Its mobile form fields use 18px to avoid input zoom; that is a local choice, not a universal field size. Corners use 6/8/12px or the 999px avatar pill; miniature tracks and swatches are square data geometry, with 6px ribbon marks and bar ends. Local overrides also normalize inherited kit button text and the mobile sheet handle; no shared kit or token changes are needed. See [typography](../../docs/typography.md) for shared roles and optional presets.
 
 Verification: TypeScript passes; Impeccable reports zero findings (formerly 57 font-size and 8 radius findings). The full capture run covers 27 PNGs and 13 motion WebPs, with zero axe violations across 24 still states. Main day stills were visually reviewed in both themes at desktop and 390px, along with weekly, editor, tooltip, task, and expanded-breakdown states. Browser geometry checks found no axis-label collisions, crowded category labels, or page overflow at 360/390/768/1024/1440px.
 

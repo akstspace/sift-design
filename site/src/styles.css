@@ -313,7 +313,9 @@ kbd {
   margin-left: 8px;
   color: var(--muted);
   opacity: 0;
+  transition: opacity var(--dur-quick) linear;
 }
+.markdown :focus > .heading-anchor .anchor-hash,
 .heading-anchor:hover .anchor-hash,
 .heading-anchor:focus .anchor-hash {
   opacity: 1;
@@ -633,6 +635,24 @@ kbd {
   color: var(--muted);
 }
 
+.family-tabs a {
+  isolation: isolate;
+}
+.family-tabs a[aria-current="page"] {
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+  background: transparent;
+}
+.family-selection {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--primary);
+  pointer-events: none;
+}
+.family-label {
+  position: relative;
+}
 .family-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -827,7 +847,8 @@ kbd {
   scroll-margin-top: 94px;
 }
 .markdown :not(pre) > code {
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .markdown h2 {
   font-size: 18px;
@@ -1204,4 +1225,18 @@ kbd {
 .copy-icon svg {
   width: 16px;
   height: 16px;
+}
+
+/* Theme and palette switches: every color changes in the same frame, then the page
+   cross-fades once. Without the freeze, components with their own color transitions
+   would catch up one by one and the switch would shimmer. */
+html[data-theme-switching] *,
+html[data-theme-switching] *::before,
+html[data-theme-switching] *::after {
+  transition: none !important;
+}
+html[data-theme-switching]::view-transition-old(root),
+html[data-theme-switching]::view-transition-new(root) {
+  animation-duration: var(--dur-base);
+  animation-timing-function: linear;
 }

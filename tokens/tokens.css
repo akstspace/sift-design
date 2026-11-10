@@ -55,8 +55,9 @@
   --rail-line: #4e4256;
   --rail-ring: var(--sea);
 
-  /* Categorical data colors, in fixed order. Never cycle; a ninth series
-     folds into "other". Adjacent pairs are color-vision checked. */
+  /* Categorical data colors. Keep each series' assignment when filtering.
+     For larger sets use labels, filters, small multiples or a table; do not
+     rely on cycling colors. Adjacent pairs are color-vision checked. */
   --cat-1: #017c5d;
   --cat-2: #aa84d4;
   --cat-3: #976b03;
