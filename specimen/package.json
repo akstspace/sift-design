@@ -1,0 +1,16 @@
+{
+  "name": "@sift-design/specimen",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5301",
+    "build": "vite build",
+    "preview": "vite preview --port 5301",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@sift-design/tokens": "*",
+    "@sift-design/ui": "*"
+  }
+}

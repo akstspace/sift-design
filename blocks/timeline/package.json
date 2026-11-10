@@ -1,0 +1,16 @@
+{
+  "name": "@larkspur/timeline",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5304",
+    "build": "vite build",
+    "preview": "vite preview --port 5304",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@sift-design/tokens": "*",
+    "@sift-design/ui": "*"
+  }
+}

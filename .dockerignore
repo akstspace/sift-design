@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+.cache
+.git
+.agents
+.impeccable/review
+.impeccable/questions
+.impeccable/mocks
+**/.DS_Store
+**/*.log
+test-results
+playwright-report

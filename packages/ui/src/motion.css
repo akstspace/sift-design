@@ -1,0 +1,6 @@
+/* Default motion for every kit component, split by family. Each family file
+   honors prefers-reduced-motion: travel, scale and blur go; fades and state
+   feedback stay. */
+@import "./motion/overlays.css";
+@import "./motion/controls.css";
+@import "./motion/display.css";

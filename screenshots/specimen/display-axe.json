@@ -1,0 +1,106 @@
+[
+  {
+    "shot": "display-alert-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-alert-light",
+    "violations": []
+  },
+  {
+    "shot": "display-chart-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-chart-data",
+    "violations": []
+  },
+  {
+    "shot": "display-chart-light",
+    "violations": []
+  },
+  {
+    "shot": "display-chart-tooltip",
+    "violations": []
+  },
+  {
+    "shot": "display-conversation-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-conversation-light",
+    "violations": []
+  },
+  {
+    "shot": "display-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-empty-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-empty-light",
+    "violations": []
+  },
+  {
+    "shot": "display-light",
+    "violations": []
+  },
+  {
+    "shot": "display-message-arrival",
+    "violations": []
+  },
+  {
+    "shot": "display-mobile-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-mobile-light",
+    "violations": []
+  },
+  {
+    "shot": "display-mobile-sheet-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-mobile-sheet-light",
+    "violations": []
+  },
+  {
+    "shot": "display-page-transitions",
+    "violations": []
+  },
+  {
+    "shot": "display-page-transitions-mobile",
+    "violations": []
+  },
+  {
+    "shot": "display-reduced-motion",
+    "violations": []
+  },
+  {
+    "shot": "display-sidebar-collapsed-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-sidebar-collapsed-light",
+    "violations": []
+  },
+  {
+    "shot": "display-sidebar-expanded-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-sidebar-expanded-light",
+    "violations": []
+  },
+  {
+    "shot": "display-table-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-table-light",
+    "violations": []
+  }
+]

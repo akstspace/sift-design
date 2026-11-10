@@ -1,0 +1,182 @@
+[
+  {
+    "shot": "controls-button-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-button-group-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-button-group-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-button-hover",
+    "violations": []
+  },
+  {
+    "shot": "controls-button-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-calendar-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-calendar-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-checkbox-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-checkbox-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-form-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-form-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-form-mobile",
+    "violations": []
+  },
+  {
+    "shot": "controls-form-mobile-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-form-valid",
+    "violations": []
+  },
+  {
+    "shot": "controls-input-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-input-focus",
+    "violations": []
+  },
+  {
+    "shot": "controls-input-group-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-input-group-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-input-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-input-otp-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-input-otp-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-kbd-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-kbd-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-label-and-field-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-label-and-field-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-native-select-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-native-select-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-radio-group-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-radio-group-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-section-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-section-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-section-mobile-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-section-mobile-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-slider-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-slider-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-switch-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-switch-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-tabs-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-tabs-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-textarea-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-textarea-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-toggle-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-toggle-group-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-toggle-group-light",
+    "violations": []
+  },
+  {
+    "shot": "controls-toggle-light",
+    "violations": []
+  }
+]

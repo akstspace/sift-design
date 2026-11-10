@@ -1,0 +1,42 @@
+[
+  {
+    "shot": "retheme-harbor-buttons-dark",
+    "violations": []
+  },
+  {
+    "shot": "retheme-harbor-buttons-light",
+    "violations": []
+  },
+  {
+    "shot": "retheme-harbor-controls-dark",
+    "violations": []
+  },
+  {
+    "shot": "retheme-harbor-controls-light",
+    "violations": []
+  },
+  {
+    "shot": "retheme-harbor-dark",
+    "violations": []
+  },
+  {
+    "shot": "retheme-harbor-field-dark",
+    "violations": []
+  },
+  {
+    "shot": "retheme-harbor-field-light",
+    "violations": []
+  },
+  {
+    "shot": "retheme-harbor-light",
+    "violations": []
+  },
+  {
+    "shot": "retheme-harbor-mobile-dark",
+    "violations": []
+  },
+  {
+    "shot": "retheme-harbor-mobile-light",
+    "violations": []
+  }
+]

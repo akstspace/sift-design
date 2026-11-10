@@ -1,0 +1,114 @@
+[
+  {
+    "shot": "01-docked-dark",
+    "violations": []
+  },
+  {
+    "shot": "01-docked-light",
+    "violations": []
+  },
+  {
+    "shot": "02-full-page-dark",
+    "violations": []
+  },
+  {
+    "shot": "02-full-page-light",
+    "violations": []
+  },
+  {
+    "shot": "03-docked-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "03-docked-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "04-full-page-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "04-full-page-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "05-empty-dark",
+    "violations": []
+  },
+  {
+    "shot": "05-empty-light",
+    "violations": []
+  },
+  {
+    "shot": "06-empty-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "06-empty-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "07-tools-open-light",
+    "violations": []
+  },
+  {
+    "shot": "08-climate-checklist-dark",
+    "violations": []
+  },
+  {
+    "shot": "09-attachment-light",
+    "violations": []
+  },
+  {
+    "shot": "10-attachment-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "11-recovery-notice-light",
+    "violations": []
+  },
+  {
+    "shot": "12-recovery-notice-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "13-error-light",
+    "violations": []
+  },
+  {
+    "shot": "14-error-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "15-attributed-changes-light",
+    "violations": []
+  },
+  {
+    "shot": "16-attributed-changes-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "17-task-change-light",
+    "violations": []
+  },
+  {
+    "shot": "18-streaming-light",
+    "violations": []
+  },
+  {
+    "shot": "19-history-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "19-reader-unpinned-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "19-stopped-light",
+    "violations": []
+  },
+  {
+    "shot": "20-reduced-motion-light",
+    "violations": []
+  }
+]

@@ -1,0 +1,101 @@
+/* Display motion is state-driven. Static surfaces do not enter on page load. */
+[data-slot="accordion-content"], [data-slot="collapsible-content"] { overflow: hidden; animation: none !important; }
+[data-slot="accordion-trigger"] > svg,
+[data-slot="collapsible-trigger"] > svg { transition: transform var(--spring-snappy-duration) var(--spring-snappy); }
+[data-slot="collapsible-trigger"][data-state="open"] > svg { transform: rotate(180deg); }
+
+[data-slot="sidebar-inner"], [data-slot="sidebar"][data-mobile="true"] { padding: 20px 12px 12px; }
+[data-slot="sidebar-header"] { gap: 20px; padding: 4px 0 18px; }
+[data-slot="sidebar-group"] { padding: 8px 0; }
+/* The footer lines up with the groups above it: the rail supplies the inset. */
+[data-slot="sidebar-footer"] { padding: 8px 0 0; }
+[data-slot="sidebar-group-label"] { color: var(--rail-muted); margin-bottom: 7px; }
+[data-slot="sidebar-menu"] { gap: 5px; }
+/* 14px inline padding centres the 20px icon in the 48px collapsed column, so icons never move as the rail collapses. */
+[data-slot="sidebar-menu-button"] { position: relative; z-index: 1; height: 40px; gap: 12px; padding: 10px 14px; border-radius: 8px; font-size: 13px; white-space: nowrap; transition: background-color 140ms var(--ease-settle), color 140ms var(--ease-settle); }
+[data-slot="sidebar-menu-button"] > svg { flex-shrink: 0; width: 20px; height: 20px; }
+[data-slot="sidebar-selection"] { position: absolute; inset: 0; border-radius: 8px; background: var(--rail-selected); pointer-events: none; }
+[data-slot="sidebar-menu-button"][data-active="true"] { color: var(--rail-selected-foreground); background: transparent; }
+[data-slot="sidebar-menu-item"]:has([data-slot="sidebar-selection"]) [data-slot="sidebar-menu-badge"] { color: var(--rail-selected-foreground); }
+[data-slot="sidebar-menu-badge"] { font-family: var(--font-code); }
+/* Labels retain their natural width. Collapse fades precede the width spring;
+   expansion delays the fade until the rail has room for legible text. */
+[data-slot="sidebar-menu-button"] > span:last-child,
+[data-slot="sidebar"] [data-sidebar-label] { flex-shrink: 0; white-space: nowrap; opacity: 1; transition: opacity 100ms linear 180ms; }
+[data-slot="sidebar"][data-state="collapsed"] [data-slot="sidebar-menu-button"] > span:last-child,
+[data-slot="sidebar"][data-state="collapsed"] [data-sidebar-label] { opacity: 0; pointer-events: none; transition-delay: 0ms; transition-duration: 80ms; }
+[data-slot="sidebar"][data-state="collapsed"] [data-slot="sidebar-group-label"] { visibility: hidden; margin-top: 0; opacity: 0; }
+
+[data-slot="progress-indicator"] { transition: none; }
+[data-slot="progress-indicator"][data-backwards] { transition-duration: 80ms; }
+[data-slot="skeleton"]::after { position: absolute; inset: 0; content: ""; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--ink) 5%, transparent), transparent); animation: sift-shimmer 1800ms var(--spring-smooth) 2; transform: translateX(-100%); }
+@keyframes sift-shimmer { to { transform: translateX(100%); } }
+[data-slot="spinner"] { animation: sift-spin 900ms linear infinite; }
+@keyframes sift-spin { to { transform: rotate(360deg); } }
+[data-arrival="true"] { animation: none; }
+[data-slot="table-cell"][data-numeric] { text-align: right; font-family: var(--font-code); font-variant-numeric: tabular-nums; }
+[data-slot="table-row"] { transition-duration: 140ms; }
+[data-slot="avatar-image"] { animation: sift-fade-in 140ms linear; }
+[data-slot="attachment"] { border-radius: 8px; transition-duration: 140ms; }
+[data-slot="attachment-description"], [data-slot="marker-content"] time { font-family: var(--font-code); font-variant-numeric: tabular-nums; }
+[data-slot="bubble-content"] { border-radius: 8px; }
+[data-slot="message-scroller-viewport"] { scroll-behavior: auto; scrollbar-color: var(--control-line) transparent; scrollbar-width: thin; }
+[data-slot="message-scroller-button"] { transition: transform var(--spring-snappy-duration) var(--spring-snappy), opacity 100ms linear; }
+[data-slot="scroll-area-viewport"] { scrollbar-color: var(--control-line) transparent; }
+[data-slot="resizable-handle"] { transition: background-color 140ms var(--ease-settle); }
+[data-slot="resizable-handle"]:hover, [data-slot="resizable-handle"]:focus-visible { background: var(--control-line); }
+[data-slot="breadcrumb-link"], [data-slot="pagination-link"] { transition-duration: 140ms; transition-timing-function: var(--ease-settle); }
+[data-slot="chart"][data-chart-entering] .recharts-bar-rectangle path,
+[data-slot="chart"][data-chart-entering] .recharts-bar-rectangle rect { transform-box: fill-box; transform-origin: center bottom; animation: sift-chart-grow var(--spring-smooth-duration) var(--spring-smooth); }
+[data-slot="chart"][data-chart-entering][data-layout="vertical"] .recharts-bar-rectangle path { transform-origin: left center; animation-name: sift-chart-grow-x; }
+@keyframes sift-chart-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes sift-chart-grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes sift-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Bounded, copyable specimen shell. These rules never affect host navigation. */
+[data-display-demo] { isolation: isolate; }
+@media (max-width: 767px) {
+  /* The shared specimen masthead is outside this family's editable files. */
+  body:has(#display):not(:has(#controls, #overlays)) > #root > div > header > div { flex-wrap: wrap; gap: 8px; padding-inline: 16px; }
+  body:has(#display):not(:has(#controls, #overlays)) > #root > div > header nav { margin-left: 0; width: 100%; }
+  body:has(#display):not(:has(#controls, #overlays)) main { padding-inline: 16px; }
+  [data-display-demo] [data-slot="sidebar-inset"] { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="accordion-trigger"] > svg, [data-slot="collapsible-trigger"] > svg { transition: none; }
+  [data-slot="skeleton"]::after { animation: none; display: none; }
+  [data-slot="chart"] .recharts-bar-rectangle path, [data-slot="chart"] .recharts-bar-rectangle rect { animation: sift-fade-in 140ms linear; }
+  [data-slot="progress-indicator"] { transition-duration: 0ms; }
+  [data-slot="sidebar-menu-button"] > span:last-child, [data-slot="sidebar"] [data-sidebar-label] { transition-delay: 0ms; }
+  [data-slot="message-scroller-button"] { transition: opacity 100ms linear; }
+  [data-slot="spinner"] { animation: none; }
+}
+@media (forced-colors: active) {
+  [data-slot="chart"] .recharts-bar-rectangle path { stroke: CanvasText; stroke-width: 1; }
+  [data-slot="sidebar-selection"] { outline: 1px solid Highlight; }
+}
+
+[data-slot="badge"] { transition-duration: 140ms; transition-timing-function: var(--ease-settle); }
+[data-slot="scroll-area-scrollbar"] { transition-duration: 140ms; transition-timing-function: var(--ease-settle); }
+[data-slot="chart"] .recharts-cartesian-axis-tick text { fill: var(--muted); }
+[data-slot="sidebar"][data-side="right"] { --rail-sheet-travel: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="sidebar"][data-mobile="true"][data-state="open"] { animation: sift-fade-in 120ms linear both; }
+  [data-slot="sidebar"][data-mobile="true"][data-state="closed"] { animation: sift-fade-in 80ms linear reverse both; }
+}
+
+[data-slot="chart"] .recharts-cartesian-axis-tick-value { fill: var(--muted); }
+[data-slot="chart"] .recharts-surface:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; border-radius: var(--radius-sm); }
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="chart"][data-chart-entering] .recharts-bar-rectangle path,
+  [data-slot="chart"][data-chart-entering] .recharts-bar-rectangle rect,
+  [data-slot="chart"][data-chart-entering][data-layout="vertical"] .recharts-bar-rectangle path { animation: sift-fade-in 140ms linear; }
+}
+
+[data-slot="sidebar"][data-mobile="true"].sift-mobile-rail { animation: none !important; }
+[data-slot="transition-page"]:focus-visible, [data-page-heading]:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+[data-slot="sidebar-menu-button"]:active { scale: .97; }
+[data-slot="sidebar-menu-button"] { transition: scale var(--spring-press-duration) var(--spring-press), background-color 140ms linear, color 140ms linear; }
+@media (prefers-reduced-motion: reduce) { [data-slot="sidebar-menu-button"]:active { scale: 1; } }
+/* A scrolled work surface must not alter the masthead text's contrast. */
+body:has(#display):not(:has(#controls, #overlays)) > #root > div > header { background: var(--ground); backdrop-filter: none; }

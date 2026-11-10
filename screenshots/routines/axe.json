@@ -1,0 +1,138 @@
+[
+  {
+    "shot": "01-helpers-light",
+    "violations": []
+  },
+  {
+    "shot": "02-helpers-dark",
+    "violations": []
+  },
+  {
+    "shot": "03-helpers-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "04-helpers-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "05-editor-light",
+    "violations": []
+  },
+  {
+    "shot": "06-editor-dark",
+    "violations": []
+  },
+  {
+    "shot": "07-editor-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "08-editor-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "09-cron-light",
+    "violations": []
+  },
+  {
+    "shot": "10-interval-dark",
+    "violations": []
+  },
+  {
+    "shot": "11-validation-light",
+    "violations": []
+  },
+  {
+    "shot": "12-unsaved-light",
+    "violations": []
+  },
+  {
+    "shot": "13-live-light",
+    "violations": []
+  },
+  {
+    "shot": "14-live-dark",
+    "violations": []
+  },
+  {
+    "shot": "15-live-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "16-completed-light",
+    "violations": []
+  },
+  {
+    "shot": "17-completed-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "18-expanded-tool-light",
+    "violations": []
+  },
+  {
+    "shot": "19-failed-run-dark",
+    "violations": []
+  },
+  {
+    "shot": "20-history-light",
+    "violations": []
+  },
+  {
+    "shot": "21-history-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "22-sign-in-light",
+    "violations": []
+  },
+  {
+    "shot": "23-cancel-dark",
+    "violations": []
+  },
+  {
+    "shot": "24-empty-light",
+    "violations": []
+  },
+  {
+    "shot": "25-empty-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "26-error-light",
+    "violations": []
+  },
+  {
+    "shot": "27-error-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "28-save-error-light",
+    "violations": []
+  },
+  {
+    "shot": "29-no-results-light",
+    "violations": []
+  },
+  {
+    "shot": "30-reduced-motion-mobile",
+    "violations": []
+  },
+  {
+    "shot": "35-preview-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "36-cron-validation-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "37-delete-confirmation-light",
+    "violations": []
+  },
+  {
+    "shot": "38-cancelled-run-light",
+    "violations": []
+  }
+]

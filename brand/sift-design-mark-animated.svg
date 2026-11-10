@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 64 64"><title>Sift Design</title>
+<style>
+.s{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 700ms cubic-bezier(.16,1,.3,1) 120ms forwards}
+.d{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop 692ms linear(0, 0.02, 0.06, 0.125, 0.201, 0.275, 0.359, 0.443, 0.514, 0.589, 0.651, 0.713, 0.769, 0.812, 0.855, 0.891, 0.917, 0.943, 0.963, 0.978, 0.99, 1, 1.007, 1.012, 1.015, 1.017, 1.018, 1.018, 1.018, 1.017, 1.016, 1.014, 1.013, 1.011, 1.01, 1.008, 1.007, 1.006, 1.005, 1.004, 1.003, 1.003, 1.002, 1.001, 1.001, 1.001, 1, 1, 1) 680ms forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.s{stroke-dashoffset:0;animation:none}.d{transform:none;animation:none}}
+</style>
+<rect width="64" height="64" rx="15" fill="#2b2539"/><path d="M45 16 H27.5 A8 8 0 0 0 27.5 32 H36.5 A8 8 0 0 1 36.5 48 H27" class="s" pathLength="1" fill="none" stroke="#bed3cc" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/><circle class="d" cx="17.5" cy="48" r="4.6" fill="#efc8c8"/></svg>

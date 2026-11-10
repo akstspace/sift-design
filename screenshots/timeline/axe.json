@@ -1,0 +1,98 @@
+[
+  {
+    "shot": "01-day-light",
+    "violations": []
+  },
+  {
+    "shot": "02-day-dark",
+    "violations": []
+  },
+  {
+    "shot": "03-day-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "04-day-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "05-tooltip-light",
+    "violations": []
+  },
+  {
+    "shot": "06-edit-light",
+    "violations": []
+  },
+  {
+    "shot": "07-edit-dark",
+    "violations": []
+  },
+  {
+    "shot": "08-edit-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "09-validation-light",
+    "violations": []
+  },
+  {
+    "shot": "10-week-light",
+    "violations": []
+  },
+  {
+    "shot": "11-week-dark",
+    "violations": []
+  },
+  {
+    "shot": "12-week-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "13-table-light",
+    "violations": []
+  },
+  {
+    "shot": "14-table-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "15-paused-light",
+    "violations": []
+  },
+  {
+    "shot": "16-paused-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "17-empty-light",
+    "violations": []
+  },
+  {
+    "shot": "18-empty-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "19-task-time-light",
+    "violations": []
+  },
+  {
+    "shot": "20-task-time-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "21-reduced-motion",
+    "violations": []
+  },
+  {
+    "shot": "25-filter-light",
+    "violations": []
+  },
+  {
+    "shot": "26-breakdown-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "27-unsaved-draft-light",
+    "violations": []
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "shot": "agent-dark",
+    "violations": []
+  },
+  {
+    "shot": "agent-light",
+    "violations": []
+  },
+  {
+    "shot": "blocks-dark",
+    "violations": []
+  },
+  {
+    "shot": "blocks-light",
+    "violations": []
+  },
+  {
+    "shot": "command-open-dark",
+    "violations": []
+  },
+  {
+    "shot": "components-dark",
+    "violations": []
+  },
+  {
+    "shot": "components-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "components-display-dark",
+    "violations": []
+  },
+  {
+    "shot": "components-light",
+    "violations": []
+  },
+  {
+    "shot": "components-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "components-overlays-light",
+    "violations": []
+  },
+  {
+    "shot": "doc-dark",
+    "violations": []
+  },
+  {
+    "shot": "doc-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "doc-light",
+    "violations": []
+  },
+  {
+    "shot": "doc-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "foundations-light",
+    "violations": []
+  },
+  {
+    "shot": "harbor-dark",
+    "violations": []
+  },
+  {
+    "shot": "harbor-light",
+    "violations": []
+  },
+  {
+    "shot": "landing-dark",
+    "violations": []
+  },
+  {
+    "shot": "landing-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "landing-light",
+    "violations": []
+  },
+  {
+    "shot": "landing-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "mobile-rail-light",
+    "violations": []
+  },
+  {
+    "shot": "motion-dark",
+    "violations": []
+  },
+  {
+    "shot": "motion-light",
+    "violations": []
+  },
+  {
+    "shot": "motion-reduced",
+    "violations": []
+  },
+  {
+    "shot": "overview-dark",
+    "violations": []
+  },
+  {
+    "shot": "overview-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "overview-light",
+    "violations": []
+  },
+  {
+    "shot": "overview-light-mobile",
+    "violations": []
+  }
+]

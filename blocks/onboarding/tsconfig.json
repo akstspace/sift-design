@@ -1,0 +1,4 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["src", "../_shared", "../../packages/ui/src", "../../tokens/motion.ts"]
+}

@@ -1,0 +1,170 @@
+[
+  {
+    "shot": "01-welcome-dark",
+    "violations": []
+  },
+  {
+    "shot": "01-welcome-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "01-welcome-light",
+    "violations": []
+  },
+  {
+    "shot": "01-welcome-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "02-connections-checking-dark",
+    "violations": []
+  },
+  {
+    "shot": "02-connections-checking-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "02-connections-checking-light",
+    "violations": []
+  },
+  {
+    "shot": "02-connections-checking-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "02-connections-failed-dark",
+    "violations": []
+  },
+  {
+    "shot": "02-connections-failed-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "02-connections-failed-light",
+    "violations": []
+  },
+  {
+    "shot": "02-connections-failed-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "03-connections-ready-dark",
+    "violations": []
+  },
+  {
+    "shot": "03-connections-ready-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "03-connections-ready-light",
+    "violations": []
+  },
+  {
+    "shot": "03-connections-ready-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "04-defaults-dark",
+    "violations": []
+  },
+  {
+    "shot": "04-defaults-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "04-defaults-light",
+    "violations": []
+  },
+  {
+    "shot": "04-defaults-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "05-optional-dark",
+    "violations": []
+  },
+  {
+    "shot": "05-optional-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "05-optional-light",
+    "violations": []
+  },
+  {
+    "shot": "05-optional-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "06-helper-dark",
+    "violations": []
+  },
+  {
+    "shot": "06-helper-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "06-helper-light",
+    "violations": []
+  },
+  {
+    "shot": "06-helper-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "07-settings-dark",
+    "violations": []
+  },
+  {
+    "shot": "07-settings-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "07-settings-light",
+    "violations": []
+  },
+  {
+    "shot": "07-settings-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "08-restore-confirmation-dark",
+    "violations": []
+  },
+  {
+    "shot": "08-restore-confirmation-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "08-restore-confirmation-light",
+    "violations": []
+  },
+  {
+    "shot": "08-restore-confirmation-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "09-workspace-dark",
+    "violations": []
+  },
+  {
+    "shot": "09-workspace-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "09-workspace-light",
+    "violations": []
+  },
+  {
+    "shot": "09-workspace-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "10-reduced-opening-light",
+    "violations": []
+  },
+  {
+    "shot": "10-reduced-opening-light-mobile",
+    "violations": []
+  }
+]

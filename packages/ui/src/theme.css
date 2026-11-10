@@ -1,0 +1,98 @@
+/*
+ * The kit's Tailwind v4 theme. Import it right after Tailwind:
+ *
+ *   @import "tailwindcss";
+ *   @import "@sift-design/ui/theme.css";
+ *
+ * It loads the fonts and tokens, maps shadcn's color names onto the token
+ * roles, and points Tailwind at the kit's components so their classes build.
+ */
+@import "@sift-design/tokens/fonts.css";
+@import "@sift-design/tokens/tokens.css";
+@import "./motion.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@source "./components";
+@source "./lib";
+
+@theme inline {
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-code);
+
+  --color-background: var(--surface);
+  --color-foreground: var(--ink);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--subtle);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--subtle);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--hover);
+  --color-accent-foreground: var(--ink);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--danger-foreground);
+  --color-border: var(--line);
+  --color-input: var(--control-line);
+  --color-ring: var(--focus-ring);
+
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
+  --color-hover: var(--hover);
+  --color-tint: var(--tint);
+  --color-tint-strong: var(--tint-strong);
+  --color-ink: var(--ink);
+  --color-line: var(--line);
+  --color-good: var(--good);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --color-accent-soft: var(--accent-soft);
+  --color-link: var(--accent);
+
+  --color-chart-1: var(--cat-1);
+  --color-chart-2: var(--cat-2);
+  --color-chart-3: var(--cat-3);
+  --color-chart-4: var(--cat-4);
+  --color-chart-5: var(--cat-5);
+  --color-chart-6: var(--cat-6);
+  --color-chart-7: var(--cat-7);
+  --color-chart-8: var(--cat-8);
+
+  --color-sidebar: var(--rail);
+  --color-sidebar-foreground: var(--rail-foreground);
+  --color-sidebar-primary: var(--rail-selected);
+  --color-sidebar-primary-foreground: var(--rail-selected-foreground);
+  --color-sidebar-accent: var(--rail-hover);
+  --color-sidebar-accent-foreground: var(--rail-foreground);
+  --color-sidebar-border: var(--rail-line);
+  --color-sidebar-ring: var(--rail-ring);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: calc(var(--radius-lg) + 4px);
+  --radius-shell: var(--radius-shell);
+  --radius-rail: var(--radius-rail);
+
+  --shadow-float: var(--shadow-float);
+  --shadow-raise: var(--shadow-raise);
+  --shadow-rail: var(--shadow-rail);
+
+  --ease-settle: var(--ease-settle);
+  --ease-leave: var(--ease-leave);
+}
+
+@layer base {
+  /* A bare `border` uses the hairline, never currentColor. */
+  *, ::before, ::after { border-color: var(--line); }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body { margin: 0; min-width: 320px; background: var(--ground); color: var(--ink); }
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+  :focus-visible { outline-color: var(--focus-ring); }
+  code, kbd, samp, pre { font-family: var(--font-code); }
+}

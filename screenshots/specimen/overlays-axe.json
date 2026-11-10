@@ -1,0 +1,166 @@
+[
+  {
+    "shot": "overlays-alert-dialog-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-alert-dialog-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-combobox-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-combobox-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-command-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-command-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-context-menu-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-context-menu-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-dialog-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-dialog-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-dialog-reduced",
+    "violations": []
+  },
+  {
+    "shot": "overlays-drawer-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-drawer-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-drawer-mobile-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-drawer-mobile-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-dropdown-menu-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-dropdown-menu-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-hover-card-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-hover-card-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-menubar-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-menubar-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-navigation-menu-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-navigation-menu-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-popover-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-popover-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-section-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-section-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-section-mobile-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-section-mobile-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-select-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-select-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-sheet-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-sheet-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-sheet-mobile-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-sheet-mobile-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-sonner-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-sonner-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-submenu-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-submenu-light",
+    "violations": []
+  },
+  {
+    "shot": "overlays-tooltip-dark",
+    "violations": []
+  },
+  {
+    "shot": "overlays-tooltip-light",
+    "violations": []
+  }
+]

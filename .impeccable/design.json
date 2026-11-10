@@ -1,0 +1,1181 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-10T05:26:58.833Z",
+  "title": "Design System: Sift design",
+  "extensions": {
+    "colorMeta": {
+      "slate": {
+        "role": "neutral",
+        "displayName": "slate",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "oatmeal": {
+        "role": "neutral",
+        "displayName": "oatmeal",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "coral": {
+        "role": "neutral",
+        "displayName": "coral",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "sea": {
+        "role": "neutral",
+        "displayName": "sea",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "umber": {
+        "role": "neutral",
+        "displayName": "umber",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "chartreuse": {
+        "role": "neutral",
+        "displayName": "chartreuse",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "ground",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "surface",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "rail": {
+        "role": "neutral",
+        "displayName": "rail",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "subtle": {
+        "role": "neutral",
+        "displayName": "subtle",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "hover": {
+        "role": "neutral",
+        "displayName": "hover",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "tint": {
+        "role": "neutral",
+        "displayName": "tint",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "tint-strong": {
+        "role": "neutral",
+        "displayName": "tint-strong",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "ink",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "muted",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "line",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "control-line": {
+        "role": "neutral",
+        "displayName": "control-line",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "primary",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "primary-foreground": {
+        "role": "neutral",
+        "displayName": "primary-foreground",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "accent",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "accent-soft": {
+        "role": "neutral",
+        "displayName": "accent-soft",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "good": {
+        "role": "neutral",
+        "displayName": "good",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "warn": {
+        "role": "neutral",
+        "displayName": "warn",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "danger": {
+        "role": "neutral",
+        "displayName": "danger",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "danger-foreground": {
+        "role": "neutral",
+        "displayName": "danger-foreground",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "focus-ring": {
+        "role": "neutral",
+        "displayName": "focus-ring",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "rail-foreground": {
+        "role": "neutral",
+        "displayName": "rail-foreground",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "rail-muted": {
+        "role": "neutral",
+        "displayName": "rail-muted",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "rail-selected": {
+        "role": "neutral",
+        "displayName": "rail-selected",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "rail-selected-foreground": {
+        "role": "neutral",
+        "displayName": "rail-selected-foreground",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "rail-hover": {
+        "role": "neutral",
+        "displayName": "rail-hover",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "rail-line": {
+        "role": "neutral",
+        "displayName": "rail-line",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "rail-ring": {
+        "role": "neutral",
+        "displayName": "rail-ring",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "cat-1": {
+        "role": "neutral",
+        "displayName": "cat-1",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "cat-2": {
+        "role": "neutral",
+        "displayName": "cat-2",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "cat-3": {
+        "role": "neutral",
+        "displayName": "cat-3",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "cat-4": {
+        "role": "neutral",
+        "displayName": "cat-4",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "cat-5": {
+        "role": "neutral",
+        "displayName": "cat-5",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "cat-6": {
+        "role": "neutral",
+        "displayName": "cat-6",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "cat-7": {
+        "role": "neutral",
+        "displayName": "cat-7",
+        "purpose": "Use role semantics documented in docs/color.md."
+      },
+      "cat-8": {
+        "role": "neutral",
+        "displayName": "cat-8",
+        "purpose": "Use role semantics documented in docs/color.md."
+      }
+    },
+    "darkTheme": {
+      "selector": ".dark",
+      "source": "tokens/tokens.css",
+      "tokenReferencePattern": "{colors.dark-<role>} when overridden; otherwise {colors.<role>}"
+    },
+    "shadows": [
+      {
+        "name": "shadow-float",
+        "value": "0 16px 50px -14px #2b253933",
+        "darkValue": "0 16px 50px -14px #0009",
+        "purpose": "Floating layer separation, not work-card decoration."
+      },
+      {
+        "name": "shadow-raise",
+        "value": "0 1px 2px #2b25390f, 0 2px 8px -2px #2b25391a",
+        "darkValue": "0 1px 2px #0006, 0 2px 8px -2px #0008",
+        "purpose": "Floating layer separation, not work-card decoration."
+      }
+    ],
+    "motion": [
+      {
+        "name": "spring.smooth",
+        "value": {
+          "type": "spring",
+          "visualDuration": 0.28,
+          "bounce": 0
+        },
+        "purpose": "Shared role spring; see docs/motion.md."
+      },
+      {
+        "name": "spring.snappy",
+        "value": {
+          "type": "spring",
+          "visualDuration": 0.2,
+          "bounce": 0.12
+        },
+        "purpose": "Shared role spring; see docs/motion.md."
+      },
+      {
+        "name": "spring.lively",
+        "value": {
+          "type": "spring",
+          "visualDuration": 0.32,
+          "bounce": 0.22
+        },
+        "purpose": "Shared role spring; see docs/motion.md."
+      },
+      {
+        "name": "spring.press",
+        "value": {
+          "type": "spring",
+          "visualDuration": 0.12,
+          "bounce": 0
+        },
+        "purpose": "Shared role spring; see docs/motion.md."
+      },
+      {
+        "name": "spring.travel",
+        "value": {
+          "type": "spring",
+          "visualDuration": 0.3,
+          "bounce": 0
+        },
+        "purpose": "Shared role spring; see docs/motion.md."
+      },
+      {
+        "name": "spring.exit",
+        "value": {
+          "type": "spring",
+          "visualDuration": 0.16,
+          "bounce": 0
+        },
+        "purpose": "Shared role spring; see docs/motion.md."
+      },
+      {
+        "name": "shellSpring",
+        "value": {
+          "type": "spring",
+          "stiffness": 560,
+          "damping": 48,
+          "mass": 0.8
+        },
+        "purpose": "Shared continuity spring."
+      },
+      {
+        "name": "selectionSpring",
+        "value": {
+          "type": "spring",
+          "stiffness": 700,
+          "damping": 48,
+          "mass": 0.6
+        },
+        "purpose": "Shared continuity spring."
+      },
+      {
+        "name": "titleMorph",
+        "value": {
+          "type": "spring",
+          "stiffness": 560,
+          "damping": 46,
+          "mass": 0.7
+        },
+        "purpose": "Shared continuity spring."
+      },
+      {
+        "name": "ease-settle",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "ease-leave",
+        "value": "cubic-bezier(0.4, 0, 1, 1)",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "dur-instant",
+        "value": "80ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "dur-quick",
+        "value": "140ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "dur-base",
+        "value": "180ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "dur-move",
+        "value": "340ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-smooth",
+        "value": "linear(0, 0.024, 0.069, 0.138, 0.215, 0.296, 0.364, 0.44, 0.51, 0.574, 0.624, 0.676, 0.722, 0.757, 0.793, 0.824, 0.85, 0.87, 0.89, 0.907, 0.922, 0.933, 0.943, 0.952, 0.959, 0.966, 0.971, 0.976, 0.979, 0.983, 0.985, 0.988, 0.99, 0.991, 0.993, 0.994, 0.995, 0.996, 0.996, 0.997, 0.997, 0.998, 0.998, 0.998, 0.999, 0.999, 0.999, 0.999, 1)",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-smooth-duration",
+        "value": "538ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-snappy",
+        "value": "linear(0, 0.018, 0.069, 0.126, 0.208, 0.278, 0.365, 0.433, 0.513, 0.573, 0.641, 0.689, 0.743, 0.781, 0.822, 0.85, 0.881, 0.901, 0.923, 0.937, 0.952, 0.962, 0.972, 0.978, 0.983, 0.988, 0.992, 0.995, 0.997, 0.998, 1, 1, 1.001, 1.001, 1.002, 1.002, 1.002, 1.002, 1.002, 1.001, 1.001, 1.001, 1.001, 1.001, 1.001, 1.001, 1.001, 1, 1)",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-snappy-duration",
+        "value": "358ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-lively",
+        "value": "linear(0, 0.019, 0.065, 0.128, 0.203, 0.283, 0.366, 0.447, 0.524, 0.597, 0.663, 0.723, 0.776, 0.822, 0.862, 0.896, 0.924, 0.947, 0.966, 0.981, 0.993, 1.001, 1.008, 1.012, 1.015, 1.017, 1.018, 1.018, 1.017, 1.016, 1.015, 1.013, 1.012, 1.01, 1.009, 1.008, 1.006, 1.005, 1.004, 1.003, 1.003, 1.002, 1.002, 1.001, 1.001, 1, 1, 1, 1)",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-lively-duration",
+        "value": "562ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-press",
+        "value": "linear(0, 0.029, 0.109, 0.186, 0.267, 0.347, 0.448, 0.518, 0.581, 0.655, 0.703, 0.745, 0.793, 0.823, 0.849, 0.872, 0.897, 0.912, 0.926, 0.94, 0.95, 0.957, 0.964, 0.971, 0.976, 0.979, 0.984, 0.986, 0.988, 0.99, 0.992, 0.993, 0.994, 0.996, 0.996, 0.997, 0.997, 0.998, 0.998, 0.998, 0.999, 0.999, 0.999, 0.999, 0.999, 1, 1, 1, 1)",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-press-duration",
+        "value": "263ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-travel",
+        "value": "linear(0, 0.021, 0.069, 0.133, 0.216, 0.291, 0.365, 0.435, 0.502, 0.562, 0.618, 0.674, 0.717, 0.756, 0.789, 0.819, 0.844, 0.867, 0.889, 0.905, 0.919, 0.931, 0.941, 0.95, 0.958, 0.965, 0.97, 0.975, 0.979, 0.982, 0.985, 0.987, 0.989, 0.991, 0.992, 0.994, 0.995, 0.995, 0.996, 0.997, 0.997, 0.998, 0.998, 0.998, 0.999, 0.999, 0.999, 0.999, 1)",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-travel-duration",
+        "value": "572ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-exit",
+        "value": "linear(0, 0.027, 0.082, 0.174, 0.254, 0.335, 0.412, 0.485, 0.551, 0.625, 0.677, 0.722, 0.762, 0.797, 0.834, 0.859, 0.88, 0.898, 0.914, 0.93, 0.941, 0.95, 0.958, 0.965, 0.97, 0.976, 0.98, 0.983, 0.986, 0.988, 0.99, 0.992, 0.993, 0.994, 0.995, 0.996, 0.997, 0.997, 0.998, 0.998, 0.998, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 1, 1)",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      },
+      {
+        "name": "spring-exit-duration",
+        "value": "335ms",
+        "purpose": "Exact CSS token; pair spring easing with its matching duration."
+      }
+    ],
+    "focus": {
+      "outline": "2px solid var(--focus-ring)",
+      "outlineOffset": "3px",
+      "railOutline": "2px solid var(--rail-ring)",
+      "rule": "Never obscure, clip, or animate away keyboard focus."
+    },
+    "breakpoints": [
+      {
+        "name": "small-overlays",
+        "value": "640px"
+      },
+      {
+        "name": "activity-mobile",
+        "value": "720px"
+      },
+      {
+        "name": "mobile-max",
+        "value": "767px"
+      },
+      {
+        "name": "rail-modal-below",
+        "value": "768px"
+      },
+      {
+        "name": "detail-stack-max",
+        "value": "919px"
+      },
+      {
+        "name": "workspace-compact",
+        "value": "950px"
+      },
+      {
+        "name": "tracker-stack",
+        "value": "960px"
+      },
+      {
+        "name": "detail-sidebar",
+        "value": "1100px"
+      },
+      {
+        "name": "settings-compact",
+        "value": "1250px"
+      },
+      {
+        "name": "wide-workspace",
+        "value": "1500px"
+      }
+    ],
+    "provenance": {
+      "mode": "scan",
+      "source": "Sift (private source)",
+      "qualitativeLanguage": "Sift's design direction notes and product brief; no interview requested.",
+      "tonalRamps": "Not synthesized: no source ramps exist and the brief prohibits invented values.",
+      "limitations": "Harbor palette captures were built and reviewed in both themes and desktop/mobile; shared motion behavior is documented, not newly certified by this palette-only capture."
+    },
+    "motionPresets": {
+      "standard": {
+        "pageMotion": {
+          "enterForward": {
+            "opacity": 0,
+            "x": 14
+          },
+          "enterBackward": {
+            "opacity": 0,
+            "x": -14
+          },
+          "visible": {
+            "opacity": 1,
+            "x": 0,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.28,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.2,
+                "ease": "linear"
+              }
+            }
+          },
+          "exitForward": {
+            "opacity": 0,
+            "x": -10,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.16,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.14,
+                "ease": [
+                  0.4,
+                  0,
+                  1,
+                  1
+                ],
+                "delay": 0
+              }
+            }
+          },
+          "exitBackward": {
+            "opacity": 0,
+            "x": 10,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.16,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.14,
+                "ease": [
+                  0.4,
+                  0,
+                  1,
+                  1
+                ],
+                "delay": 0
+              }
+            }
+          }
+        },
+        "pushDesktop": {
+          "enterForward": {
+            "x": 56,
+            "opacity": 0,
+            "filter": "brightness(1)"
+          },
+          "enterBackward": {
+            "x": -28,
+            "opacity": 0,
+            "filter": "brightness(0.94)"
+          },
+          "visible": {
+            "x": 0,
+            "opacity": 1,
+            "filter": "brightness(1)",
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.28,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.2,
+                "ease": "linear"
+              }
+            }
+          },
+          "exitForward": {
+            "x": -28,
+            "opacity": 0,
+            "filter": "brightness(0.94)",
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.28,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.16,
+                "ease": "linear"
+              }
+            }
+          },
+          "exitBackward": {
+            "x": 56,
+            "opacity": 0,
+            "filter": "brightness(1)",
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.28,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.16,
+                "ease": "linear"
+              }
+            }
+          }
+        },
+        "pushMobile": {
+          "enterForward": {
+            "x": "100%",
+            "opacity": 1,
+            "filter": "brightness(1)"
+          },
+          "enterBackward": {
+            "x": "-28%",
+            "opacity": 1,
+            "filter": "brightness(0.94)"
+          },
+          "visible": {
+            "x": 0,
+            "opacity": 1,
+            "filter": "brightness(1)",
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.3,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.2,
+                "ease": "linear"
+              }
+            }
+          },
+          "exitForward": {
+            "x": "-28%",
+            "opacity": 1,
+            "filter": "brightness(0.94)",
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.3,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.16,
+                "ease": "linear"
+              }
+            }
+          },
+          "exitBackward": {
+            "x": "100%",
+            "opacity": 1,
+            "filter": "brightness(1)",
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.3,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.16,
+                "ease": "linear"
+              }
+            }
+          }
+        },
+        "sheetDesktop": {
+          "initial": {
+            "opacity": 0,
+            "x": 64,
+            "scale": 0.985
+          },
+          "animate": {
+            "opacity": 1,
+            "x": 0,
+            "scale": 1,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.28,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.14,
+                "ease": "linear"
+              }
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "x": 40,
+            "scale": 0.99,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.16,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.16,
+                "ease": [
+                  0.4,
+                  0,
+                  1,
+                  1
+                ],
+                "delay": 0.02
+              }
+            }
+          }
+        },
+        "sheetMobile": {
+          "initial": {
+            "opacity": 0,
+            "x": "100%",
+            "scale": 1
+          },
+          "animate": {
+            "opacity": 1,
+            "x": 0,
+            "scale": 1,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.3,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.14,
+                "ease": "linear"
+              }
+            }
+          },
+          "exit": {
+            "opacity": 1,
+            "x": "100%",
+            "scale": 1,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.16,
+              "bounce": 0
+            }
+          }
+        },
+        "bottomSheetMotion": {
+          "initial": {
+            "y": "100%"
+          },
+          "animate": {
+            "y": 0,
+            "opacity": 1,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.3,
+              "bounce": 0
+            }
+          },
+          "exit": {
+            "y": "100%",
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.16,
+              "bounce": 0
+            }
+          }
+        },
+        "alertMotion": {
+          "initial": {
+            "opacity": 0,
+            "scale": 1.06
+          },
+          "animate": {
+            "opacity": 1,
+            "scale": 1,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.2,
+              "bounce": 0.12,
+              "opacity": {
+                "duration": 0.14,
+                "ease": "linear"
+              }
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "scale": 0.98,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.16,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.12,
+                "ease": [
+                  0.4,
+                  0,
+                  1,
+                  1
+                ],
+                "delay": 0
+              }
+            }
+          }
+        },
+        "arrivalMotion": {
+          "initial": {
+            "opacity": 0,
+            "y": -6,
+            "scale": 0.98
+          },
+          "animate": {
+            "opacity": 1,
+            "y": 0,
+            "scale": 1,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.28,
+              "bounce": 0
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "scale": 0.98,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.16,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.12,
+                "ease": [
+                  0.4,
+                  0,
+                  1,
+                  1
+                ],
+                "delay": 0
+              }
+            }
+          }
+        },
+        "popoverMotion": {
+          "initial": {
+            "opacity": 0,
+            "scale": 0.94
+          },
+          "animate": {
+            "opacity": 1,
+            "scale": 1,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.2,
+              "bounce": 0.12,
+              "opacity": {
+                "duration": 0.1,
+                "ease": "linear"
+              }
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "scale": 0.97,
+            "transition": {
+              "type": "spring",
+              "visualDuration": 0.16,
+              "bounce": 0,
+              "opacity": {
+                "duration": 0.1,
+                "ease": [
+                  0.4,
+                  0,
+                  1,
+                  1
+                ],
+                "delay": 0
+              }
+            }
+          }
+        },
+        "reflowTransition": {
+          "type": "spring",
+          "visualDuration": 0.28,
+          "bounce": 0
+        },
+        "pressable": {
+          "whileTap": {
+            "scale": 0.97
+          },
+          "transition": {
+            "type": "spring",
+            "visualDuration": 0.12,
+            "bounce": 0
+          }
+        }
+      },
+      "reduced": {
+        "pageMotion": {
+          "enterForward": {
+            "opacity": 0
+          },
+          "enterBackward": {
+            "opacity": 0
+          },
+          "visible": {
+            "opacity": 1,
+            "x": 0,
+            "transition": {
+              "duration": 0.14
+            }
+          },
+          "exitForward": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.08
+            }
+          },
+          "exitBackward": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.08
+            }
+          }
+        },
+        "pushDesktop": {
+          "enterForward": {
+            "opacity": 0
+          },
+          "enterBackward": {
+            "opacity": 0
+          },
+          "visible": {
+            "x": 0,
+            "opacity": 1,
+            "filter": "brightness(1)",
+            "transition": {
+              "duration": 0.14
+            }
+          },
+          "exitForward": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.08
+            }
+          },
+          "exitBackward": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.08
+            }
+          }
+        },
+        "pushMobile": {
+          "enterForward": {
+            "opacity": 0
+          },
+          "enterBackward": {
+            "opacity": 0
+          },
+          "visible": {
+            "x": 0,
+            "opacity": 1,
+            "filter": "brightness(1)",
+            "transition": {
+              "duration": 0.14
+            }
+          },
+          "exitForward": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.08
+            }
+          },
+          "exitBackward": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.08
+            }
+          }
+        },
+        "sheetDesktop": {
+          "initial": {
+            "opacity": 0,
+            "x": 0,
+            "scale": 1
+          },
+          "animate": {
+            "opacity": 1,
+            "x": 0,
+            "scale": 1,
+            "transition": {
+              "duration": 0.12
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "x": 0,
+            "scale": 1,
+            "transition": {
+              "duration": 0.08
+            }
+          }
+        },
+        "sheetMobile": {
+          "initial": {
+            "opacity": 0,
+            "x": 0,
+            "scale": 1
+          },
+          "animate": {
+            "opacity": 1,
+            "x": 0,
+            "scale": 1,
+            "transition": {
+              "duration": 0.12
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "x": 0,
+            "scale": 1,
+            "transition": {
+              "duration": 0.08
+            }
+          }
+        },
+        "bottomSheetMotion": {
+          "initial": {
+            "opacity": 0
+          },
+          "animate": {
+            "y": 0,
+            "opacity": 1,
+            "transition": {
+              "duration": 0.14
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.08
+            }
+          }
+        },
+        "alertMotion": {
+          "initial": {
+            "opacity": 0
+          },
+          "animate": {
+            "opacity": 1,
+            "scale": 1,
+            "transition": {
+              "duration": 0.14
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.08
+            }
+          }
+        },
+        "arrivalMotion": {
+          "initial": {
+            "opacity": 0
+          },
+          "animate": {
+            "opacity": 1,
+            "y": 0,
+            "scale": 1,
+            "transition": {
+              "duration": 0.14
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.06
+            }
+          }
+        },
+        "popoverMotion": {
+          "initial": {
+            "opacity": 0
+          },
+          "animate": {
+            "opacity": 1,
+            "scale": 1,
+            "transition": {
+              "duration": 0.14
+            }
+          },
+          "exit": {
+            "opacity": 0,
+            "transition": {
+              "duration": 0.08
+            }
+          }
+        },
+        "reflowTransition": {
+          "duration": 0
+        },
+        "pressable": {}
+      }
+    },
+    "typographyMeta": {
+      "label": {
+        "displayName": "Label",
+        "purpose": "13px labels and compact support text."
+      },
+      "help": {
+        "displayName": "Help",
+        "purpose": "12.5px field help text."
+      }
+    },
+    "retheming": {
+      "default": "Existing root palette remains unchanged.",
+      "example": "tokens/themes/harbor.css",
+      "attribute": "data-palette=\"harbor\"",
+      "guide": "docs/retheming.md",
+      "captures": "screenshots/specimen/retheme-*.png",
+      "dtcgGroup": "themes.harbor"
+    },
+    "motionRules": {
+      "travel": "Shared springs for every spatial change, including departure.",
+      "fade": "Independent short opacity/color durations; leave easing for departures.",
+      "history": "Historical Sift CSS ledger remains provenance, not the new travel recipe."
+    },
+    "typographyFallbacks": {
+      "body": "\"Albert Sans\", \"IBM Plex Sans Variable\", system-ui, sans-serif",
+      "heading": "var(--font-body)",
+      "code": "\"IBM Plex Mono\", ui-monospace, Menlo, Consolas, monospace",
+      "loading": "fonts.css loads primary normal/italic, mono weights, and variable script fallback subsets."
+    }
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Canonical token roles; keyboard focus remains visible.",
+      "html": "<button class=\"ds-button-primary\">Save changes</button>",
+      "css": ".ds-button-primary { background: var(--primary); color: var(--primary-foreground); border: 0; border-radius: var(--radius-md); font: 500 14px/1.5 var(--font-body); padding: 8px 14px; cursor: pointer; } .ds-button-primary:hover { background: var(--hover); color: var(--ink); } .ds-button-primary:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }"
+    },
+    {
+      "name": "Quiet action",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Canonical token roles; keyboard focus remains visible.",
+      "html": "<button class=\"ds-button-ghost\">Cancel</button>",
+      "css": ".ds-button-ghost { background: transparent; color: var(--ink); border: 0; border-radius: var(--radius-md); font: 500 14px/1.5 var(--font-body); padding: 8px 14px; cursor: pointer; } .ds-button-ghost:hover { background: var(--hover); color: var(--ink); } .ds-button-ghost:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }"
+    },
+    {
+      "name": "Labeled field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Keep a visible label and a control boundary.",
+      "html": "<label class=\"ds-field\">Task name<input class=\"ds-input\" value=\"Calibrate soil-moisture probe\" /></label>",
+      "css": ".ds-field { display: grid; gap: 6px; color: var(--ink); font: 550 13px/1.5 var(--font-body); } .ds-input { background: var(--surface); color: var(--ink); border: 1px solid var(--control-line); border-radius: var(--radius-sm); padding: 8px 10px; font: 400 14px/1.5 var(--font-body); } .ds-input:hover { border-color: var(--accent); } .ds-input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }"
+    },
+    {
+      "name": "Filter chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Canonical token roles; keyboard focus remains visible.",
+      "html": "<button class=\"ds-chip\">Growing</button>",
+      "css": ".ds-chip { background: var(--tint); color: var(--ink); border: 0; border-radius: var(--radius-pill); height: 28px; padding: 0 11px 0 10px; font: 400 12.5px/1.5 var(--font-body); cursor: pointer; } .ds-chip:hover { background: var(--hover); color: var(--ink); } .ds-chip:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }"
+    },
+    {
+      "name": "Selected destination",
+      "kind": "nav",
+      "refersTo": "navigation-selected",
+      "description": "Use rail-specific foreground and focus roles.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace\"><a class=\"ds-nav-selected\" href=\"#today\" aria-current=\"page\">Today</a></nav>",
+      "css": ".ds-nav { background: var(--rail); padding: 12px; } .ds-nav-selected { display: block; background: var(--rail-selected); color: var(--rail-selected-foreground); border-radius: var(--radius-md); padding: 10px 12px; font: 400 13px/1.5 var(--font-body); text-decoration: none; } .ds-nav-selected:hover { background: var(--rail-hover); color: var(--rail-foreground); } .ds-nav-selected:focus-visible { outline: 2px solid var(--rail-ring); outline-offset: 3px; }"
+    },
+    {
+      "name": "Task card",
+      "kind": "card",
+      "refersTo": "task-card",
+      "description": "Canonical token roles; keyboard focus remains visible.",
+      "html": "<button class=\"ds-task-card\">Calibrate soil-moisture probe</button>",
+      "css": ".ds-task-card { text-align: left; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px 14px 14px; font: 400 14px/1.65 var(--font-body); cursor: pointer; } .ds-task-card:hover { background: var(--hover); color: var(--ink); } .ds-task-card:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The studio workbench",
+    "overview": "Build a precise studio workbench: navigational rails, orderly work surfaces, pinned context, and visible handoffs. Use Operate mode: help a person find, inspect, and change real work; do not turn the workspace into a presentation.\n\nKeep the shell stable while the work changes. Use springs for spatial travel and scale, short durations for fades, direct manipulation, velocity-preserving interruption, and continuity of shared elements. Show actual local state, attribute helper actions, and preserve the person’s reading position and drafts. Use restrained density, deliberate typography, and interruptible motion rather than dashboard tiles or chat-first composition.",
+    "keyCharacteristics": [
+      "Operate mode; task-first, not metrics-first.",
+      "Both themes are authored; dark is layered charcoal.",
+      "One accent, legible hairlines, flat work surfaces.",
+      "Motion explains state and preserves orientation."
+    ],
+    "rules": [
+      {
+        "name": "The One Accent Rule",
+        "body": "Use --accent for links, selection, and focus. Reserve status and categorical colors for meaning; do not add a competing interface accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat Work Rule",
+        "body": "Keep cards and work surfaces flat. Apply --shadow-float only to layers above the work; do not use a hover lift as routine decoration.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use token roles and test both themes.",
+      "Do keep the shell fixed during route changes and use direction-aware work-surface motion.",
+      "Do attribute helper changes and expose the reason and available undo.",
+      "Do use Albert Sans at 14px for task text and IBM Plex Mono for dense counts, times, durations, IDs, and keys.",
+      "Do use 6px, 8px, and 12px core radii and reserve shadows for floating layers."
+    ],
+    "donts": [
+      "Don’t copy stale Geist, blue-accent, or plum-dark guidance from earlier revisions.",
+      "Don’t invent counters, progress, completion evidence, or artificial waits.",
+      "Don’t use decoration gradients, glassmorphism, emoji, stock metric tiles, or pale-on-pale controls.",
+      "Don’t animate the shell on navigation, replay arrivals for existing items, or animate streamed tokens.",
+      "Don’t convey status or chart identity with color alone."
+    ]
+  }
+}

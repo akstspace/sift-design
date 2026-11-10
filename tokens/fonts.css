@@ -1,0 +1,23 @@
+/* Albert Sans is self-hosted (SIL OFL 1.1, see fonts/albert-sans-OFL.txt).
+   IBM Plex Mono and IBM Plex Sans come from @fontsource (SIL OFL 1.1). Plex
+   Sans covers scripts Albert Sans lacks (Greek, Cyrillic); its unicode-range
+   subsets download only when a page uses those characters. */
+@import "@fontsource-variable/ibm-plex-sans/index.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@font-face {
+  font-family: "Albert Sans";
+  src: url("./fonts/albert-sans-variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Albert Sans";
+  src: url("./fonts/albert-sans-italic-variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}

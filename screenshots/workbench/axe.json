@@ -1,0 +1,102 @@
+[
+  {
+    "shot": "01-today-light",
+    "violations": []
+  },
+  {
+    "shot": "02-today-dark",
+    "violations": []
+  },
+  {
+    "shot": "03-today-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "04-today-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "05-icon-rail-light",
+    "violations": []
+  },
+  {
+    "shot": "06-all-tasks-list-light",
+    "violations": []
+  },
+  {
+    "shot": "07-all-tasks-list-dark",
+    "violations": []
+  },
+  {
+    "shot": "08-areas-light",
+    "violations": []
+  },
+  {
+    "shot": "09-area-detail-dark",
+    "violations": []
+  },
+  {
+    "shot": "10-inspector-light",
+    "violations": []
+  },
+  {
+    "shot": "11-inspector-dark",
+    "violations": []
+  },
+  {
+    "shot": "12-inspector-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "13-full-page-dark",
+    "violations": []
+  },
+  {
+    "shot": "14-empty-light",
+    "violations": []
+  },
+  {
+    "shot": "15-no-matches-dark",
+    "violations": []
+  },
+  {
+    "shot": "16-error-light",
+    "violations": []
+  },
+  {
+    "shot": "17-create-light",
+    "violations": []
+  },
+  {
+    "shot": "18-live-dark",
+    "violations": []
+  },
+  {
+    "shot": "19-completion-reason-light",
+    "violations": []
+  },
+  {
+    "shot": "20-completion-undo-light",
+    "violations": []
+  },
+  {
+    "shot": "21-mobile-navigation-dark",
+    "violations": []
+  },
+  {
+    "shot": "22-list-dark-mobile",
+    "violations": []
+  },
+  {
+    "shot": "23-areas-light-mobile",
+    "violations": []
+  },
+  {
+    "shot": "24-filters-light",
+    "violations": []
+  },
+  {
+    "shot": "25-reduced-inspector-dark",
+    "violations": []
+  }
+]
