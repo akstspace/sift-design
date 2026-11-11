@@ -124,7 +124,7 @@ export function ComponentSheet() {
             their buttons, highlights travel between choices, and every one works in light and dark. These are live; try
             them.
           </p>
-          <a className="text-link" href={at("/components")}>
+          <a className="landing-link" href={at("/components")}>
             Browse all components
             <IconArrowRight aria-hidden size={17} />
           </a>

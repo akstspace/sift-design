@@ -165,7 +165,7 @@ export function SpringLab() {
             Six spring presets, chosen by role. A spring keeps its speed when its target changes, so a panel closed
             halfway turns around from where it is. Click a lane twice, quickly, to feel it.
           </p>
-          <a className="text-link" href={at("/motion")}>
+          <a className="landing-link" href={at("/motion")}>
             Read the motion guide
             <IconArrowRight aria-hidden size={17} />
           </a>

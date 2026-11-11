@@ -93,7 +93,7 @@ export function PaletteLab() {
             variables such as <code>--surface</code> and <code>--accent</code>, so your colors drop in without touching
             component code.
           </p>
-          <a className="text-link" href={at("/retheming")}>
+          <a className="landing-link" href={at("/retheming")}>
             Change the palette
             <IconArrowRight aria-hidden size={17} />
           </a>
