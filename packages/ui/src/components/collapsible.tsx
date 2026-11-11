@@ -16,11 +16,24 @@ function CollapsibleTrigger(props: React.ComponentProps<typeof CollapsiblePrimit
   return <CollapsiblePrimitive.Trigger data-slot="collapsible-trigger" {...props} />
 }
 
+/**
+ * True inside a measured disclosure body. The body already springs to its
+ * content's height, so content that enters or leaves inside it should fade
+ * only and let the body move the space. Animating height twice makes the
+ * body trail behind the content.
+ */
+const InsideDisclosureContext = React.createContext(false)
+export const useInsideDisclosure = () => React.useContext(InsideDisclosureContext)
+
 /** Shared measured disclosure body: the wrapper's height springs; inner text never scales. */
 export function DisclosureBody({ open, className, children }: { open: boolean; className?: string; children: React.ReactNode }) {
   const reduced = !!useReducedMotion()
   const content = React.useRef<HTMLDivElement>(null)
   const [height, setHeight] = React.useState(0)
+  // Content that shrinks while open closes its space on the shorter exit spring.
+  const previous = React.useRef(height)
+  const shrinking = open && height < previous.current
+  React.useEffect(() => { previous.current = height }, [height])
   const [settled, setSettled] = React.useState(false)
   React.useLayoutEffect(() => { setSettled(false) }, [open, height])
   React.useLayoutEffect(() => {
@@ -31,8 +44,8 @@ export function DisclosureBody({ open, className, children }: { open: boolean; c
     observer.observe(content.current)
     return () => observer.disconnect()
   }, [])
-  return <motion.div data-slot="disclosure-body" initial={false} animate={{ height: open ? height : 0, opacity: open ? 1 : 0 }} transition={{ height: reduced ? { duration: 0 } : open ? spring.smooth : spring.exit, opacity: { duration: open ? duration.quick : duration.instant, ease: open ? "linear" : leave } }} onAnimationComplete={() => setSettled(true)} style={{ overflow: open && settled ? "visible" : "hidden" }} inert={!open} aria-hidden={!open}>
-    <div ref={content} className={className}>{children}</div>
+  return <motion.div data-slot="disclosure-body" initial={false} animate={{ height: open ? height : 0, opacity: open ? 1 : 0 }} transition={{ height: reduced ? { duration: 0 } : open && !shrinking ? spring.smooth : spring.exit, opacity: { duration: open ? duration.quick : duration.instant, ease: open ? "linear" : leave } }} onAnimationComplete={() => setSettled(true)} style={{ overflow: open && settled ? "visible" : "hidden" }} inert={!open} aria-hidden={!open}>
+    <div ref={content} className={className}><InsideDisclosureContext.Provider value>{children}</InsideDisclosureContext.Provider></div>
   </motion.div>
 }
 function CollapsibleContent({ className, children, ...props }: React.ComponentProps<typeof CollapsiblePrimitive.Content>) {

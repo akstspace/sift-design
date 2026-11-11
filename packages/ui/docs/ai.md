@@ -1,6 +1,6 @@
 # AI elements
 
-The AI components cover chat, reasoning, tool calls, code and developer output, workflow canvases, and voice. They are adapted from [AI Elements](https://elements.ai-sdk.dev) 1.9.1 and keep its component names and props, so code written against the upstream documentation keeps working. The styling, motion, demos, and documentation follow Sift Design. Each section ends with its changes from upstream and a link to the upstream reference.
+The AI components cover chat, reasoning, tool calls, code and developer output, workflow canvases, and voice. They are adapted from [AI Elements](https://elements.ai-sdk.dev) 1.9.1 and keep its component names and props, so code written against the upstream documentation keeps working. The styling, motion, demos, and documentation follow Sift Design. Each section ends with its changes from upstream and a link to the upstream reference. Six components are kit additions with no upstream: the assistant dock, slash menu, conversation notice, action card, agent review, and activity log. They cover an assistant that works inside a product.
 
 Load them after the kit theme. `ai.css` adds the AI component motion and points Tailwind at the AI sources:
 
@@ -799,13 +799,15 @@ Upstream reference: [AI Elements Chain of thought](https://elements.ai-sdk.dev/c
 
 **When:** Show a tool call with its parameters, approval state, and result. Keep details collapsed when the status is sufficient.
 
-**Structure:** `Tool` → `ToolHeader` + `ToolContent` → `ToolInput` and `ToolOutput`. The header uses the kit disclosure trigger. Parameters and structured results use `CodeBlock`. `getStatusBadge(state)` is also exported for standalone status displays.
+**Structure:** `Tool` → `ToolHeader` + `ToolContent` → `ToolInput` and `ToolOutput`. The compact variant can add `ToolTail` after the header. The header uses the kit disclosure trigger. Parameters and structured results use `CodeBlock`. `getStatusBadge(state)` is also exported for standalone status displays.
 
-**Props:** `Tool` accepts the kit `Collapsible` props, including `open`, `defaultOpen`, and `onOpenChange`. `ToolHeader` requires `type` and `state`; `title` overrides the derived tool name. For `type="dynamic-tool"`, pass the required `toolName`. Static tool types derive the name from `type`. `ToolPart` exports the union of static and dynamic tool parts. Supported states are `input-streaming`, `input-available`, `approval-requested`, `approval-responded`, `output-available`, `output-error`, and `output-denied`. `ToolInput` takes `input`. `ToolOutput` takes `output` and `errorText`. All content parts accept their original element props.
+**Props:** `Tool` accepts the kit `Collapsible` props, including `open`, `defaultOpen`, and `onOpenChange`. `variant` is `"card"` (the default) or `"compact"`. `ToolHeader` takes an optional `icon` in both variants. `ToolHeader` requires `type` and `state`; `title` overrides the derived tool name. For `type="dynamic-tool"`, pass the required `toolName`. Static tool types derive the name from `type`. `ToolPart` exports the union of static and dynamic tool parts. Supported states are `input-streaming`, `input-available`, `approval-requested`, `approval-responded`, `output-available`, `output-error`, and `output-denied`. `ToolInput` takes `input`. `ToolOutput` takes `output` and `errorText`. All content parts accept their original element props.
 
-**Motion:** Disclosure height uses `spring.smooth` (0.28s visual duration) to open and `spring.exit` (0.16s) to close. This measured-height animation is the kit disclosure exception to transform-only motion. Disclosure opacity enters in `duration.quick` (140ms) and exits in `duration.instant` (80ms). Status labels cross-fade in 140ms and exit in 80ms. The chevron uses `--spring-smooth-duration` and `--spring-smooth`. Only the running state has a 1.8s opacity activity signal.
+**Compact variant:** Use `variant="compact"` when a transcript has many tool calls. Each call is one borderless 30px row. The row shows the icon, a muted `verb`, the `target` in mono, the status, and a chevron. Without `verb` and `target`, the row shows the tool name in mono. `durationMs` shows only after the call ends, and only when it took 1 second or more. The status is an icon with a screen-reader label: a spinner while preparing or running, a check when completed, and an x on error. A lock means approval is needed or the call was denied. `ToolStatusMark` exports this status for other rows. The details indent 22px, so they line up with the tool name. Stack compact rows with no gap. `ToolTail` shows the last `lines` lines (default 3) of `output` under a running row. Render it only while the call runs and its details are closed. `formatToolDuration(ms)` formats a time as `0.4s`, `12s`, or `1m 5s`.
 
-**Reduced motion:** Disclosure height and chevron state change immediately. Short fades remain. The running indicator becomes static.
+**Motion:** Disclosure height uses `spring.smooth` (0.28s visual duration) to open and `spring.exit` (0.16s) to close. This measured-height animation is the kit disclosure exception to transform-only motion. Disclosure opacity enters in `duration.quick` (140ms) and exits in `duration.instant` (80ms). Status labels cross-fade in 140ms and exit in 80ms. The chevron uses `--spring-smooth-duration` and `--spring-smooth`. Only the running state has a 1.8s opacity activity signal. In the compact variant, the chevron turns 90°. A new status icon pops in from a scale of 0.6, on `spring.snappy`, or on `spring.lively` when the call ends. The old icon leaves on `spring.exit`. Preparing and running share one spinner, so it does not restart. The spinner turns once every 700ms, and only while the call runs. `ToolTail` opens on `spring.smooth` and collapses on `spring.exit` when the call ends. Its height stays at the full line count, so new lines move up and the transcript does not move. The oldest line fades out under a mask.
+
+**Reduced motion:** Disclosure height and chevron state change immediately. Short fades remain. The running indicator becomes static. In the compact variant, the spinner stops, status icons cross-fade without scale, and the tail fades.
 
 **Accessibility:** The trigger is a keyboard-operable button with expanded state and panel relationships. Closing details become inert immediately. Status changes use a polite live region. Errors use `role="alert"`. Keep approval buttons outside the trigger.
 
@@ -817,6 +819,7 @@ Upstream reference: [AI Elements Chain of thought](https://elements.ai-sdk.dev/c
 - Replaces nested code cards with flat sections inside the tool boundary. Parameters and results sit in a tinted well instead of a second bordered card.
 - Preserves `ToolPart`, dynamic tool names, and the reusable `getStatusBadge` export.
 - Keeps section padding on input and output parts to preserve the flat card layout.
+- Adds the `compact` variant, `ToolStatusMark`, `ToolTail`, `formatToolDuration`, and the `icon`, `verb`, `target`, and `durationMs` header props. These additions are not in upstream.
 
 ```tsx
 import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from "@sift-design/ui/ai/tool";
@@ -826,6 +829,27 @@ import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from "@sift-desi
   <ToolContent>
     <ToolInput input={{ area: "propagation-house", bench: 4 }} />
     <ToolOutput output={{ temperature_c: 24.6, humidity_percent: 72 }} errorText={undefined} />
+  </ToolContent>
+</Tool>;
+```
+
+```tsx
+import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput, ToolTail } from "@sift-design/ui/ai/tool";
+import { IconTerminal2 } from "@tabler/icons-react";
+
+<Tool variant="compact" open={open} onOpenChange={setOpen}>
+  <ToolHeader
+    type="dynamic-tool"
+    toolName="bash"
+    state={call.state}
+    icon={IconTerminal2}
+    target="larkspur sensors inspect --bench 4"
+    durationMs={call.durationMs}
+  />
+  {call.state === "input-available" && !open && <ToolTail output={call.output} />}
+  <ToolContent>
+    <ToolInput input={call.input} />
+    <ToolOutput output={call.output} errorText={call.errorText} />
   </ToolContent>
 </Tool>;
 ```
@@ -1375,6 +1399,221 @@ import { TooltipProvider } from "@sift-design/ui/tooltip";
 ```
 
 Upstream reference: [AI Elements Checkpoint](https://elements.ai-sdk.dev/components/checkpoint).
+
+## Assistant dock
+
+**When:** Open an assistant from anywhere in an app. Use it when the assistant is a companion to the page, not a separate page. A pill sits in the bottom corner. It changes shape into a chat panel.
+
+**Structure:** `AssistantDock` → `AssistantDockTrigger` + `AssistantDockPanel`. Put `AssistantDockHeader` (with a title and `AssistantDockClose`) and your conversation parts inside the panel. The trigger shows only while the dock is closed. The panel shows only while it is open. `useAssistantDock()` returns `{ open, setOpen }` inside the dock.
+
+**Props:** `AssistantDock` takes `open`, `defaultOpen`, and `onOpenChange`. `shortcut` toggles the dock. The default is `"mod+j"`, where `mod` is Command or Control. Pass `""` to turn it off. `shortcutLabel` sets the key hint on the pill. The default is a short form such as `⌘J`. Pass `"Ctrl J"` where the Control key applies. `position="fixed"` pins the dock to the window. `position="relative"` fills the nearest positioned parent, for a bounded frame. `AssistantDockTrigger` takes `state` (`"idle"`, `"working"`, `"unread"`, or `"question"`), `labels` (text for each state), and `icon`. `AssistantDockPanel` takes `aria-label`. The default is "Assistant". All parts accept `className` and their element props.
+
+**Motion:** The pill and the panel share one surface through a `layoutId`. The surface moves and resizes on `spring.smooth` (0.28s visual duration, no bounce) in both directions, so a reversal turns around from where it is. The radius goes from 21px (half the 42px pill height) to 20px. A 999px radius would make the growing surface an ellipse. The surface hands over its color in 80ms: the panel starts in the pill's color and the pill starts in the panel's color, so the change reads as one surface. The panel content fades in over 200ms after an 80ms delay. It fades out in `duration.instant` (80ms). The pill content fades in over 180ms after a 100ms delay. It fades out in 60ms. When `state` changes, the new label rises 8px on `spring.smooth` with a `duration.quick` (140ms) fade. The old label leaves upward on `spring.exit` (0.16s) with an 80ms fade. The pill width follows on the same layout spring. The signal dot pulses (1.6s opacity loop) only in the `working` state. A leaving pill or panel is inert until the morph settles.
+
+**Reduced motion:** The shared layout is off. The pill and the panel swap with an opacity fade only: 140ms in and 80ms out. State labels cross-fade without travel. The working dot is static.
+
+**Accessibility:** The pill is a button. Its name is the state text plus "Open chat" and the key hint. It has `aria-keyshortcuts`. The key hint is drawn with CSS, so the visible text matches the accessible name. The panel is a named `section` (a region landmark). The shortcut does nothing while an element with `role="dialog"` or `role="alertdialog"` is open. Escape closes the panel when focus is in it or on the page body. Escape is ignored when another handler prevented it, for example a slash menu. Opening moves focus to the element with `data-autofocus`, else the first text field, else the panel. A panel that is open on first render does not take focus. On touch screens it does not take focus, so the keyboard does not cover the conversation. Closing returns focus to the pill.
+
+**Origin:** A kit component with no upstream.
+
+```tsx
+import {
+  AssistantDock,
+  AssistantDockClose,
+  AssistantDockHeader,
+  AssistantDockPanel,
+  AssistantDockTrigger,
+} from "@sift-design/ui/ai/assistant-dock";
+
+<AssistantDock>
+  <AssistantDockTrigger state={running ? "working" : "idle"} labels={{ idle: "Ask Larkspur" }} />
+  <AssistantDockPanel aria-label="Larkspur assistant">
+    <AssistantDockHeader>
+      <h2 className="text-[14px] font-semibold">Larkspur assistant</h2>
+      <AssistantDockClose />
+    </AssistantDockHeader>
+    <Conversation>{/* messages */}</Conversation>
+    <PromptInput onSubmit={send}>{/* composer */}</PromptInput>
+  </AssistantDockPanel>
+</AssistantDock>;
+```
+
+## Slash menu
+
+**When:** Offer commands in a composer. The menu shows only while the draft is one word that starts with "/" and has no space. For other pickers, use `PromptInputCommand` or the kit `Command`.
+
+**Structure:** `useSlashCommands()` connects a textarea to a command list. Put `SlashMenu` and the composer in one element with `position: relative`. The menu sits on the composer's top edge. Map `matches` to `SlashMenuItem`.
+
+**Props:** `useSlashCommands({ commands, value, onPick, limit, label })` takes the commands (`{ name, description }`), the current draft, and a pick handler. Set the draft in `onPick`, for example to `"/summarize "`. `limit` is 8 by default. `label` names the list. The default is "Commands". The hook returns `open`, `matches`, `activeIndex`, `setActiveIndex`, `pick`, `close`, `textareaProps`, `menuProps`, and `getItemProps(index)`. Spread `textareaProps` on the textarea. If the textarea has its own `onKeyDown`, call both. `SlashMenu` takes `open` and list props. `SlashMenuItem` takes `name`, `description`, `active`, `onSelect`, and `onActivate`.
+
+**Motion:** The menu rises from the composer edge: 6px on `spring.smooth` (0.28s) with a `duration.quick` (140ms) fade. It leaves 4px down on `spring.exit` (0.16s) with an 80ms fade. When the matches change, the menu height springs to the new list height on `spring.smooth`. The active highlight moves between rows on `selectionSpring` through a shared `layoutId`. It has an inline 8px radius, and the list is `isolate`.
+
+**Reduced motion:** The menu fades in 140ms and out in 80ms, with no travel. Height and highlight changes are immediate.
+
+**Accessibility:** The list is a `listbox` and the rows are `option` elements. Focus stays in the textarea. The textarea gets `aria-autocomplete="list"`, plus `aria-controls` and `aria-activedescendant` while the menu is open. The textarea has no `combobox` role, because that role is not allowed on a textarea. ArrowDown and ArrowUp move and wrap. Tab or Enter picks. Enter sends instead when the draft already is the full active command. Escape closes the menu and prevents the event, so an open dock stays open. A click or tap picks a row without taking focus from the textarea. The active row scrolls into view. This works with `PromptInputTextarea`, which runs your `onKeyDown` first and skips its own submit when the event is prevented.
+
+**Origin:** A kit component with no upstream.
+
+```tsx
+import { SlashMenu, SlashMenuItem, useSlashCommands } from "@sift-design/ui/ai/slash-menu";
+
+const [draft, setDraft] = useState("");
+const slash = useSlashCommands({ commands, value: draft, onPick: (c) => setDraft(`/${c.name} `) });
+
+<div className="relative">
+  <SlashMenu {...slash.menuProps}>
+    {slash.matches.map((c, i) => (
+      <SlashMenuItem key={c.name} {...slash.getItemProps(i)} />
+    ))}
+  </SlashMenu>
+  <PromptInput onSubmit={send}>
+    <PromptInputTextarea value={draft} onChange={(e) => setDraft(e.currentTarget.value)} {...slash.textareaProps} />
+  </PromptInput>
+</div>;
+```
+
+## Conversation notice
+
+**When:** Show a line in a conversation that is not a message. Examples are a new conversation, a limit that is near, or a reply that failed. Use the Tool or Confirmation parts for tool calls and approvals.
+
+**Structure:** `ConversationNotice` holds an icon and the text. Put `ConversationNoticeDetail` inside it, after the text, to keep the exact provider message.
+
+**Props:** `ConversationNotice` takes `tone`: `"info"` (default), `"warning"`, or `"error"`. `icon` replaces the tone icon. `ConversationNoticeDetail` takes the kit `Collapsible` props (`open`, `defaultOpen`, `onOpenChange`) and `label`. The default label is "Details". Its children show in mono type. Both parts accept `className` and their element props.
+
+**Motion:** The notice itself does not animate. Let the conversation handle its arrival. The details use the kit disclosure. Height opens on `spring.smooth` (0.28s) and closes on `spring.exit` (0.16s). Opacity enters in 140ms and exits in 80ms. The chevron turns 90° with `--spring-smooth-duration` and `--spring-smooth`.
+
+**Reduced motion:** The details height and the chevron change at once. The short fade stays.
+
+**Accessibility:** Error notices use `role="alert"`. Info and warning notices have no role, because the conversation log already announces new content. Pass `role` to change this. Each tone has its own icon, so color is not the only signal. Info and warning text is muted; the warning color is on the icon only. Error text uses the danger color on a light danger tint. The icon is hidden from assistive technology. The details trigger is a button with expanded state.
+
+**Origin:** A kit component with no upstream.
+
+```tsx
+import { ConversationNotice, ConversationNoticeDetail } from "@sift-design/ui/ai/notice";
+
+<ConversationNotice>Started a new conversation. Earlier messages are not sent.</ConversationNotice>
+<ConversationNotice tone="error">
+  The assistant could not reply. Try again in a minute.
+  <ConversationNoticeDetail>429 Too Many Requests: rate limit reached. Retry after 60 seconds.</ConversationNoticeDetail>
+</ConversationNotice>;
+```
+
+## Action card
+
+**When:** Show what an assistant did to records in an app. Use it for a create, update, move, comment, merge or delete. Use the `"read"` emphasis for a search or a lookup that changed nothing.
+
+**Structure:** `ActionCard` → `ActionCardHeader`, then body parts, then `ActionCardDetails`. The body parts are `ActionCardRecords` (with `ActionCardRecord` children), `ActionCardChanges`, `ActionCardQuote`, `ActionCardError` and `ActionCardLink`. Body parts indent 22px, so they line up with the verb. In a `"read"` card, the header is one row button. Put `ActionCardRecords` inside `ActionCardDetails`. `ActionCardStatusMark` and `useActionCard()` are also exported.
+
+**Props:** `ActionCard` takes `status` (`"running"`, `"done"` or `"error"`, default `"done"`) and `emphasis` (`"change"` or `"read"`, default `"change"`). It also accepts the kit `Collapsible` props `open`, `defaultOpen` and `onOpenChange`. `ActionCardHeader` takes `icon`, `verb`, an optional `detail`, `detailsToggle` (default `true`) and `detailsLabel` (default "Call and output"). `ActionCardRecords` takes `limit`. The default limit is 12 in a `"read"` card, and the rest show as "and N more". `ActionCardRecord` takes `icon`, `title`, `done`, `status`, `statusColor` (any CSS color), `state`, `onOpen` and `openLabel`. With `onOpen` the record is a button. Without it, the record is static. `ActionCardChanges` takes `changes`, an array of short phrases. `ActionCardLink` defaults to the text "Open in history". `ActionCardDetails` takes optional `call` and `output` strings and shows them as code. All parts accept their element props.
+
+**Motion:** While the action runs, the verb shimmers with the kit `Shimmer`, and a spinner turns once every 700ms. The spinner stops when the status changes. Records, changes, quotes, errors and links wait while the action runs. When it ends, each part opens its height on `spring.smooth` (0.28s) and lifts 4px into place. The status mark swaps in place: the new icon pops in from a scale of 0.8 on `spring.snappy` (0.2s). The old icon leaves on `spring.exit` (0.16s) with an 80ms fade. On an error, the action icon swaps to a warning icon in the same way. The details open on `spring.smooth` and close on `spring.exit`, through the kit `Collapsible`. The chevron turns 90° on `--spring-smooth`. A card that is already done on first render does not animate.
+
+**Reduced motion:** The shimmer becomes static muted text. The spinner stops. Heights change at once, and only a 140ms fade remains. Icon swaps cross-fade without scale.
+
+**Accessibility:** The card is a `section` named by its verb. The status has a polite `role="status"` with the words "Running", "Done" or "Failed". The details toggle is a button with an accessible name and expanded state. A record button reads "Open", then its visible text. Body parts are inert while the action runs. `ActionCardError` uses `role="alert"`.
+
+**Origin:** A kit component with no upstream.
+
+```tsx
+import {
+  ActionCard,
+  ActionCardChanges,
+  ActionCardDetails,
+  ActionCardHeader,
+  ActionCardRecord,
+  ActionCardRecords,
+} from "@sift-design/ui/ai/action-card";
+import { IconArrowsMove, IconSeedling } from "@tabler/icons-react";
+
+<ActionCard status={running ? "running" : "done"}>
+  <ActionCardHeader icon={<IconArrowsMove />} verb="Moved 3 seed trays to Germinating" />
+  <ActionCardRecords>
+    {trays.map((tray) => (
+      <ActionCardRecord
+        key={tray.id}
+        icon={<IconSeedling />}
+        title={tray.title}
+        status="Germinating"
+        statusColor="var(--cat-6)"
+        onOpen={() => openRecord(tray.id)}
+      />
+    ))}
+  </ActionCardRecords>
+  <ActionCardChanges changes={["Moved to Germinating", "Heat mat on"]} />
+  <ActionCardDetails call={call} output={output} />
+</ActionCard>;
+```
+
+## Agent review
+
+**When:** Mark a record that an assistant or automation changed and a person has not reviewed. Show one line in the record that says who changed what, so the person can accept or undo it.
+
+**Structure:** `AgentBadge` is a small "AI" mark for a list row or a title. `AgentReview` is one quiet line: the mark, "who" plus "what" plus an optional reason, an undo slot and a "Looks good" button.
+
+**Props:** `AgentBadge` takes `label`, the text for screen readers and the tooltip. `children` replaces the visible "AI". `AgentReview` takes `actor`, `change`, an optional `reason` and an optional `undo` node. It takes `onReviewed`, which can return a promise. While the promise runs, the button shows a busy state. If it rejects, the line shows the error message. `open` (default `true`) keeps the line on screen. Set it to `false` after a review or an undo. `reviewLabel` defaults to "Looks good". `badgeLabel` names the mark in the line. Put space below the line with a margin in `className`, so the space collapses with the line.
+
+**Motion:** When `open` turns false, the line collapses its height on `spring.exit` (0.16s) and fades in 140ms. Content below moves up with it. A line that opens later grows on `spring.smooth` (0.28s). Inside a kit `Collapsible`, the line only fades, in 80ms, and the disclosure closes the space in one motion. This prevents the disclosure from trailing behind the line. A line that is open on first render does not animate. An error opens its own height on `spring.smooth`. `AgentBadge` enters from a scale of 0.8 on `spring.snappy`. Inside `AnimatePresence`, it leaves to a scale of 0.8 on `spring.exit` with a 140ms fade.
+
+**Reduced motion:** The height changes at once after an 80ms fade. The badge only fades.
+
+**Accessibility:** The badge has visible "AI" text that is hidden from screen readers, and a full sentence in `sr-only` text. The review button is a real button with `aria-busy` while it runs. Errors use `role="alert"`. Give the undo control an accessible name, such as "Undo this change".
+
+**Origin:** A kit component with no upstream.
+
+```tsx
+import { AgentBadge, AgentReview } from "@sift-design/ui/ai/agent-review";
+import { AnimatePresence } from "motion/react";
+
+<AnimatePresence initial={false}>
+  {record.unreviewed && (
+    <AgentBadge key="ai" label="The assistant changed the status. Open the record to review it." />
+  )}
+</AnimatePresence>;
+
+<AgentReview
+  open={record.unreviewed}
+  className="mb-4"
+  actor="The assistant"
+  change="moved this to Germinating"
+  reason="John Smith reported shoots in 8 of 12 cells this morning."
+  undo={<UndoButton />}
+  onReviewed={() => markReviewed(record.id)}
+/>;
+```
+
+## Activity log
+
+**When:** Show a record's history, newest first. Show who changed it, what changed and why. Include comments, changes from people, and changes from an assistant, an automation or an agent.
+
+**Structure:** `ActivityLog` is an `ol`. Each `ActivityEntry` is an `li` with an avatar, the actor name, a summary or a neutral "Comment" pill, a `<time>`, change pills, a reason or a comment note, and an optional undo slot. `ActivityAvatar` and `formatActivityTime(at, now)` are also exported.
+
+**Props:** `ActivityEntry` takes `actor` and `actorKind`. `actorKind` is `"person"` (an initial), `"assistant"` (a sparkle mark), `"automation"` (a clock) or `"agent"` (a robot). The default is `"person"`. `at` is a date or an ISO string. It becomes the `dateTime` of the `<time>` element. `timeLabel` replaces the visible time, and `now` fixes the clock for relative times. `changes` is an array of short phrases. `maxChanges` (default 6) limits the pills, and the rest show as "+N more". `reason` shows under the pills. `comment` makes the entry a comment and shows the text in a note. `undo` takes a control. Give each entry a stable `key`. `formatActivityTime` returns "Just now", "12 min ago", "Today, 21:57", "Yesterday, 09:10" or "3 Nov, 21:57".
+
+**Motion:** Entries on first render do not animate. A new entry opens its height on `reflowTransition` (`spring.smooth`, 0.28s), so older entries move down with it and the list grows without a jump. Its content arrives with `arrivalMotion`: from 6px above at a scale of 0.98, on `spring.smooth`. A removed entry fades and scales to 0.98 in 140ms, then its height closes on `spring.exit` (0.16s). The time and the undo control share one slot, so every time lines up on the right edge. On a pointer device, the time fades out and the undo control fades in over 140ms when the entry is hovered or focused. On a touch screen, both show side by side.
+
+**Reduced motion:** Heights change at once. The new entry fades in over 140ms with no travel or scale.
+
+**Accessibility:** The list has the name "Activity". Pass `aria-label` to name the record. Each time is a `<time>` element with a full date and time in its `title`. Change pills are a list named "Changes". On touch screens, the undo control is always visible. With the keyboard, it shows when it has focus. Give it an accessible name.
+
+**Origin:** A kit component with no upstream.
+
+```tsx
+import { ActivityEntry, ActivityLog } from "@sift-design/ui/ai/activity-log";
+
+<ActivityLog aria-label="Bench 4 irrigation activity">
+  {history.map((entry) => (
+    <ActivityEntry
+      key={entry.id}
+      actor={entry.actor}
+      actorKind={entry.actorKind}
+      at={entry.at}
+      changes={entry.changes}
+      reason={entry.reason}
+      comment={entry.comment}
+    />
+  ))}
+</ActivityLog>;
+```
 
 ## Agent
 

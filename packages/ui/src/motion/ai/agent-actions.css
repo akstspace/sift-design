@@ -1,0 +1,94 @@
+/* Motion for the agent-actions group: action card, agent review, activity log. */
+
+/* Icon swaps stack in one grid cell, so the old and new icon cross without a jump. */
+.ai-action-swap {
+  display: inline-grid;
+  place-items: center;
+}
+.ai-action-swap > * {
+  grid-area: 1 / 1;
+}
+
+/* The spinner turns only while the action runs. It is removed the moment the status changes. */
+.ai-action-spin {
+  color: var(--muted);
+  animation: ai-action-spin 700ms linear infinite;
+}
+@keyframes ai-action-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ai-action-chevron {
+  transition: transform var(--spring-smooth-duration) var(--spring-smooth);
+}
+[data-state="open"] > .ai-action-chevron,
+[data-state="open"] .ai-action-chevron {
+  transform: rotate(90deg);
+}
+
+.ai-action-row,
+.ai-action-toggle,
+.ai-action-record {
+  transition:
+    background-color var(--dur-quick) linear,
+    color var(--dur-quick) linear,
+    transform var(--spring-press-duration) var(--spring-press);
+}
+.ai-action-row:hover {
+  background: var(--tint);
+}
+button.ai-action-record:active {
+  transform: scale(0.995);
+}
+
+.ai-action-verb {
+  transition: color var(--dur-quick) linear;
+}
+
+/* The time and Undo share one slot. Touch screens show both side by side. */
+.ai-activity-when {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+/* With a pointer, Undo takes the time's place on hover or focus, so times stay aligned. */
+@media (hover: hover) {
+  .ai-activity-when {
+    display: inline-grid;
+    justify-items: end;
+  }
+  .ai-activity-when > * {
+    grid-area: 1 / 1;
+  }
+  .ai-activity-time,
+  .ai-activity-undo {
+    transition: opacity var(--dur-quick) linear;
+  }
+  .ai-activity-undo {
+    opacity: 0;
+  }
+  .ai-activity-entry:hover .ai-activity-undo,
+  .ai-activity-undo:focus-within,
+  .ai-activity-undo:has([data-state="open"]) {
+    opacity: 1;
+  }
+  .ai-activity-entry:hover .ai-activity-when:has(.ai-activity-undo) .ai-activity-time,
+  .ai-activity-when:has(.ai-activity-undo:focus-within) .ai-activity-time {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-action-spin {
+    animation: none;
+  }
+  .ai-action-chevron,
+  button.ai-action-record:active {
+    transition: none;
+  }
+  button.ai-action-record:active {
+    transform: none;
+  }
+}

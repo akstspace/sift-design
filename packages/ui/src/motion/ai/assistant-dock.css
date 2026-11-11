@@ -1,0 +1,90 @@
+/* Motion for the assistant-dock group. */
+
+/* The pill is the one dark object on a light page. In dark mode it is a raised charcoal step, not the accent. */
+.ai-dock-pill {
+  background: var(--slate);
+  color: var(--oatmeal);
+  border-color: color-mix(in srgb, var(--oatmeal) 8%, transparent);
+  box-shadow: var(--shadow-float);
+  transition: box-shadow var(--dur-quick) var(--ease-settle);
+}
+.ai-dock-pill:hover {
+  box-shadow:
+    var(--shadow-float),
+    0 2px 8px color-mix(in srgb, var(--slate) 25%, transparent);
+}
+.ai-dock-pill:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+.dark .ai-dock-pill {
+  background: var(--hover);
+  color: var(--ink);
+  border-color: var(--control-line);
+}
+/* The color hand-off between pill and panel. It only exists while the surface changes shape. */
+.ai-dock-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.ai-dock-tint-pill {
+  background: var(--slate);
+}
+.dark .ai-dock-tint-pill {
+  background: var(--hover);
+}
+.ai-dock-tint-panel {
+  background: var(--card);
+}
+.ai-dock-kbd {
+  padding: 2px 6px;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, currentColor 7%, transparent);
+  color: color-mix(in srgb, currentColor 80%, transparent);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.2;
+}
+.ai-dock-kbd::before {
+  content: attr(data-label);
+}
+
+/* The signal dot: brand steps that read on the slate pill and on charcoal. */
+.ai-dock-signal {
+  background: var(--sea);
+}
+.ai-dock-signal[data-state="unread"] {
+  background: var(--coral);
+}
+.ai-dock-signal[data-state="question"] {
+  background: var(--chartreuse);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--chartreuse) 22%, transparent);
+}
+/* An activity loop, only while the assistant works. */
+.ai-dock-signal[data-state="working"] {
+  animation: ai-dock-working 1.6s ease-in-out infinite;
+}
+@keyframes ai-dock-working {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Notice details: the chevron turns with the kit disclosure. */
+.ai-notice-chevron {
+  transition: transform var(--spring-smooth-duration) var(--spring-smooth);
+}
+[data-state="open"] > .ai-notice-chevron {
+  transform: rotate(90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-dock-signal[data-state="working"] {
+    animation: none;
+  }
+  .ai-notice-chevron {
+    transition: none;
+  }
+}

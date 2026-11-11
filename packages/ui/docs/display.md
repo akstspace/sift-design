@@ -70,7 +70,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@s
 
 **Structure:** root → trigger + content. Include an immediate-child chevron when useful.
 
-**Motion:** measured height opens on **spring.smooth**, closes on **spring.exit**, and follows dynamic content size. Content fades **140ms linear** in / **80ms leave** out. An immediate-child SVG rotates on **358ms `--spring-snappy`**. Reversal continues from the current height; clipping is removed once expansion settles so focus outlines stay visible. Closing content becomes inert immediately.
+**Motion:** measured height opens on **spring.smooth**, closes on **spring.exit**, and follows dynamic content size: it grows on **spring.smooth** and shrinks on **spring.exit**. Content that enters or leaves inside an open disclosure should fade only, because the disclosure already moves the space. `useInsideDisclosure()` returns `true` there. Content fades **140ms linear** in / **80ms leave** out. An immediate-child SVG rotates on **358ms `--spring-snappy`**. Reversal continues from the current height; clipping is removed once expansion settles so focus outlines stay visible. Closing content becomes inert immediately.
 
 **Reduced motion:** **140ms** fade in / **80ms** out; height and chevron are immediate.
 
@@ -559,7 +559,7 @@ import { DirectionProvider } from "@sift-design/ui/direction";
 
 **When:** switch between peer destinations without implying that one is deeper than another.
 
-**Structure:** keyed `SiblingTransition` frame → one page containing a real heading. `pageKey` identifies the destination; `direction` is `1` forward / `-1` back in reading order. `dir` can override the inherited reading direction; `pageClassName` styles the page independently of its clipped frame.
+**Structure:** keyed `SiblingTransition` frame → one page containing a real heading. `pageKey` identifies the destination; `direction` is `1` forward / `-1` back in reading order. `dir` can override the inherited reading direction; `pageClassName` styles the page independently of its clipped frame. The frame clips with `overflow: clip`, not `overflow: hidden`, so it does not become a scroll container. Sticky content inside a page, such as an outline, stays in place while the page scrolls.
 
 **Motion:** `pageMotion` uses **spring.smooth** for the 14px arrival drift, with a **200ms linear** cross-fade. Exit drifts 10px in the opposite direction on **spring.exit**, with **140ms leave** opacity. Both pages occupy one grid cell; input is never delayed. A leaving page becomes inert and hidden from assistive technology immediately, while the new page heading receives focus without scrolling. Initial render does not steal focus. Set `focusHeading={false}` only if the caller already manages focus.
 

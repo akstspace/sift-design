@@ -24,6 +24,8 @@ const groups: Record<string, LazyExoticComponent<ComponentType>> = {
   "voice": lazy(() => import("./ai/Voice")),
   "persona": lazy(() => import("./ai/Persona")),
   "chat-demo": lazy(() => import("./ai/ChatDemo")),
+  "assistant-dock": lazy(() => import("./ai/AssistantDock")),
+  "agent-actions": lazy(() => import("./ai/AgentActions")),
 };
 
 const sections = [
@@ -44,6 +46,12 @@ const sections = [
     title: "Reasoning and actions",
     intro: "Show how the assistant reasons, calls tools, cites sources, plans work and asks before it acts.",
     groups: ["reasoning","tool","sources","task","confirmation"],
+  },
+  {
+    id: "ai-product",
+    title: "Assistant in a product",
+    intro: "Let an assistant work inside an app: open it from anywhere, run slash commands, report problems inline, and let people review what it changed.",
+    groups: ["assistant-dock","agent-actions"],
   },
   {
     id: "ai-code",

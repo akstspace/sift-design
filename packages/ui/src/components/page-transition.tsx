@@ -54,7 +54,7 @@ function TransitionFrame({ pageKey, direction = 1, dir, className, pageClassName
   }
   const variants: Variants = { ...base, enter: (value: Direction) => ({ ...mirror(base.enter(value)), zIndex: hierarchy && value < 0 ? 0 : 2 }), exit: (value: Direction) => ({ ...mirror(base.exit(value)), zIndex: hierarchy && value < 0 ? 2 : 0 }) }
   // The tokens' sign describes physical travel; reading order is resolved once here.
-  return <div ref={root} dir={dir} data-slot={hierarchy ? "push-stack" : "sibling-transition"} className={cn("relative isolate grid min-w-0 overflow-hidden", className)}>
+  return <div ref={root} dir={dir} data-slot={hierarchy ? "push-stack" : "sibling-transition"} className={cn("relative isolate grid min-w-0 overflow-clip", className)}>
     <AnimatePresence initial={false} custom={hierarchy ? direction : sign} mode="sync">
       <motion.div
         key={pageKey}

@@ -181,9 +181,11 @@ function exportsOf(rel) {
   const out = { components: [], hooks: [], functions: [], constants: [], types: [] };
   const add = (kind, name) => out[kind].includes(name) || out[kind].push(name);
   for (const m of text.matchAll(
-    /^export\s+(?:declare\s+)?(const|function|class|type|interface|enum)\s+([A-Za-z0-9_]+)/gm,
+    /^export\s+(?:declare\s+)?(const|function|class|type|interface|enum)\s+([A-Za-z0-9_]+)(\s*(?::[^=\n]+)?=\s*(?:async\s*)?(?:<[^>]*>\s*)?(?:\(|[A-Za-z0-9_]+\s*=>))?/gm,
   )) {
-    const [, kind, name] = m;
+    // An exported arrow function counts as a function, not a constant.
+    const [, declared, name, arrow] = m;
+    const kind = declared === "const" && arrow ? "function" : declared;
     if (kind === "type" || kind === "interface") add("types", name);
     else if (/^use[A-Z]/.test(name)) add("hooks", name);
     else if (/^[A-Z]/.test(name)) add(kind === "const" && /^[A-Z0-9_]+$/.test(name) ? "constants" : "components", name);

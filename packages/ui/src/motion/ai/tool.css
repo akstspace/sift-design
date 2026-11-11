@@ -81,6 +81,43 @@
 .ai-tool-content [data-slot="tool-output"] {
   border-top: 1px solid var(--line);
 }
+/* Compact rows: no card, a 90° chevron, a quiet output well and a running tail. */
+.ai-tool-compact .ai-tool-header[data-state="open"] .ai-tool-chevron {
+  transform: rotate(90deg);
+}
+.ai-tool-compact .ai-tool-content [data-slot="tool-output"] {
+  border-top: 0;
+}
+.ai-tool-compact .ai-code-scroll {
+  max-height: 300px;
+}
+.ai-tool-compact .ai-code-scroll pre {
+  line-height: 1.55;
+}
+.ai-tool-tail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  margin: 0 0 4px 22px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  /* Older lines fade out at the top as new ones arrive. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 45%);
+  mask-image: linear-gradient(to bottom, transparent, black 45%);
+}
+.ai-tool-spin {
+  animation: ai-tool-spin 700ms linear infinite;
+}
+@keyframes ai-tool-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .ai-tool-running {
   animation: ai-tool-activity 1.8s ease-in-out infinite;
 }
@@ -109,7 +146,8 @@
   .ai-tool-chevron {
     transition: none;
   }
-  .ai-tool-running {
+  .ai-tool-running,
+  .ai-tool-spin {
     animation: none;
   }
 }

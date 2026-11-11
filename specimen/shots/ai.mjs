@@ -11,6 +11,8 @@ const groups = [
   "sources",
   "task",
   "confirmation",
+  "assistant-dock",
+  "agent-actions",
   "agent",
   "terminal",
   "file-tree",

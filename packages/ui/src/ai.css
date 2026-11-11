@@ -26,3 +26,5 @@
 @import "./motion/ai/voice.css";
 @import "./motion/ai/persona.css";
 @import "./motion/ai/chat-demo.css";
+@import "./motion/ai/assistant-dock.css";
+@import "./motion/ai/agent-actions.css";

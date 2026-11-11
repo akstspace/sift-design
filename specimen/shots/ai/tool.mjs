@@ -5,7 +5,7 @@ const replay = async (page) => {
 };
 export default [
   ...["light", "dark"].flatMap((theme) =>
-    ["tool", "code-block", "snippet"].map((name) => ({
+    ["tool", "compact-tool", "code-block", "snippet"].map((name) => ({
       name: `ai-${name}-${theme}`,
       path,
       theme,
