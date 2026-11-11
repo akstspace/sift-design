@@ -1,0 +1,50 @@
+.ai-reasoning-trigger {
+  transition:
+    color var(--dur-quick) var(--ease-settle),
+    background-color var(--dur-quick) var(--ease-settle);
+}
+.ai-reasoning-chevron {
+  transform: rotate(0deg);
+  transition: transform var(--spring-smooth-duration) var(--spring-smooth);
+}
+.ai-reasoning-chevron[data-open="true"] {
+  transform: rotate(180deg);
+}
+.ai-chain-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 0;
+  left: 9.5px;
+  width: 1px;
+  background: var(--line);
+}
+.ai-chain-step[data-status="active"] .ai-chain-indicator {
+  color: var(--accent);
+}
+.ai-chain-step[data-status="active"] .ai-chain-indicator::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  animation: ai-chain-working 1.8s ease-in-out infinite;
+}
+@keyframes ai-chain-working {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-reasoning-chevron {
+    transition: none;
+  }
+  .ai-chain-step[data-status="active"] .ai-chain-indicator::after {
+    animation: none;
+    opacity: 0.65;
+  }
+}

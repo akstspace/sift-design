@@ -1,0 +1,28 @@
+/*
+ * Optional AI elements: chat, reasoning, tools, code and voice components,
+ * restyled from AI Elements. Import it after the kit theme:
+ *
+ *   @import "@sift-design/ui/theme.css";
+ *   @import "@sift-design/ui/ai.css";
+ */
+@source "./ai";
+@source "../../../node_modules/streamdown/dist/*.js";
+@import "./motion/ai/conversation.css";
+@import "./motion/ai/message.css";
+@import "./motion/ai/prompt-input.css";
+@import "./motion/ai/reasoning.css";
+@import "./motion/ai/tool.css";
+@import "./motion/ai/sources.css";
+@import "./motion/ai/task.css";
+@import "./motion/ai/confirmation.css";
+@import "./motion/ai/context.css";
+@import "./motion/ai/attachments.css";
+@import "./motion/ai/canvas.css";
+@import "./motion/ai/agent.css";
+@import "./motion/ai/terminal.css";
+@import "./motion/ai/file-tree.css";
+@import "./motion/ai/commit.css";
+@import "./motion/ai/audio.css";
+@import "./motion/ai/voice.css";
+@import "./motion/ai/persona.css";
+@import "./motion/ai/chat-demo.css";

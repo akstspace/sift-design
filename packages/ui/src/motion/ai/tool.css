@@ -1,0 +1,115 @@
+/* Code uses the same semantic text roles in light and dark themes. */
+.ai-code-block {
+  --code-foreground: var(--ink);
+  --code-background: transparent;
+  --code-token-keyword: var(--accent);
+  --code-token-constant: var(--accent);
+  --code-token-function: var(--ink);
+  --code-token-parameter: var(--ink);
+  --code-token-string: var(--danger);
+  --code-token-string-expression: var(--danger);
+  --code-token-comment: var(--muted);
+  --code-token-punctuation: var(--muted);
+  --code-token-link: var(--accent);
+}
+.ai-code-scroll {
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.ai-code-scroll:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+.ai-code-scroll pre {
+  margin: 0;
+  padding: 16px;
+  background: transparent;
+  font-size: 12px;
+  line-height: 1.85;
+  tab-size: 2;
+}
+.ai-code-scroll code {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+}
+.ai-code-line-number {
+  display: inline-block;
+  min-width: 2ch;
+  margin-right: 22px;
+  color: var(--muted);
+  text-align: right;
+  user-select: none;
+}
+.ai-code-copy-icon,
+.ai-tool-status-stack {
+  display: inline-grid;
+  align-items: center;
+}
+.ai-code-copy-icon > *,
+.ai-tool-status-stack > * {
+  grid-area: 1 / 1;
+}
+.ai-code-copy-icon {
+  width: 14px;
+  height: 14px;
+}
+.ai-code-copy {
+  min-width: 78px;
+  font-family: var(--font-sans);
+}
+.ai-tool-header {
+  transition: background-color var(--dur-quick) linear;
+}
+.ai-tool-header:hover {
+  background: var(--tint);
+}
+.ai-tool-chevron {
+  transition: transform var(--spring-smooth-duration) var(--spring-smooth);
+}
+.ai-tool-header[data-state="open"] .ai-tool-chevron {
+  transform: rotate(180deg);
+}
+/* Input and output are sections of one card, not nested cards: the JSON sits in a tinted well. */
+.ai-tool-content .ai-code-block {
+  border: 0;
+  border-radius: var(--radius-md, 8px);
+  background: var(--tint);
+}
+.ai-tool-content .ai-code-scroll pre {
+  padding: 10px 12px;
+}
+.ai-tool-content [data-slot="tool-output"] {
+  border-top: 1px solid var(--line);
+}
+.ai-tool-running {
+  animation: ai-tool-activity 1.8s ease-in-out infinite;
+}
+@keyframes ai-tool-activity {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+.ai-snippet {
+  height: 40px;
+}
+.ai-snippet-copy {
+  color: var(--muted);
+}
+.ai-snippet-copy[data-copy-state="copied"] {
+  color: var(--good);
+}
+.ai-snippet-copy[data-copy-state="failed"] {
+  color: var(--danger);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-tool-chevron {
+    transition: none;
+  }
+  .ai-tool-running {
+    animation: none;
+  }
+}

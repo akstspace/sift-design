@@ -1,0 +1,40 @@
+/* Disclosure and selection motion come from the kit primitives. */
+[data-slot="sandbox-header"] .sandbox-chevron {
+  transition: transform var(--spring-exit-duration) var(--spring-exit);
+}
+[data-slot="sandbox-header"][data-state="open"] .sandbox-chevron {
+  transform: rotate(180deg);
+  transition-duration: var(--spring-smooth-duration);
+  transition-timing-function: var(--spring-smooth);
+}
+[data-agent-tool] [data-slot="accordion-trigger"] > svg {
+  transition: transform var(--spring-exit-duration) var(--spring-exit);
+}
+[data-agent-tool] [data-slot="accordion-trigger"][data-state="open"] > svg {
+  transition-duration: var(--spring-smooth-duration);
+  transition-timing-function: var(--spring-smooth);
+}
+.agent-demo-result,
+[data-slot="jsx-preview-error"] {
+  animation: agent-feedback var(--dur-quick) var(--ease-settle);
+}
+@keyframes agent-feedback {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="sandbox-header"] .sandbox-chevron,
+  [data-slot="sandbox-header"][data-state="open"] .sandbox-chevron,
+  [data-agent-tool] [data-slot="accordion-trigger"] > svg {
+    transform: none;
+    transition: none;
+  }
+  .agent-demo-result,
+  [data-slot="jsx-preview-error"] {
+    animation-duration: var(--dur-instant);
+  }
+}

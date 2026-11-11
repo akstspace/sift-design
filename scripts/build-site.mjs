@@ -7,7 +7,7 @@
 //                         (DESIGN.md, AGENTS.md, docs, tokens, kit sources and
 //                         docs, block sources and notes, screenshots, motion
 //                         clips), same layout as the repo so relative links work
-//   /raw/manifest.json    every raw file with its size
+//   /raw/manifest.json    the component, block and guide index, and every raw file with its size
 //   /llms.txt             the agent entry point
 //   /llms-full.txt        AGENTS.md, DESIGN.md and every guide in one file
 //   /404.html, .nojekyll  for static hosts such as GitHub Pages
@@ -24,7 +24,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { build } from "vite";
-import { blocks, llmsFiles, rawFiles } from "./reference.mjs";
+import { blocks, llmsFiles, manifest, rawFiles } from "./reference.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const out = path.join(root, "site", "dist");
@@ -62,7 +62,8 @@ for (const { path: rel } of files) {
   fs.mkdirSync(path.dirname(to), { recursive: true });
   fs.copyFileSync(path.join(root, rel), to);
 }
-fs.writeFileSync(path.join(out, "raw", "manifest.json"), JSON.stringify({ files }, null, 2) + "\n");
+const index = manifest({ site: siteUrl, raw: process.env.RAW_URL?.replace(/\/$/, "") });
+fs.writeFileSync(path.join(out, "raw", "manifest.json"), JSON.stringify(index, null, 2) + "\n");
 
 // The agent entry points. On a host that serves .ts files with the wrong
 // content type, RAW_URL points their links at a raw-file host instead.

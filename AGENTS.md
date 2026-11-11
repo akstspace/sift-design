@@ -18,13 +18,13 @@ layouts are welcome when they serve the product.
    - Custom: ask for their brand colors, or offer to propose some, then follow [docs/retheming.md](docs/retheming.md). Only the color roles change; type, spacing, components and motion stay the same.
 2. Read [DESIGN.md](DESIGN.md) and [docs/motion.md](docs/motion.md). If a guide and a token file disagree, use the token file. Include the shared animations from the start.
 3. Read the doc for what you are building: [layout](docs/layout.md), [components](docs/components.md), [writing](docs/writing.md), [data visualization](docs/data-visualization.md), [accessibility](docs/accessibility.md).
-4. Look at the relevant components in [specimen/](specimen/) and, if useful, an example in [blocks/](blocks/) with its [screenshots](screenshots/). Reuse visual and interaction patterns that fit the request; do not copy an example's features, navigation, or data model unless the product needs them.
+4. Find components with the index in `/raw/manifest.json`; [docs/finding-components.md](docs/finding-components.md) explains its fields and searches. Look at the relevant components in [specimen/](specimen/) and, if useful, an example in [blocks/](blocks/) with its [screenshots](screenshots/). Reuse visual and interaction patterns that fit the request; do not copy an example's features, navigation, or data model unless the product needs them.
 
 ## Setting up a project
 
 - The reference stack is React 19, Vite, TypeScript, Tailwind CSS v4, shadcn/ui on Radix, Motion, and Tabler icons. Use it for a new project unless the brief specifies another stack; do not replace an existing project's framework just to use the design system.
 - Copy `tokens/` (tokens.css, fonts.css, fonts/, motion.ts) into the project.
-- Copy `packages/ui/src/theme.css`, `motion.css`, `motion/` and the components you need from `packages/ui/src/components/`. They are complete shadcn/ui components, already restyled and animated. Copy them over the stock shadcn versions; do not re-add stock ones.
+- Copy `packages/ui/src/theme.css`, `motion.css`, `motion/` and the components you need from `packages/ui/src/components/`. They are complete shadcn/ui components, already restyled and animated. Copy them over the stock shadcn versions; do not re-add stock ones. For chat, tool, code, canvas, or voice UI, also copy `ai.css` and the parts you need from `packages/ui/src/ai/`.
 - Import order in the app stylesheet: `@import "tailwindcss";` then the theme.
 - Keep light and dark. Dark is its own palette (`.dark` on `<html>`), never an inversion.
 - For a different brand, follow [docs/retheming.md](docs/retheming.md). Change the shared color variables, not component structure, spacing, or animation.

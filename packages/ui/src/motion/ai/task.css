@@ -1,0 +1,57 @@
+/* Task, plan and queue use the shared measured Collapsible body. */
+[data-slot="task-trigger"] .ai-task-chevron,
+[data-slot="plan-trigger"] .ai-task-chevron,
+[data-slot="queue-section-trigger"] .ai-task-chevron {
+  transform: rotate(-90deg);
+  transition: transform var(--spring-snappy-duration) var(--spring-snappy);
+}
+[data-slot="task-trigger"][data-state="open"] .ai-task-chevron,
+[data-slot="plan-trigger"][data-state="open"] .ai-task-chevron,
+[data-slot="queue-section-trigger"][data-state="open"] .ai-task-chevron {
+  transform: rotate(0deg);
+}
+[data-slot="queue-item-indicator"],
+[data-slot="queue-item-content"] {
+  transition:
+    color var(--dur-quick) linear,
+    background-color var(--dur-quick) linear,
+    border-color var(--dur-quick) linear;
+}
+.ai-queue-strike {
+  text-decoration-line: line-through;
+  text-decoration-color: transparent;
+  transition:
+    text-decoration-color var(--dur-quick) linear,
+    opacity var(--dur-quick) linear;
+}
+[data-completed="true"] > .ai-queue-strike {
+  text-decoration-color: currentColor;
+}
+/* Only the title is struck through; its details just fade back. */
+[data-slot="queue-item-description"][data-completed="true"] > .ai-queue-strike {
+  text-decoration-color: transparent;
+  opacity: 0.72;
+}
+[data-slot="queue-item-action"] {
+  opacity: 0;
+  transition: opacity var(--dur-quick) linear;
+}
+[data-slot="queue-item"]:hover [data-slot="queue-item-action"],
+[data-slot="queue-item"]:focus-within [data-slot="queue-item-action"] {
+  opacity: 1;
+}
+.ai-queue-list [data-slot="scroll-area-viewport"] {
+  max-height: inherit;
+}
+@media (hover: none) {
+  [data-slot="queue-item-action"] {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="task-trigger"] .ai-task-chevron,
+  [data-slot="plan-trigger"] .ai-task-chevron,
+  [data-slot="queue-section-trigger"] .ai-task-chevron {
+    transition: none;
+  }
+}

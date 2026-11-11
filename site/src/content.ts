@@ -29,9 +29,14 @@ export const pages: Page[] = [
   { path: "/foundations/shapes-and-depth", title: "Shapes and depth", group: "Foundations", file: "DESIGN.md" },
   { path: "/motion", title: "Motion", group: "The system", file: "docs/motion.md" },
   { path: "/components", title: "Components", group: "The system" },
-  ...["controls", "overlays", "display"].map((name) => ({
+  ...["controls", "overlays", "display", "ai"].map((name) => ({
     path: `/components/${name}`,
-    title: { controls: "Controls", overlays: "Overlays and menus", display: "Display and navigation" }[name]!,
+    title: {
+      controls: "Controls",
+      overlays: "Overlays and menus",
+      display: "Display and navigation",
+      ai: "AI elements",
+    }[name]!,
     group: "Components",
     file: `packages/ui/docs/${name}.md`,
   })),
@@ -56,6 +61,7 @@ export const pages: Page[] = [
     file: `blocks/${name}/README.md`,
   })),
   { path: "/review", title: "Review", group: "Reference", file: "docs/review.md" },
+  { path: "/finding-components", title: "Finding components", group: "Reference", file: "docs/finding-components.md" },
   { path: "/reference", title: "Design reference", group: "Reference", file: "DESIGN.md" },
   { path: "/readme", title: "Repository guide", group: "Reference", file: "README.md" },
   { path: "/kit", title: "Kit setup", group: "Reference", file: "packages/ui/README.md" },

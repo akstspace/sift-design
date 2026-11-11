@@ -1,0 +1,102 @@
+.ai-prompt-input .ai-prompt-surface {
+  position: relative;
+  height: auto;
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  transition:
+    border-color var(--dur-quick) var(--ease-settle),
+    box-shadow var(--dur-quick) var(--ease-settle);
+}
+
+.ai-prompt-input .ai-prompt-surface:focus-within {
+  border-color: var(--focus-ring);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--focus-ring) 24%, transparent);
+}
+
+.ai-prompt-input .ai-prompt-textarea {
+  width: 100%;
+  outline: none;
+  box-shadow: none;
+}
+
+.ai-prompt-attachment:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.ai-prompt-input[data-drag-over] .ai-prompt-surface {
+  border-color: var(--focus-ring);
+}
+
+.ai-prompt-drop-target {
+  position: absolute;
+  inset: 5px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 2px dashed var(--focus-ring);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14px;
+  pointer-events: none;
+  animation: ai-prompt-drop-arrive var(--dur-quick) var(--ease-settle) both;
+}
+
+.ai-prompt-submit[data-status="error"] {
+  background: var(--danger);
+  color: var(--danger-foreground);
+}
+
+.ai-prompt-pending {
+  animation: ai-prompt-pending 900ms linear infinite;
+}
+
+@keyframes ai-prompt-pending {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ai-prompt-drop-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-prompt-pending {
+    animation: none;
+  }
+
+  .ai-prompt-input .ai-prompt-surface {
+    transition-duration: var(--dur-instant);
+  }
+}
+
+.ai-prompt-tool[aria-pressed] {
+  border-radius: var(--radius-pill);
+}
+
+.ai-prompt-tool[aria-pressed="true"] {
+  outline: 1px solid currentColor;
+  outline-offset: -1px;
+  font-weight: 600;
+}
+
+.ai-prompt-select-trigger[data-slot="select-trigger"] {
+  height: 32px;
+  min-height: 32px;
+}
+
+/* Clip the arriving row while its height springs open, but keep chip focus rings visible. */
+.prompt-input-attachments-frame {
+  overflow: clip;
+  overflow-clip-margin: 4px;
+}

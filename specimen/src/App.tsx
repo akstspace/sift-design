@@ -4,11 +4,13 @@ import { LarkspurMark } from "../../blocks/_shared/brand";
 import Overlays from "./sections/Overlays";
 import Controls from "./sections/Controls";
 import Display from "./sections/Display";
+import AI from "./sections/AI";
 
 const sections = [
   { id: "controls", label: "Controls", Section: Controls },
   { id: "overlays", label: "Overlays and menus", Section: Overlays },
   { id: "display", label: "Display and layout", Section: Display },
+  { id: "ai", label: "AI elements", Section: AI },
 ];
 
 // `?section=overlays` shows one family alone, which keeps screenshots focused.

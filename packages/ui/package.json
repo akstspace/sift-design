@@ -6,8 +6,10 @@
   "exports": {
     "./theme.css": "./src/theme.css",
     "./motion.css": "./src/motion.css",
+    "./ai.css": "./src/ai.css",
     "./lib/*": "./src/lib/*.ts",
     "./hooks/*": "./src/hooks/*.ts",
+    "./ai/*": "./src/ai/*.tsx",
     "./*": "./src/components/*.tsx"
   },
   "dependencies": {

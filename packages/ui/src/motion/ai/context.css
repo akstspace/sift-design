@@ -1,0 +1,47 @@
+/* Ring value motion uses spring.smooth in context.tsx. Overlay motion comes from the kit. */
+.ai-context-trigger {
+  color: var(--foreground);
+  transition: color var(--dur-quick) linear;
+}
+.ai-context-trigger[data-warning],
+.ai-context-status[data-warning] {
+  color: var(--warn);
+}
+.ai-context-status:not([data-warning]) {
+  color: var(--good);
+}
+.ai-model-selector [data-slot="command-input-wrapper"] {
+  height: auto;
+  min-height: 48px;
+}
+.ai-model-selector [data-slot="command-list"] {
+  max-height: min(360px, calc(100dvh - 200px));
+}
+.ai-model-selector [data-slot="command-item"][data-selected="true"] {
+  background: var(--tint-strong);
+  color: var(--foreground);
+}
+.ai-model-selector [data-slot="command-item"] {
+  transition: background-color var(--dur-instant) linear;
+}
+.ai-model-logo[data-provider="quarry"] {
+  border-radius: var(--radius-md);
+}
+.ai-model-logo[data-provider="tidewater"] {
+  border-radius: 50%;
+}
+@media (forced-colors: active) {
+  .ai-context-trigger,
+  .ai-context-status {
+    color: CanvasText;
+  }
+  .ai-model-selector [data-slot="command-item"][data-selected="true"] {
+    outline: 2px solid Highlight;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-context-trigger,
+  .ai-model-selector [data-slot="command-item"] {
+    transition: none;
+  }
+}

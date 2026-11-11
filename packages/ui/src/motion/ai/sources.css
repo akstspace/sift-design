@@ -1,0 +1,60 @@
+[data-slot="sources-trigger"] > svg {
+  transition: transform var(--spring-smooth-duration) var(--spring-smooth);
+}
+[data-slot="sources-trigger"][data-state="open"] > svg {
+  transform: rotate(180deg);
+}
+.ai-citation-text {
+  box-decoration-break: clone;
+  transition: background-color var(--dur-quick) linear;
+}
+.ai-citation-trigger {
+  transition: background-color var(--dur-quick) linear;
+  background: var(--tint);
+  color: var(--ink);
+}
+.ai-citation-trigger[aria-expanded="true"] {
+  background: var(--subtle);
+}
+.ai-citation-card[data-state="open"] {
+  animation: ai-source-fade var(--dur-quick) linear;
+}
+.ai-citation-card[data-state="closed"] {
+  animation: ai-source-fade var(--dur-instant) var(--ease-leave) reverse;
+}
+/* Keep the kit carousel's measured slide geometry. Only its visual movement changes. */
+.ai-citation-track {
+  transform: none !important;
+  cursor: default;
+  align-items: flex-start;
+}
+.ai-citation-slide {
+  position: relative;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-instant) var(--ease-leave);
+}
+.ai-citation-slide[data-citation-active="true"] {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity var(--dur-quick) linear;
+}
+.ai-generated-image {
+  animation: ai-source-fade var(--dur-quick) linear;
+}
+@keyframes ai-source-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="sources-trigger"] > svg {
+    transition: none;
+  }
+  .ai-citation-slide {
+    transition-duration: var(--dur-instant);
+  }
+}

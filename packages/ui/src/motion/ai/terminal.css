@@ -1,0 +1,86 @@
+/* SGR colors use semantic ink tokens in both themes, not terminal palette values. */
+.ai-terminal {
+  --terminal-color-30: var(--muted);
+  --terminal-color-31: var(--danger);
+  --terminal-color-32: var(--good);
+  --terminal-color-33: var(--warn);
+  --terminal-color-34: var(--ink);
+  --terminal-color-35: var(--danger);
+  --terminal-color-36: var(--accent);
+  --terminal-color-37: var(--ink);
+  --terminal-color-90: var(--muted);
+  --terminal-color-91: var(--danger);
+  --terminal-color-92: var(--good);
+  --terminal-color-93: var(--warn);
+  --terminal-color-94: var(--ink);
+  --terminal-color-95: var(--danger);
+  --terminal-color-96: var(--accent);
+  --terminal-color-97: var(--ink);
+}
+.dark .ai-terminal {
+  --terminal-color-30: var(--muted);
+  --terminal-color-31: var(--danger);
+  --terminal-color-32: var(--good);
+  --terminal-color-33: var(--warn);
+  --terminal-color-34: var(--ink);
+  --terminal-color-35: var(--danger);
+  --terminal-color-36: var(--accent);
+  --terminal-color-37: var(--ink);
+  --terminal-color-90: var(--muted);
+  --terminal-color-91: var(--danger);
+  --terminal-color-92: var(--good);
+  --terminal-color-93: var(--warn);
+  --terminal-color-94: var(--ink);
+  --terminal-color-95: var(--danger);
+  --terminal-color-96: var(--accent);
+  --terminal-color-97: var(--ink);
+}
+.ai-terminal-dim {
+  color: var(--muted) !important;
+}
+.ai-terminal-content:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -3px;
+}
+.ai-terminal-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  margin-left: 4px;
+  vertical-align: -2px;
+  background: var(--ink);
+  animation: ai-terminal-activity 1s steps(2, jump-none) infinite;
+}
+@keyframes ai-terminal-activity {
+  50% {
+    opacity: 0.25;
+  }
+}
+.ai-terminal-chevron {
+  transition: transform var(--spring-snappy-duration) var(--spring-snappy);
+}
+.ai-stack-toggle:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-terminal-cursor {
+    animation: none;
+  }
+  .ai-terminal-chevron {
+    transition: none;
+  }
+}
+
+/* Outcome segments share the bar; a 2px surface gap separates neighbors. */
+.test-results-segment {
+  transition: flex-grow var(--spring-smooth-duration) var(--spring-smooth);
+}
+.test-results-segment + .test-results-segment:not([data-empty]) {
+  margin-left: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .test-results-segment {
+    transition: none;
+  }
+}

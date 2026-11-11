@@ -145,9 +145,10 @@ export function AgentPage() {
             ],
             [
               "/raw/manifest.json",
-              "Source file list",
-              "A JSON list of repository paths and file sizes. Read each file at /raw/ followed by its path.",
+              "Component index",
+              "JSON with every component, AI element, and example screen, and every repository file with its size.",
             ],
+            ["/finding-components", "Finding components", "The structure of the component index, with search examples."],
             [
               "/raw/tokens/tokens.css",
               "/raw/<repo path>",

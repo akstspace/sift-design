@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@sift-design/ui/theme.css";
+@import "@sift-design/ui/ai.css";
 @source "./";
 @source "../../blocks/_shared";
 @import "@sift-design/tokens/themes/harbor.css";

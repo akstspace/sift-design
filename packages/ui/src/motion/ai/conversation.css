@@ -1,0 +1,70 @@
+/* The jump control stays mounted so a direction change can reverse its transition. */
+[data-slot="conversation-scroll-button-container"] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    transform var(--spring-snappy-duration) var(--spring-snappy),
+    opacity var(--dur-quick) linear;
+}
+[data-slot="conversation-scroll-button-container"][data-active="false"] {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(100%) scale(0.95);
+  transition:
+    transform var(--spring-exit-duration) var(--spring-exit),
+    opacity var(--dur-instant) var(--ease-leave);
+}
+.conversation-viewport {
+  scrollbar-width: thin;
+  scrollbar-color: var(--control-line) transparent;
+  scroll-behavior: auto;
+}
+[data-slot="conversation-content"]:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -3px;
+}
+[data-slot="conversation-empty-state"] {
+  animation: conversation-empty-fade var(--dur-quick) linear;
+}
+@keyframes conversation-empty-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+[data-slot="suggestion"] {
+  transition:
+    transform var(--spring-press-duration) var(--spring-press),
+    background-color var(--dur-quick) linear,
+    color var(--dur-quick) linear,
+    border-color var(--dur-quick) linear,
+    box-shadow var(--dur-quick) linear;
+}
+[data-slot="suggestion"]:not(:disabled):active {
+  transform: scale(0.97);
+}
+[data-slot="suggestions"] [data-slot="scroll-area-viewport"] {
+  scroll-padding-inline: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="conversation-scroll-button-container"],
+  [data-slot="conversation-scroll-button-container"][data-active="false"] {
+    transform: none;
+    transition: opacity var(--dur-quick) linear;
+  }
+  [data-slot="conversation-scroll-button-container"][data-active="false"] {
+    transition-duration: var(--dur-instant);
+    transition-timing-function: var(--ease-leave);
+  }
+  [data-slot="suggestion"],
+  [data-slot="suggestion"]:not(:disabled):active {
+    transform: none;
+    transition:
+      background-color var(--dur-quick) linear,
+      color var(--dur-quick) linear,
+      border-color var(--dur-quick) linear,
+      box-shadow var(--dur-quick) linear;
+  }
+}

@@ -1,0 +1,29 @@
+/* Attachment surfaces share the base attachment family. Motion owns insertion and reflow. */
+.ai-attachment,
+.ai-attachment-remove,
+.ai-attachment-preview-button {
+  transition:
+    background-color var(--dur-quick) linear,
+    color var(--dur-quick) linear,
+    border-color var(--dur-quick) linear;
+}
+
+.ai-attachment:hover {
+  background-color: var(--tint);
+}
+
+.ai-attachment-preview-button:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+  border-radius: var(--radius-md);
+}
+
+.ai-preview-chevron {
+  transition: transform var(--spring-snappy-duration) var(--spring-snappy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-preview-chevron {
+    transition: none;
+  }
+}

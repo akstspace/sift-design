@@ -1,0 +1,46 @@
+/* Approval, answer selection, and conversation restore. */
+[data-slot="confirmation"] {
+  isolation: isolate;
+}
+[data-slot="confirmation"] [data-slot="confirmation-title"] {
+  margin: 0;
+}
+[data-slot="question-option"] {
+  transition-duration: var(--dur-quick);
+}
+[data-slot="question-option"][data-state="checked"] {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+[data-slot="question-option"]:hover {
+  border-color: var(--accent);
+}
+[data-slot="checkpoint-trigger"] {
+  transition:
+    opacity var(--dur-quick) linear,
+    background-color var(--dur-quick) linear,
+    color var(--dur-quick) linear;
+}
+/* Keep the action visible on touch screens. Pointer users reveal it on the row. */
+@media (hover: hover) and (pointer: fine) {
+  [data-slot="checkpoint-trigger"] svg {
+    opacity: 0.55;
+    transition: opacity var(--dur-quick) linear;
+  }
+  [data-slot="checkpoint"]:hover [data-slot="checkpoint-trigger"],
+  [data-slot="checkpoint"]:focus-within [data-slot="checkpoint-trigger"] {
+    background: var(--tint);
+    color: var(--ink);
+  }
+  [data-slot="checkpoint"]:hover [data-slot="checkpoint-trigger"] svg,
+  [data-slot="checkpoint"]:focus-within [data-slot="checkpoint-trigger"] svg {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="question-option"],
+  [data-slot="checkpoint-trigger"] {
+    transition-duration: var(--dur-instant);
+    transform: none;
+  }
+}

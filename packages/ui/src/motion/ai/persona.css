@@ -1,0 +1,66 @@
+/* Local assistant mark. All color values follow the current theme. */
+[data-slot="persona"] .ai-persona-origin {
+  transform-box: view-box;
+  transform-origin: 50px 50px;
+}
+
+[data-slot="persona"] .ai-persona-shell {
+  fill: var(--color-accent-soft);
+  stroke: var(--accent);
+  stroke-width: 0.8;
+}
+
+[data-slot="persona"] .ai-persona-inner {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 0.8;
+  opacity: 0.45;
+}
+
+[data-slot="persona"] .ai-persona-core {
+  fill: var(--accent);
+}
+
+[data-slot="persona"] .ai-persona-glyph {
+  fill: var(--color-card);
+}
+
+[data-slot="persona"] .ai-persona-listening {
+  fill: none;
+  stroke: var(--color-card);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+[data-slot="persona"] .ai-persona-satellite {
+  fill: var(--accent);
+}
+
+[data-slot="persona"] .ai-persona-bar {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+[data-slot="persona"][data-state="thinking"] .ai-persona-inner {
+  stroke-dasharray: 3 4;
+}
+
+[data-slot="persona"][data-state="asleep"] .ai-persona-core {
+  fill: var(--color-muted-foreground);
+}
+
+.ai-persona-demo-stage {
+  background-color: var(--color-tint);
+}
+
+.ai-persona-state-controls [data-slot="toggle-group-item"] {
+  padding-inline: 10px;
+  font-size: 12px;
+}
+
+@media (max-width: 480px) {
+  .ai-persona-state-controls [data-slot="toggle-group-item"] {
+    padding-inline: 7px;
+    font-size: 12px;
+  }
+}

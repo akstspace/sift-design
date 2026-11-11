@@ -8,7 +8,7 @@ Sift Design is built on other people's work. Thank you to everyone below.
 
 | Library | Used for | License |
 |---|---|---|
-| [shadcn/ui](https://ui.shadcn.com) | The component kit in `packages/ui` is adapted from shadcn/ui (CLI 4.23.0, new-york style), and the blocks follow its blocks idea. The untouched sources are kept in `packages/ui/upstream/`. | MIT |
+| [shadcn/ui](https://ui.shadcn.com) | The component kit in `packages/ui` is adapted from shadcn/ui (CLI 4.23.0, new-york style), and the blocks follow its blocks idea. The untouched sources are kept in `packages/ui/upstream/shadcn-4.23.0-new-york/`. | MIT |
 | [cn](https://github.com/shadcn-ui/cn) | Class-name merging used by every kit component | MIT |
 | [Radix UI](https://www.radix-ui.com) | Accessible primitives under most kit components | MIT |
 | [Base UI](https://base-ui.com) | The primitive under the combobox | MIT |
@@ -27,6 +27,22 @@ Sift Design is built on other people's work. Thank you to everyone below.
 | [React Hook Form](https://react-hook-form.com) and [Zod](https://zod.dev) | Forms and validation | MIT |
 | [date-fns](https://date-fns.org) | Date formatting | MIT |
 | [React](https://react.dev) and [Vite](https://vite.dev) | The apps and their builds | MIT |
+
+### AI components
+
+The AI components in `packages/ui/src/ai` are adapted from [AI Elements](https://elements.ai-sdk.dev) 1.9.1 by Vercel, used under the Apache License 2.0. They keep the upstream component names and props. The styling, motion, demos and reference documentation are new, and each component lists its changes from upstream on the [AI elements](packages/ui/docs/ai.md) page. The untouched sources and the upstream license are kept in `packages/ui/upstream/ai-elements-1.9.1/`.
+
+| Library | Used for | License |
+|---|---|---|
+| [AI Elements](https://elements.ai-sdk.dev) | The source of the 49 AI components: chat, reasoning, tools, code, workflow canvas and voice | Apache-2.0 |
+| [AI SDK](https://ai-sdk.dev) | Message, tool and usage types shared by the AI components | Apache-2.0 |
+| [Streamdown](https://streamdown.ai) | Rendering streamed Markdown in messages and reasoning | Apache-2.0 |
+| [React Flow](https://reactflow.dev) | The workflow canvas, nodes and edges | MIT |
+| [use-stick-to-bottom](https://github.com/stackblitz-labs/use-stick-to-bottom) | Keeping a conversation pinned to the newest message | MIT |
+| [Media Chrome](https://www.media-chrome.org) | Audio player controls | MIT |
+| [react-jsx-parser](https://github.com/TroyAlford/react-jsx-parser) | Rendering generated JSX in the JSX preview | MIT |
+| [nanoid](https://github.com/ai/nanoid) | Attachment IDs in the prompt input | MIT |
+| [Shiki](https://shiki.style) | Highlighting code blocks and fenced code in messages | MIT |
 
 ### Website
 

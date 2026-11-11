@@ -1,0 +1,31 @@
+/* The kit Collapsible owns measured height and opacity motion. */
+[data-slot="commit-header"]:hover {
+  background: var(--color-tint);
+}
+.commit-chevron {
+  transition: transform var(--spring-smooth-duration) var(--spring-smooth);
+}
+[data-slot="commit-header"]:has([aria-expanded="true"]) .commit-chevron {
+  transform: rotate(180deg);
+}
+[data-slot="commit-header"]:has([aria-expanded="false"]) .commit-chevron {
+  transition-duration: var(--spring-exit-duration);
+  transition-timing-function: var(--spring-exit);
+}
+.commit-copy svg {
+  transition: color var(--dur-quick) linear;
+}
+.commit-copy[data-copied="true"] {
+  color: var(--color-good);
+}
+.package-demo-choice {
+  transition: border-color var(--dur-quick) linear;
+}
+.package-demo-choice[data-apply="true"] {
+  border-color: var(--color-link);
+}
+@media (prefers-reduced-motion: reduce) {
+  .commit-chevron {
+    transition: none;
+  }
+}

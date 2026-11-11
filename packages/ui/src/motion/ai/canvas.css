@@ -1,0 +1,154 @@
+.ai-canvas.react-flow {
+  --xy-background-color: var(--ground);
+  --xy-edge-stroke: var(--control-line);
+  --xy-edge-stroke-selected: var(--focus-ring);
+  --xy-connectionline-stroke: var(--focus-ring);
+  --xy-node-color: var(--ink);
+  --xy-node-background-color: var(--surface);
+  --xy-node-border: 1px solid var(--line);
+  --xy-node-boxshadow-hover: none;
+  --xy-node-boxshadow-selected: 0 0 0 2px var(--focus-ring);
+  --xy-handle-background-color: var(--surface);
+  --xy-handle-border-color: var(--control-line);
+  --xy-selection-background-color: var(--tint-strong);
+  --xy-selection-border: 1px solid var(--focus-ring);
+  --xy-minimap-background-color: var(--surface);
+  --xy-minimap-mask-background-color: var(--tint-strong);
+  --xy-minimap-node-background-color: var(--control-line);
+  color: var(--ink);
+  background: var(--ground);
+  border-radius: var(--radius-md);
+}
+
+.ai-canvas .react-flow__node:focus-visible,
+.ai-canvas .react-flow__edge:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.ai-node {
+  transition:
+    border-color var(--dur-quick) linear,
+    box-shadow var(--dur-quick) linear;
+}
+
+.ai-canvas .selected .ai-node,
+.ai-node[data-state="running"] {
+  border-color: var(--focus-ring);
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+.ai-node[data-state="done"] {
+  border-color: var(--good);
+}
+
+.ai-node .react-flow__handle {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--control-line);
+  background: var(--surface);
+}
+
+.ai-node .react-flow__handle:hover,
+.ai-node .react-flow__handle.connecting {
+  border-color: var(--focus-ring);
+  background: var(--accent-soft);
+}
+
+.ai-canvas .ai-edge {
+  stroke: var(--control-line);
+  stroke-width: 2;
+}
+
+.ai-canvas .selected .ai-edge {
+  stroke: var(--focus-ring);
+}
+
+/* The moving dot is the activity signal, not a second marching dash animation. */
+.ai-canvas .react-flow__edge.animated path {
+  animation: none;
+  stroke-dasharray: none;
+}
+
+.ai-canvas .react-flow__edge.animated .ai-edge-temporary {
+  stroke-dasharray: 5 5;
+}
+
+.ai-controls.react-flow__controls {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.ai-canvas .ai-controls.react-flow__controls .react-flow__controls-button {
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  fill: currentColor;
+  background: transparent;
+  transition: background-color var(--dur-quick) linear;
+}
+
+.ai-controls .react-flow__controls-button:hover {
+  background: var(--hover);
+}
+
+.ai-controls .react-flow__controls-button:disabled {
+  opacity: 0.45;
+}
+
+.ai-controls .react-flow__controls-button:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.ai-toolbar {
+  transform-origin: top center;
+  animation: ai-toolbar-arrive var(--spring-snappy-duration) var(--spring-snappy);
+}
+
+@keyframes ai-toolbar-arrive {
+  from {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.ai-canvas .react-flow__attribution {
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.ai-canvas .react-flow__attribution a {
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-toolbar {
+    animation: ai-toolbar-fade var(--dur-quick) linear;
+  }
+  .ai-canvas .react-flow__viewport {
+    transition: none !important;
+  }
+}
+
+@keyframes ai-toolbar-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

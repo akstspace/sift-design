@@ -1,0 +1,85 @@
+/* Only the composed chat shell owns these layout rules. Component motion stays with each part. */
+.larkspur-chat {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 920px;
+  height: 680px;
+  min-width: 0;
+  margin-inline: auto;
+  overflow: hidden;
+}
+
+.larkspur-chat-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.larkspur-chat-conversation {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.larkspur-chat-messages {
+  min-height: 100%;
+  gap: 28px;
+  padding: 24px;
+}
+
+.larkspur-chat-empty {
+  flex: 1;
+  min-height: 350px;
+  gap: 20px;
+  padding: 24px 0;
+}
+
+/* Suggestions are chat pills that hug their text and wrap as a centered group. */
+.larkspur-chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 560px;
+}
+
+.larkspur-chat-suggestions > button {
+  height: auto;
+  min-height: 32px;
+  white-space: normal;
+}
+
+.larkspur-chat-turn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.larkspur-chat-composer {
+  flex: none;
+  padding: 12px 20px 14px;
+}
+
+@media (max-width: 600px) {
+  .larkspur-chat {
+    height: 700px;
+  }
+  .larkspur-chat-header {
+    gap: 4px;
+    padding: 12px;
+  }
+  .larkspur-chat-messages {
+    padding: 16px 12px;
+  }
+  .larkspur-chat-empty {
+    min-height: 320px;
+  }
+  .larkspur-chat-composer {
+    padding: 10px 12px;
+  }
+}

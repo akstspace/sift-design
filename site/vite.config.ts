@@ -43,7 +43,7 @@ function rawFiles(): Plugin {
     const reference = await import(path.join(repo, "scripts", "reference.mjs"));
     if (name === "/raw/manifest.json") {
       res.setHeader("Content-Type", "application/json; charset=utf-8");
-      return res.end(JSON.stringify({ files: reference.rawFiles() }, null, 2) + "\n");
+      return res.end(JSON.stringify(reference.manifest(), null, 2) + "\n");
     }
     const files = reference.llmsFiles();
     res.setHeader("Content-Type", "text/plain; charset=utf-8");

@@ -188,7 +188,7 @@ function Shell({ path }: { path: string }) {
               <SiftMark size={22} />
               <span>Sift Design</span>
               <a href={at("/reference")}>Full design reference</a>
-              <a href={at("/raw/manifest.json")}>Source file list</a>
+              <a href={at("/finding-components")}>Component index</a>
               <a href={at("/credits")}>Credits</a>
             </footer>
           </div>

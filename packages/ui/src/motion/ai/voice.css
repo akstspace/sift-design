@@ -1,0 +1,30 @@
+/* The shared popover and dialog own reversible entrance and exit motion. */
+[data-voice-part="mic-check"] {
+  opacity: 0;
+  transition: opacity var(--dur-quick) linear;
+}
+[data-voice-part="mic-item"][data-current="true"] [data-voice-part="mic-check"] {
+  opacity: 1;
+}
+:is([data-voice-part="mic-item"], [data-voice-part="item"])[data-selected="true"] {
+  background: var(--tint);
+  color: var(--ink);
+}
+:is([data-voice-part="mic-item"], [data-voice-part="item"]) {
+  transition: background-color var(--dur-quick) linear;
+}
+[data-voice-part="preview"][data-playing="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+[data-voice-part="content"] [data-slot="command-input-wrapper"] {
+  margin-inline: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-voice-part="mic-check"] {
+    transition-duration: var(--dur-instant);
+  }
+  [data-voice-part="preview"]:active {
+    transform: none;
+  }
+}

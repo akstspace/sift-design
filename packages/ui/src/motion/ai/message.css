@@ -1,0 +1,235 @@
+@import "streamdown/styles.css";
+
+/* A quiet action reveal. Touch and keyboard users always retain access. */
+[data-slot="ai-message-actions"] {
+  opacity: 1;
+  transition: opacity var(--dur-quick) linear;
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-slot="ai-message"] [data-slot="ai-message-actions"] {
+    opacity: 0.85;
+  }
+  [data-slot="ai-message"]:is(:hover, :focus-within) [data-slot="ai-message-actions"] {
+    opacity: 1;
+  }
+}
+
+.ai-message-response {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.ai-message-response :is(h1, h2, h3, h4, h5, h6) {
+  margin: 28px 0 12px;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.ai-message-response h1 {
+  font-size: 18px;
+}
+.ai-message-response :is(h4, h5, h6) {
+  font-size: 14px;
+}
+.ai-message-response p {
+  margin: 0 0 16px;
+}
+.ai-message-response :is(ul, ol) {
+  margin: 12px 0 20px;
+  padding-inline-start: 24px;
+}
+.ai-message-response ul {
+  list-style: disc;
+}
+.ai-message-response ol {
+  list-style: decimal;
+}
+.ai-message-response li {
+  padding-inline-start: 4px;
+  margin: 4px 0;
+  padding-block: 0;
+}
+.ai-message-response li > :is(ul, ol) {
+  margin: 6px 0 8px;
+}
+.ai-message-response :is(a, [data-streamdown="link"]) {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ai-message-response :is(a, [data-streamdown="link"]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+.ai-message-response code {
+  font-family: var(--font-code);
+  font-size: 12px;
+  background: var(--tint);
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+}
+.ai-message-response [data-streamdown="code-block"] {
+  padding: 0;
+  gap: 0;
+  margin: 20px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--subtle);
+  overflow: hidden;
+}
+.ai-message-response [data-streamdown="code-block-header"] {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-code);
+  font-size: 12px;
+  color: var(--muted);
+  background: transparent;
+}
+.ai-message-response [data-streamdown="code-block-body"] {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.ai-message-response [data-streamdown="code-block-header"] > span {
+  margin-inline-start: 0;
+}
+.ai-message-response pre {
+  max-width: 100%;
+  margin: 20px 0;
+  padding: 16px;
+  overflow: auto;
+  border-radius: var(--radius-md);
+  background: var(--subtle);
+  font-family: var(--font-code);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.ai-message-response [data-streamdown="code-block"] pre {
+  margin: 0;
+  border-radius: 0;
+}
+.ai-message-response pre code {
+  padding: 0;
+  background: transparent;
+}
+.ai-message-response .ai-message-code {
+  margin: 20px 0;
+  background: var(--subtle);
+}
+.ai-message-response .ai-message-code .ai-code-scroll {
+  max-height: var(--message-code-max-height, 400px);
+}
+.ai-message-response .ai-message-code pre {
+  margin: 0;
+  border-radius: 0;
+}
+.ai-message-response .ai-message-code [data-slot="code-block-header"] {
+  min-height: 32px;
+  padding: 8px 14px;
+}
+.ai-message-response blockquote {
+  border-inline-start: 1px solid var(--control-line);
+  padding: 4px 0 4px 20px;
+  margin: 20px 0;
+  color: var(--muted);
+}
+.ai-message-response blockquote > :last-child {
+  margin-bottom: 0;
+}
+.ai-message-response hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 28px 0;
+}
+.ai-message-response [data-streamdown="table-wrapper"] {
+  padding: 0;
+  gap: 0;
+  background: transparent;
+  max-width: 100%;
+  margin: 20px 0;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.ai-message-response [data-streamdown="table-wrapper"] > div {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.ai-message-response table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.ai-message-response :is(th, td) {
+  min-width: 100px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.ai-message-response th {
+  background: var(--subtle);
+  text-align: start;
+  font-weight: 600;
+}
+.ai-message-response tr:last-child td {
+  border-bottom: 0;
+}
+.ai-message-response img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+.ai-message-response > :first-child {
+  margin-top: 0;
+}
+.ai-message-response > :last-child {
+  margin-bottom: 0;
+}
+
+/* The gradient conveys active work, not decoration. Mount only during an active task. */
+.ai-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--muted) calc(50% - var(--shimmer-spread)),
+    var(--ink) 50%,
+    var(--muted) calc(50% + var(--shimmer-spread))
+  );
+  background-size: 250% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: ai-text-shimmer var(--shimmer-duration) linear infinite;
+}
+@keyframes ai-text-shimmer {
+  from {
+    background-position: 100% center;
+  }
+  to {
+    background-position: 0% center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-shimmer {
+    animation: none;
+    background: none;
+    color: var(--muted);
+  }
+  .ai-message-response [data-sd-animate],
+  .ai-message-response [data-sd-animate-marker]::marker {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  .ai-shimmer {
+    animation: none;
+    background: none;
+    color: CanvasText;
+  }
+}

@@ -9,6 +9,7 @@ import { at } from "./base";
 const Controls = lazy(() => import("../../specimen/src/sections/Controls"));
 const Overlays = lazy(() => import("../../specimen/src/sections/Overlays"));
 const Display = lazy(() => import("../../specimen/src/sections/Display"));
+const AI = lazy(() => import("../../specimen/src/sections/AI"));
 const families = [
   { name: "controls", title: "Controls", description: "Buttons, text fields, checkboxes, pickers, and forms." },
   {
@@ -21,9 +22,15 @@ const families = [
     title: "Display and navigation",
     description: "Sidebars, tables, messages, expandable sections, and page transitions.",
   },
+  {
+    name: "ai",
+    title: "AI elements",
+    description: "Chat, reasoning, tool calls, code output, workflow canvases, and voice.",
+  },
 ];
 export default function ComponentsPage({ family = "controls" }: { family?: string }) {
-  const Section = family === "display" ? Display : family === "overlays" ? Overlays : Controls;
+  const Section =
+    family === "ai" ? AI : family === "display" ? Display : family === "overlays" ? Overlays : Controls;
   const reduced = !!useReducedMotion();
   const selectionId = useId();
   const previous = useRef(family);
