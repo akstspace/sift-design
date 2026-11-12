@@ -1,14 +1,14 @@
 import type { ReactNode } from "react";
 
 /** A family of components on the specimen page. */
-export function SpecimenGroup({ id, title, intro, children }: { id: string; title: string; intro: string; children: ReactNode }) {
+export function SpecimenGroup({ id, title, intro, min = 420, children }: { id: string; title: string; intro: string; min?: number; children: ReactNode }) {
   return (
     <section id={id} aria-labelledby={id + "-title"} className="flex flex-col gap-6">
       <header className="flex flex-col gap-1">
         <h2 id={id + "-title"} className="text-[18px] font-semibold tracking-[-0.02em]">{title}</h2>
         <p className="max-w-[68ch] text-muted-foreground">{intro}</p>
       </header>
-      <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr))]">{children}</div>
+      <div className="grid gap-4" style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${min}px), 1fr))` }}>{children}</div>
     </section>
   );
 }

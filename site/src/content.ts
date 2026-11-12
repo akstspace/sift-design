@@ -29,12 +29,13 @@ export const pages: Page[] = [
   { path: "/foundations/shapes-and-depth", title: "Shapes and depth", group: "Foundations", file: "DESIGN.md" },
   { path: "/motion", title: "Motion", group: "The system", file: "docs/motion.md" },
   { path: "/components", title: "Components", group: "The system" },
-  ...["controls", "overlays", "display", "ai"].map((name) => ({
+  ...["controls", "overlays", "display", "charts", "ai"].map((name) => ({
     path: `/components/${name}`,
     title: {
       controls: "Controls",
       overlays: "Overlays and menus",
       display: "Display and navigation",
+      charts: "Charts",
       ai: "AI elements",
     }[name]!,
     group: "Components",

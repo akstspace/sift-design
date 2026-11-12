@@ -172,6 +172,9 @@ async function filmstrip(shot) {
     window.__before = new Set(document.getAnimations());
     window.__seen = new Map();
   });
+  // Pause the page clock before the trigger. Otherwise it keeps pace with real
+  // time, and JavaScript animations (springs, chart marks) run ahead of the frames.
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 50);
   await trigger(page);
   const images = [];
   let now = 0;

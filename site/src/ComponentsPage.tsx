@@ -9,6 +9,7 @@ import { at } from "./base";
 const Controls = lazy(() => import("../../specimen/src/sections/Controls"));
 const Overlays = lazy(() => import("../../specimen/src/sections/Overlays"));
 const Display = lazy(() => import("../../specimen/src/sections/Display"));
+const Charts = lazy(() => import("../../specimen/src/sections/Charts"));
 const AI = lazy(() => import("../../specimen/src/sections/AI"));
 const families = [
   { name: "controls", title: "Controls", description: "Buttons, text fields, checkboxes, pickers, and forms." },
@@ -23,6 +24,11 @@ const families = [
     description: "Sidebars, tables, messages, expandable sections, and page transitions.",
   },
   {
+    name: "charts",
+    title: "Charts",
+    description: "Area, bar, line, pie, radar, and radial charts, with tooltips and a data table for each.",
+  },
+  {
     name: "ai",
     title: "AI elements",
     description: "Chat, reasoning, tool calls, code output, workflow canvases, and voice.",
@@ -30,7 +36,15 @@ const families = [
 ];
 export default function ComponentsPage({ family = "controls" }: { family?: string }) {
   const Section =
-    family === "ai" ? AI : family === "display" ? Display : family === "overlays" ? Overlays : Controls;
+    family === "ai"
+      ? AI
+      : family === "charts"
+        ? Charts
+        : family === "display"
+          ? Display
+          : family === "overlays"
+            ? Overlays
+            : Controls;
   const reduced = !!useReducedMotion();
   const selectionId = useId();
   const previous = useRef(family);

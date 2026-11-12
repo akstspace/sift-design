@@ -28,6 +28,14 @@
     "violations": []
   },
   {
+    "shot": "components-charts-dark",
+    "violations": []
+  },
+  {
+    "shot": "components-charts-light",
+    "violations": []
+  },
+  {
     "shot": "components-dark",
     "violations": []
   },

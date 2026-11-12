@@ -26,10 +26,11 @@ Each group has a guide explaining when to use each component, its parts and opti
 
 - [Controls and forms](docs/controls.md): button, button group, input, input group, OTP, textarea, native select, time picker, checkbox, radio group, switch, slider, toggle, toggle group, tabs, label, field, form, calendar, kbd.
 - [Overlays and menus](docs/overlays.md): dialog, alert dialog, sheet, drawer, popover, hover card, tooltip, dropdown menu, context menu, menubar, navigation menu, select, combobox, command, toasts.
-- [Display, layout and navigation](docs/display.md): sidebar, accordion, collapsible, card, item, table, badge, avatar, alert, empty, skeleton, spinner, progress, separator, scroll area, resizable, aspect ratio, breadcrumb, pagination, carousel, chart, attachment, bubble, marker, message, message scroller, page transition, scroll title.
+- [Display, layout and navigation](docs/display.md): sidebar, accordion, collapsible, card, item, table, badge, avatar, alert, empty, skeleton, spinner, progress, separator, scroll area, resizable, aspect ratio, breadcrumb, pagination, carousel, attachment, bubble, marker, message, message scroller, page transition, scroll title.
+- [Charts](docs/charts.md): the chart component, its motion and data table, and a Sift version of every shadcn/ui chart block (area, bar, line, pie, radar, radial, tooltip).
 
 Try every component in the [examples app](../../specimen). Its fictional greenhouse tasks, helpers, and browser-saved drafts demonstrate the components; they are not requirements for another product. Reference screenshots are in [screenshots/specimen](../../screenshots/specimen).
 
 ## Upstream
 
-`upstream/shadcn-4.23.0-new-york/` keeps the untouched shadcn sources these were adapted from. It is there for diffing when shadcn updates. Never import from it or copy from it.
+`upstream/shadcn-4.23.0-new-york/` keeps the untouched shadcn sources these were adapted from. Its `charts/` folder keeps the chart blocks that the chart examples port. It is there for diffing when shadcn updates. Never import from it or copy from it.

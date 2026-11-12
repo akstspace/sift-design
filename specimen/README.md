@@ -6,9 +6,9 @@ These are optional component demonstrations, not a product template. Keep the re
 
 ## Run and capture
 
-From the repository root, run `npx vite specimen`. Select a family with `?section=controls`, `?section=overlays`, or `?section=display`; use `?theme=dark` and `?palette=harbor` for the alternate views.
+From the repository root, run `npx vite specimen`. Select a family with `?section=controls`, `?section=overlays`, `?section=display`, `?section=charts` (one chart type with `&charts=area`, `bar`, `line`, `pie`, `radar`, `radial`, or `tooltip`), or `?section=ai`; use `?theme=dark` and `?palette=harbor` for the alternate views.
 
-Capture one suite at a time with `node scripts/capture.mjs specimen --shots shots/<family>.mjs --axe`, where family is controls, overlays, display, or retheme. Filmstrips show timestamped frames; animated WebP recordings show real-time input, reversal, and drag.
+Capture one suite at a time with `node scripts/capture.mjs specimen --shots shots/<family>.mjs --axe`, where family is controls, overlays, display, charts, or retheme. Filmstrips show timestamped frames; animated WebP recordings show real-time input, reversal, and drag.
 
 ## Screenshots
 
@@ -177,7 +177,6 @@ Accessibility results: [overlays-axe.json](../screenshots/specimen/overlays-axe.
 | light | [display-sidebar-expanded-light.png](../screenshots/specimen/display-sidebar-expanded-light.png) |
 | light | [display-sidebar-collapsed-light.png](../screenshots/specimen/display-sidebar-collapsed-light.png) |
 | light · 390px | [display-mobile-sheet-light.png](../screenshots/specimen/display-mobile-sheet-light.png) |
-| light | [display-chart-light.png](../screenshots/specimen/display-chart-light.png) |
 | light | [display-table-light.png](../screenshots/specimen/display-table-light.png) |
 | light | [display-empty-light.png](../screenshots/specimen/display-empty-light.png) |
 | light | [display-alert-light.png](../screenshots/specimen/display-alert-light.png) |
@@ -186,21 +185,97 @@ Accessibility results: [overlays-axe.json](../screenshots/specimen/overlays-axe.
 | dark | [display-sidebar-expanded-dark.png](../screenshots/specimen/display-sidebar-expanded-dark.png) |
 | dark | [display-sidebar-collapsed-dark.png](../screenshots/specimen/display-sidebar-collapsed-dark.png) |
 | dark · 390px | [display-mobile-sheet-dark.png](../screenshots/specimen/display-mobile-sheet-dark.png) |
-| dark | [display-chart-dark.png](../screenshots/specimen/display-chart-dark.png) |
 | dark | [display-table-dark.png](../screenshots/specimen/display-table-dark.png) |
 | dark | [display-empty-dark.png](../screenshots/specimen/display-empty-dark.png) |
 | dark | [display-alert-dark.png](../screenshots/specimen/display-alert-dark.png) |
 | dark · 390px | [display-mobile-dark.png](../screenshots/specimen/display-mobile-dark.png) |
 | light | [display-message-arrival.png](../screenshots/specimen/display-message-arrival.png) |
-| light | [display-chart-data.png](../screenshots/specimen/display-chart-data.png) |
 | light · 390px | [display-mobile-light.png](../screenshots/specimen/display-mobile-light.png) |
 | light · reduced motion | [display-reduced-motion.png](../screenshots/specimen/display-reduced-motion.png) |
-| light | [display-chart-tooltip.png](../screenshots/specimen/display-chart-tooltip.png) |
 | Filmstrip | [display-sidebar-collapse-filmstrip.png](../screenshots/specimen/display-sidebar-collapse-filmstrip.png) |
 | Filmstrip | [display-accordion-open-filmstrip.png](../screenshots/specimen/display-accordion-open-filmstrip.png) |
 | Filmstrip | [display-nav-selection-filmstrip.png](../screenshots/specimen/display-nav-selection-filmstrip.png) |
 
 Accessibility results: [display-axe.json](../screenshots/specimen/display-axe.json).
+
+### Charts
+
+Capture with `node scripts/capture.mjs specimen --shots shots/charts.mjs --axe`. Each chart type keeps its shot list in `shots/charts/<type>.mjs`.
+
+| Evidence | Capture |
+| --- | --- |
+| dark | [charts-area-axes-dark.png](../screenshots/specimen/charts-area-axes-dark.png) |
+| light | [charts-area-axes-light.png](../screenshots/specimen/charts-area-axes-light.png) |
+| dark | [charts-area-dark.png](../screenshots/specimen/charts-area-dark.png) |
+| dark | [charts-area-default-dark.png](../screenshots/specimen/charts-area-default-dark.png) |
+| light | [charts-area-default-light.png](../screenshots/specimen/charts-area-default-light.png) |
+| dark | [charts-area-gradient-dark.png](../screenshots/specimen/charts-area-gradient-dark.png) |
+| light | [charts-area-gradient-light.png](../screenshots/specimen/charts-area-gradient-light.png) |
+| dark | [charts-area-icons-dark.png](../screenshots/specimen/charts-area-icons-dark.png) |
+| light | [charts-area-icons-light.png](../screenshots/specimen/charts-area-icons-light.png) |
+| dark | [charts-area-legend-dark.png](../screenshots/specimen/charts-area-legend-dark.png) |
+| light | [charts-area-legend-light.png](../screenshots/specimen/charts-area-legend-light.png) |
+| light | [charts-area-light.png](../screenshots/specimen/charts-area-light.png) |
+| dark | [charts-area-linear-dark.png](../screenshots/specimen/charts-area-linear-dark.png) |
+| light | [charts-area-linear-light.png](../screenshots/specimen/charts-area-linear-light.png) |
+| light · 390px | [charts-area-mobile.png](../screenshots/specimen/charts-area-mobile.png) |
+| Filmstrip | [charts-area-range-filmstrip.png](../screenshots/specimen/charts-area-range-filmstrip.png) |
+| light · reduced motion | [charts-area-range-reduced.png](../screenshots/specimen/charts-area-range-reduced.png) |
+| light · reduced motion | [charts-area-reduced.png](../screenshots/specimen/charts-area-reduced.png) |
+| dark | [charts-area-stacked-dark.png](../screenshots/specimen/charts-area-stacked-dark.png) |
+| dark | [charts-area-stacked-expand-dark.png](../screenshots/specimen/charts-area-stacked-expand-dark.png) |
+| light | [charts-area-stacked-expand-light.png](../screenshots/specimen/charts-area-stacked-expand-light.png) |
+| light | [charts-area-stacked-light.png](../screenshots/specimen/charts-area-stacked-light.png) |
+| dark | [charts-area-step-dark.png](../screenshots/specimen/charts-area-step-dark.png) |
+| light | [charts-area-step-light.png](../screenshots/specimen/charts-area-step-light.png) |
+| Filmstrip | [charts-area-table-filmstrip.png](../screenshots/specimen/charts-area-table-filmstrip.png) |
+| light | [charts-area-tooltip.png](../screenshots/specimen/charts-area-tooltip.png) |
+| dark | [charts-bar-dark.png](../screenshots/specimen/charts-bar-dark.png) |
+| light | [charts-bar-light.png](../screenshots/specimen/charts-bar-light.png) |
+| Filmstrip | [charts-bar-metric-filmstrip.png](../screenshots/specimen/charts-bar-metric-filmstrip.png) |
+| light · 390px | [charts-bar-mobile.png](../screenshots/specimen/charts-bar-mobile.png) |
+| light · reduced motion | [charts-bar-reduced.png](../screenshots/specimen/charts-bar-reduced.png) |
+| light | [charts-bar-tooltip.png](../screenshots/specimen/charts-bar-tooltip.png) |
+| dark | [charts-line-dark.png](../screenshots/specimen/charts-line-dark.png) |
+| light | [charts-line-light.png](../screenshots/specimen/charts-line-light.png) |
+| light · 390px | [charts-line-mobile.png](../screenshots/specimen/charts-line-mobile.png) |
+| light · reduced motion | [charts-line-reduced.png](../screenshots/specimen/charts-line-reduced.png) |
+| light · reduced motion | [charts-line-selection-reduced.png](../screenshots/specimen/charts-line-selection-reduced.png) |
+| Filmstrip | [charts-line-selection.png](../screenshots/specimen/charts-line-selection.png) |
+| light | [charts-line-tooltip.png](../screenshots/specimen/charts-line-tooltip.png) |
+| dark | [charts-pie-dark.png](../screenshots/specimen/charts-pie-dark.png) |
+| light | [charts-pie-light.png](../screenshots/specimen/charts-pie-light.png) |
+| light · 390px | [charts-pie-mobile.png](../screenshots/specimen/charts-pie-mobile.png) |
+| Filmstrip | [charts-pie-month.png](../screenshots/specimen/charts-pie-month.png) |
+| light · reduced motion | [charts-pie-reduced.png](../screenshots/specimen/charts-pie-reduced.png) |
+| Real-time recording | [charts-pie-sector-reversal.webp](../screenshots/specimen/charts-pie-sector-reversal.webp) |
+| Filmstrip | [charts-pie-sector.png](../screenshots/specimen/charts-pie-sector.png) |
+| light | [charts-pie-tooltip.png](../screenshots/specimen/charts-pie-tooltip.png) |
+| dark | [charts-radar-dark.png](../screenshots/specimen/charts-radar-dark.png) |
+| Filmstrip | [charts-radar-data-filmstrip.png](../screenshots/specimen/charts-radar-data-filmstrip.png) |
+| light · 390px | [charts-radar-labels-mobile.png](../screenshots/specimen/charts-radar-labels-mobile.png) |
+| light | [charts-radar-light.png](../screenshots/specimen/charts-radar-light.png) |
+| light · 390px | [charts-radar-mobile.png](../screenshots/specimen/charts-radar-mobile.png) |
+| light · reduced motion | [charts-radar-reduced.png](../screenshots/specimen/charts-radar-reduced.png) |
+| light | [charts-radar-tooltip.png](../screenshots/specimen/charts-radar-tooltip.png) |
+| Filmstrip · reduced motion | [charts-radial-crate-filmstrip-reduced.png](../screenshots/specimen/charts-radial-crate-filmstrip-reduced.png) |
+| Filmstrip | [charts-radial-crate-filmstrip.png](../screenshots/specimen/charts-radial-crate-filmstrip.png) |
+| Real-time recording | [charts-radial-crate-reversal.webp](../screenshots/specimen/charts-radial-crate-reversal.webp) |
+| dark | [charts-radial-dark.png](../screenshots/specimen/charts-radial-dark.png) |
+| light | [charts-radial-light.png](../screenshots/specimen/charts-radial-light.png) |
+| light · 390px | [charts-radial-mobile.png](../screenshots/specimen/charts-radial-mobile.png) |
+| light · reduced motion | [charts-radial-reduced.png](../screenshots/specimen/charts-radial-reduced.png) |
+| light | [charts-radial-tooltip.png](../screenshots/specimen/charts-radial-tooltip.png) |
+| Real-time recording | [charts-tooltip-bar-sequence.webp](../screenshots/specimen/charts-tooltip-bar-sequence.webp) |
+| dark | [charts-tooltip-dark.png](../screenshots/specimen/charts-tooltip-dark.png) |
+| light | [charts-tooltip-detail.png](../screenshots/specimen/charts-tooltip-detail.png) |
+| light · reduced motion | [charts-tooltip-glide-reduced.png](../screenshots/specimen/charts-tooltip-glide-reduced.png) |
+| Filmstrip | [charts-tooltip-glide.png](../screenshots/specimen/charts-tooltip-glide.png) |
+| light | [charts-tooltip-light.png](../screenshots/specimen/charts-tooltip-light.png) |
+| light · 390px | [charts-tooltip-mobile.png](../screenshots/specimen/charts-tooltip-mobile.png) |
+| light · reduced motion | [charts-tooltip-reduced.png](../screenshots/specimen/charts-tooltip-reduced.png) |
+
+Accessibility results: [charts-axe.json](../screenshots/specimen/charts-axe.json).
 
 ### Retheme
 

@@ -68,7 +68,7 @@ Supply a semantic table or list containing the plotted values with their labels 
 
 `ChartContainer` supplies named series and CSS variables; Recharts supplies the chart and axes. Configure stable series keys, labels, and token-based colors. `ChartTooltip` and `ChartLegend` help compose inspection and identification, but the application still supplies the accessible name, units, and equivalent data. Use Recharts’ `accessibilityLayer` and test its keyboard path in the chosen chart type.
 
-The kit disables repeated Recharts data-update animation. Bar marks have a one-time baseline entrance using the shared CSS spring; reduced motion uses a short fade. Existing keyed marks should not replay on every update. Do not add an animation wrapper that duplicates this behavior, delays access to values, or implies progress that has not happened. See the [Chart guide](../packages/ui/docs/display.md#chart) for the actual component API and motion details.
+Marks arrive once on the shared `spring.smooth` curve and morph on the same spring when the data changes, so a filter or a range switch explains itself. Re-renders and hovers that do not change the data replay nothing. Reduced motion applies changes at once and fades a new chart in. Do not add an animation wrapper that duplicates this behavior, delays access to values, or implies progress that has not happened. `ChartTable` gives every chart its data table. See the [Chart guide](../packages/ui/docs/charts.md#chart) for the API and the motion details, and the [Charts page](../packages/ui/docs/charts.md) for a worked example of each chart type.
 
 ## Optional examples, not required features
 

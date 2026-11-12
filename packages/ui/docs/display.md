@@ -409,35 +409,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext
 </Carousel>
 ```
 
-## Chart
-
-**When:** a chart makes a pattern or comparison clearer than prose. Keep a data table available; don't use a chart as decoration.
-
-**Structure:** `ChartContainer config` supplies named series and CSS variables; Recharts draws the chart and axes; `ChartTooltip` + content shows details on hover; `ChartLegend` + content names series. Use thin bars or lines, a low-contrast grid, **2px surface-colored strokes between stacked segments**, and **4px end radii**.
-
-**Category colors:** assign `--cat-1` through `--cat-8` to the categories in your data and keep each category's color when filtering. Those tokens are a palette, not a required set of categories or a limit on the dataset. For larger sets, use filtering, direct labels, small multiples (separate charts with shared scales), or a table rather than relying on more colors. Group categories under Other only when the grouping is meaningful. Series config keys and React keys must be stable. Text uses `--ink` / `--muted`, not series colors. Both palettes pass the repository's color-vision checks; some fills are below 3:1 against the surface, so provide labels, details, and a data table rather than relying on color alone. Forced colors outlines the chart shapes; the table remains the complete non-color equivalent.
-
-**Motion:** kit disables Recharts' repeated data-update animations. Bar rectangles grow from the baseline **538ms `--spring-smooth` once on mount**, vertical bars from bottom, horizontal bars from left (`data-layout="vertical"` on the container). Existing keyed bars do not replay on data updates. Tooltip follows the pointer immediately (**0ms** position animation). For custom chart shapes, use equivalent baseline growth and avoid perpetual animation.
-
-**Reduced motion:** bar mount is a **140ms linear fade**, with no scale. Tooltip remains immediate.
-
-**Accessibility:** use Recharts `accessibilityLayer`, label the chart and units, preserve the keyboard path, include a legend for multiple series and provide an accessible table. The table is also the print/forced-color fallback. Never use dual axes. The specimen's values are explicitly illustrative, not fabricated product metrics.
-
-```tsx
-import { BarChart, Bar, XAxis, YAxis } from "recharts";
-import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@sift-design/ui/chart";
-const config = { delivery: { label: "Delivery", color: "var(--cat-1)" }, collection: { label: "Store collection", color: "var(--cat-2)" } };
-<ChartContainer config={config} className="h-56 w-full" aria-label="Illustrative orders by fulfillment method and month, order count">
-  <BarChart data={months} accessibilityLayer barSize={16}>
-    <XAxis dataKey="month" axisLine={false} tickLine={false} /><YAxis axisLine={false} tickLine={false} />
-    <ChartTooltip content={<ChartTooltipContent />} /><ChartLegend content={<ChartLegendContent />} />
-    <Bar dataKey="delivery" fill="var(--color-delivery)" radius={[4, 4, 0, 0]} />
-    <Bar dataKey="collection" fill="var(--color-collection)" radius={[4, 4, 0, 0]} />
-  </BarChart>
-</ChartContainer>
-// Place the equivalent semantic table beside or beneath the chart.
-```
-
 ## Attachment
 
 **When:** show a file in a message, upload form, document list, or record detail.
@@ -617,6 +588,6 @@ const scroll = useRef<HTMLDivElement>(null);
 
 ## Live examples and verification
 
-The live section is `specimen/?section=display`, with `?theme=dark` supported. Its greenhouse navigation, task records, time chart, and helper conversation are optional demonstrations; choose your product's own content and structure. Capture `node scripts/capture.mjs specimen --shots shots/display.mjs --axe`. The shot set includes both full-page themes, expanded/collapsed sidebars, 390px mobile sheets, chart/table/empty/alert close-ups, tooltip inspection and collapse/disclosure/selection filmstrips. Screenshot names begin `display-` under `screenshots/specimen/`.
+The live section is `specimen/?section=display`, with `?theme=dark` supported. Its greenhouse navigation, task records and helper conversation are optional demonstrations; choose your product's own content and structure. Capture `node scripts/capture.mjs specimen --shots shots/display.mjs --axe`. The shot set includes both full-page themes, expanded/collapsed sidebars, 390px mobile sheets, table/empty/alert close-ups and collapse/disclosure/selection filmstrips. Screenshot names begin `display-` under `screenshots/specimen/`. Charts have their own section: see [Charts](charts.md).
 
 Real-time recordings are `display-motion-*.webp`: sidebar collapse, navigation selection, page switching, opening details and returning, expandable content, list reflow, carousel drag, message arrival, and mobile sheet dismissal. Mobile variants use a 390px viewport. Filmstrips show the animation frame by frame.

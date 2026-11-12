@@ -34,14 +34,12 @@ export default [
     { name: `display-sidebar-expanded-${theme}`, path, theme, clip: demo },
     { name: `display-sidebar-collapsed-${theme}`, path, theme, clip: demo, prepare: async page => { await page.getByRole("button", { name: "Collapse navigation", exact: true }).click(); } },
     { name: `display-mobile-sheet-${theme}`, path, theme, viewport: { width: 390, height: 844 }, prepare: async page => { await page.getByRole("button", { name: "Open navigation", exact: true }).click(); } },
-    ...["chart", "table", "empty", "alert"].map(component => ({ name: `display-${component}-${theme}`, path, theme, viewport: { width: 1440, height: 1000 }, clip: `[data-specimen="${component}"]`, prepare: at(`[data-specimen="${component}"]`) })),
+    ...["table", "empty", "alert"].map(component => ({ name: `display-${component}-${theme}`, path, theme, viewport: { width: 1440, height: 1000 }, clip: `[data-specimen="${component}"]`, prepare: at(`[data-specimen="${component}"]`) })),
   ]),
   { name: "display-mobile-dark", path, theme: "dark", fullPage: true, viewport: { width: 390, height: 844 } },
   { name: "display-message-arrival", path, clip: '[data-specimen="message-bubble-and-message-scroller"]', prepare: async page => { await page.getByRole("button", { name: "Hand the misting check to John" }).click(); } },
-  { name: "display-chart-data", path, clip: '[data-specimen="chart"]', viewport: { width: 1440, height: 1100 }, prepare: async page => { await page.getByText("View chart data", { exact: true }).click(); } },
   { name: "display-mobile-light", path, fullPage: true, viewport: { width: 390, height: 844 } },
   { name: "display-reduced-motion", path, reduced: true, clip: demo },
-  { name: "display-chart-tooltip", path, clip: '[data-specimen="chart"]', prepare: async page => { await page.locator('[data-specimen="chart"]').scrollIntoViewIfNeeded(); await page.locator('.recharts-bar-rectangle path').first().hover(); } },
   { name: "display-sidebar-collapse-filmstrip", path, clip: demo, filmstrip: { frames, trigger: async page => { await page.getByRole("button", { name: "Collapse navigation", exact: true }).click(); } } },
   { name: "display-accordion-open-filmstrip", path, clip: '[data-specimen="accordion"]', prepare: async page => {
     await page.locator('[data-specimen="accordion"]').evaluate(el => { el.style.minHeight = "320px"; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 120, behavior: "instant" }); });

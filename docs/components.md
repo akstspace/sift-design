@@ -2,7 +2,7 @@ Combine components around the information people need and the actions they can t
 
 # Components
 
-Use the components in `packages/ui`, which include interaction, focus styling, and animation behavior. Read their guides: [overlays](../packages/ui/docs/overlays.md), [controls](../packages/ui/docs/controls.md), [display](../packages/ui/docs/display.md), and [AI elements](../packages/ui/docs/ai.md). To search all components by name, use, or dependency, read [finding components](finding-components.md). Keep the kit versions rather than replacing them with unmodified upstream components. Accessible labels, application state, validation, persistence, and routing remain the consuming app’s responsibility.
+Use the components in `packages/ui`, which include interaction, focus styling, and animation behavior. Read their guides: [overlays](../packages/ui/docs/overlays.md), [controls](../packages/ui/docs/controls.md), [display](../packages/ui/docs/display.md), [charts](../packages/ui/docs/charts.md), and [AI elements](../packages/ui/docs/ai.md). To search all components by name, use, or dependency, read [finding components](finding-components.md). Keep the kit versions rather than replacing them with unmodified upstream components. Accessible labels, application state, validation, persistence, and routing remain the consuming app’s responsibility.
 
 The blocks demonstrate combinations of these components. Their record types, statuses, schedules, and storage choices are example application behavior, not part of the design-system contract.
 

@@ -2,8 +2,13 @@
 
 import * as React from "react"
 import { cn } from "cn"
+import { useReducedMotion } from "motion/react"
 import * as RechartsPrimitive from "recharts"
 import type { TooltipValueType } from "recharts"
+import { IconTable } from "@tabler/icons-react"
+import { Button } from "./button"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./collapsible"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./table"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
@@ -38,15 +43,67 @@ function useChart() {
   return context
 }
 
-// Recharts otherwise replays its own long tween after every data update. CSS
-// owns the mount-only baseline reveal; keyed marks remain steady on updates.
-function steadyMarks(node: React.ReactNode): React.ReactNode {
+// One spring for every chart. Recharts animates marks with a JavaScript easing
+// function, so the kit samples the same curve as `--spring-smooth` (spring.smooth
+// in tokens/motion.ts): marks arrive and morph on the motion the rest of the kit uses.
+const SMOOTH = [0, 0.024, 0.069, 0.138, 0.215, 0.296, 0.364, 0.44, 0.51, 0.574, 0.624, 0.676, 0.722, 0.757, 0.793, 0.824, 0.85, 0.87, 0.89, 0.907, 0.922, 0.933, 0.943, 0.952, 0.959, 0.966, 0.971, 0.976, 0.979, 0.983, 0.985, 0.988, 0.99, 0.991, 0.993, 0.994, 0.995, 0.996, 0.996, 0.997, 0.997, 0.998, 0.998, 0.998, 0.999, 0.999, 0.999, 0.999, 1]
+/** The full settle time of spring.smooth, in milliseconds. Matches `--spring-smooth-duration`. */
+const CHART_MOTION_MS = 538
+const chartEase = Object.assign(
+  (t: number) => {
+    if (t <= 0) return 0
+    if (t >= 1) return 1
+    const x = t * (SMOOTH.length - 1)
+    const i = Math.floor(x)
+    return SMOOTH[i] + (SMOOTH[i + 1] - SMOOTH[i]) * (x - i)
+  },
+  { isStepper: false as const }
+)
+
+/**
+ * Animation props for a Recharts mark (Bar, Area, Line, Pie, Radar, RadialBar,
+ * Scatter, Funnel). ChartContainer applies them to its direct marks; spread them
+ * on a mark that sits inside your own wrapper component.
+ */
+function chartMotion(reduced: boolean) {
+  return {
+    isAnimationActive: !reduced,
+    animationBegin: 0,
+    animationDuration: CHART_MOTION_MS,
+    // Recharts accepts an easing function at runtime; its type names only the CSS keywords.
+    animationEasing: chartEase as unknown as "ease",
+  }
+}
+function useChartMotion() {
+  return chartMotion(!!useReducedMotion())
+}
+
+const MARKS: unknown[] = [
+  RechartsPrimitive.Bar,
+  RechartsPrimitive.Area,
+  RechartsPrimitive.Line,
+  RechartsPrimitive.Pie,
+  RechartsPrimitive.Radar,
+  RechartsPrimitive.RadialBar,
+  RechartsPrimitive.Scatter,
+  RechartsPrimitive.Funnel,
+]
+
+// Marks arrive once on the shared spring, and morph on the same spring when the
+// data changes. Props set on a mark win, so a chart can still opt out.
+function withChartMotion(node: React.ReactNode, motion: ReturnType<typeof chartMotion>): React.ReactNode {
   return React.Children.map(node, (child) => {
     if (!React.isValidElement<Record<string, unknown>>(child)) return child
-    const mark = [RechartsPrimitive.Bar, RechartsPrimitive.Area, RechartsPrimitive.Line, RechartsPrimitive.Pie, RechartsPrimitive.RadialBar].includes(child.type as typeof RechartsPrimitive.Bar)
+    const props = child.props
+    const mark = MARKS.includes(child.type)
+    const defaults = mark
+      ? Object.fromEntries(Object.entries(motion).filter(([key]) => props[key] === undefined))
+      : {}
     return React.cloneElement(child, {
-      ...(mark ? { isAnimationActive: false } : {}),
-      ...(child.props.children ? { children: steadyMarks(child.props.children as React.ReactNode) } : {}),
+      ...defaults,
+      ...(props.children && typeof props.children !== "function"
+        ? { children: withChartMotion(props.children as React.ReactNode, motion) }
+        : {}),
     })
   })
 }
@@ -68,9 +125,11 @@ function ChartContainer({
     height: number
   }
 }) {
+  const motion = useChartMotion()
+  // Marks for the first second: reduced motion fades the new chart in, then never again.
   const [entering, setEntering] = React.useState(true)
   React.useEffect(() => {
-    const timer = window.setTimeout(() => setEntering(false), 700)
+    const timer = window.setTimeout(() => setEntering(false), CHART_MOTION_MS + 200)
     return () => window.clearTimeout(timer)
   }, [])
   const uniqueId = React.useId()
@@ -83,7 +142,7 @@ function ChartContainer({
         data-chart={chartId}
         data-chart-entering={entering || undefined}
         className={cn(
-          "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden",
+          "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector]:outline-hidden [&_.recharts-surface]:outline-hidden",
           className
         )}
         {...props}
@@ -92,7 +151,7 @@ function ChartContainer({
         <RechartsPrimitive.ResponsiveContainer
           initialDimension={initialDimension}
         >
-          {steadyMarks(children)}
+          {withChartMotion(children, motion) as typeof children}
         </RechartsPrimitive.ResponsiveContainer>
       </div>
     </ChartContext.Provider>
@@ -132,8 +191,19 @@ ${colorConfig
   )
 }
 
+// The tooltip glides between data points on the settle curve, so the eye can follow it.
+// Reduced motion moves it at once.
 function ChartTooltip(props: React.ComponentProps<typeof RechartsPrimitive.Tooltip>) {
-  return <RechartsPrimitive.Tooltip isAnimationActive={false} cursor={{ fill: "var(--subtle)" }} {...props} />
+  const reduced = !!useReducedMotion()
+  return (
+    <RechartsPrimitive.Tooltip
+      isAnimationActive={!reduced}
+      animationDuration={200}
+      animationEasing={"cubic-bezier(0.16, 1, 0.3, 1)" as "ease"}
+      cursor={{ fill: "var(--subtle)" }}
+      {...props}
+    />
+  )
 }
 
 function ChartTooltipContent({
@@ -210,8 +280,9 @@ function ChartTooltipContent({
 
   return (
     <div
+      data-slot="chart-tooltip"
       className={cn(
-        "grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl",
+        "grid min-w-[8rem] items-start gap-1.5 rounded-md border bg-popover px-2.5 py-1.5 text-xs text-popover-foreground shadow-float",
         className
       )}
     >
@@ -310,15 +381,20 @@ function ChartLegendContent({
 
   return (
     <div
+      data-slot="chart-legend"
       className={cn(
-        "flex items-center justify-center gap-4",
+        "flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-muted-foreground",
         verticalAlign === "top" ? "pb-3" : "pt-3",
         className
       )}
     >
       {payload
         .filter((item) => item.type !== "none")
-        .map((item, index) => {
+        // Series keep the config order, so the legend reads the same as the
+        // palette (chart-1 first) even when a stack draws them in another order.
+        .map((item, drawn) => ({ item, drawn, rank: Object.keys(config).indexOf(`${nameKey ? (item.payload as Record<string, unknown> | undefined)?.[nameKey] ?? item.dataKey : item.dataKey ?? item.value}`) }))
+        .sort((a, b) => (a.rank < 0 || b.rank < 0 ? a.drawn - b.drawn : a.rank - b.rank))
+        .map(({ item }, index) => {
           const key = `${nameKey ?? item.dataKey ?? "value"}`
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
 
@@ -328,6 +404,7 @@ function ChartLegendContent({
               className={cn(
                 "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground"
               )}
+              data-slot="chart-legend-item"
             >
               {itemConfig?.icon && !hideIcon ? (
                 <itemConfig.icon />
@@ -344,6 +421,114 @@ function ChartLegendContent({
           )
         })}
     </div>
+  )
+}
+
+type ChartTableProps = Omit<React.ComponentProps<"div">, "children"> & {
+  /** The rows the chart plots. */
+  data: Record<string, unknown>[]
+  /** The same config the chart uses. It names the columns and the rows. */
+  config: ChartConfig
+  /** The field that names each row, such as `month` or `bench`. */
+  labelKey: string
+  /** The header of the first column. */
+  labelHeader?: React.ReactNode
+  /** The value columns, in order. Defaults to the config keys found in the data. */
+  keys?: string[]
+  /** The table caption: name the measure, the unit and the period. */
+  caption?: React.ReactNode
+  formatLabel?: (value: unknown, row: Record<string, unknown>) => React.ReactNode
+  formatValue?: (value: unknown, key: string, row: Record<string, unknown>) => React.ReactNode
+  /** Put the table behind a quiet "Show data" button. Default true. */
+  toggle?: boolean
+  defaultOpen?: boolean
+}
+
+/**
+ * The values of a chart as a semantic table. It is the non-visual equivalent of
+ * the chart: screen readers, keyboard users, print and forced colors read it.
+ */
+function ChartTable({
+  data,
+  config,
+  labelKey,
+  labelHeader,
+  keys,
+  caption,
+  formatLabel,
+  formatValue,
+  toggle = true,
+  defaultOpen = false,
+  className,
+  ...props
+}: ChartTableProps) {
+  const [open, setOpen] = React.useState(defaultOpen)
+  const columns =
+    keys ?? Object.keys(config).filter((key) => data.some((row) => typeof row[key] === "number"))
+  const label = (value: unknown, row: Record<string, unknown>) =>
+    formatLabel
+      ? formatLabel(value, row)
+      : typeof value === "string" && config[value]?.label
+        ? config[value].label
+        : String(value)
+  const table = (
+    <div className="overflow-x-auto">
+      <Table className="text-[12.5px]">
+        {caption ? <TableCaption className="mt-2 text-left text-[12px]">{caption}</TableCaption> : null}
+        <TableHeader>
+          <TableRow reflow={false}>
+            <TableHead className="text-muted-foreground">{labelHeader ?? ""}</TableHead>
+            {columns.map((key) => (
+              <TableHead key={key} className="text-right text-muted-foreground">
+                {config[key]?.label ?? key}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.map((row, index) => (
+            <TableRow key={String(row[labelKey] ?? index)} reflow={false}>
+              <TableCell>{label(row[labelKey], row)}</TableCell>
+              {columns.map((key) => (
+                <TableCell key={key} numeric className="text-right font-mono tabular-nums">
+                  {formatValue
+                    ? formatValue(row[key], key, row)
+                    : typeof row[key] === "number"
+                      ? (row[key] as number).toLocaleString()
+                      : String(row[key] ?? "")}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  )
+  if (!toggle) {
+    return (
+      <div data-slot="chart-table" className={cn("w-full", className)} {...props}>
+        {table}
+      </div>
+    )
+  }
+  return (
+    <Collapsible
+      data-slot="chart-table"
+      open={open}
+      onOpenChange={setOpen}
+      className={cn("w-full", className)}
+      {...props}
+    >
+      <CollapsibleTrigger asChild>
+        <Button variant="ghost" size="xs" className="-ml-2 text-muted-foreground">
+          <IconTable aria-hidden />
+          {open ? "Hide data" : "Show data"}
+        </Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <div className="pt-2">{table}</div>
+      </CollapsibleContent>
+    </Collapsible>
   )
 }
 
@@ -384,7 +569,13 @@ function getPayloadConfigFromPayload(
   return configLabelKey in config ? config[configLabelKey] : config[key]
 }
 
+export type { ChartTableProps }
 export {
+  CHART_MOTION_MS,
+  chartEase,
+  chartMotion,
+  useChartMotion,
+  ChartTable,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,

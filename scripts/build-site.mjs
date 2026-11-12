@@ -80,7 +80,7 @@ const content = fs.readFileSync(path.join(root, "site/src/content.ts"), "utf8");
 const routes = new Set([...content.matchAll(/path: "(\/[a-z/-]+)"/g)].map((match) => match[1]));
 for (const [group, names] of Object.entries({
   foundations: ["principles", "color", "typography", "layout"],
-  components: ["controls", "overlays", "display"],
+  components: ["controls", "overlays", "display", "charts", "ai"],
   patterns: ["components", "writing", "data-visualization", "accessibility"],
   blocks,
 })) {

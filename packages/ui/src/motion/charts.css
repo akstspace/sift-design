@@ -1,0 +1,97 @@
+/* Charts. Marks arrive and morph on spring.smooth from chart.tsx (Recharts runs
+   them with the same sampled curve as --spring-smooth). This file covers what
+   CSS owns: the quiet chart chrome, the tooltip and cursor, the active dot, and
+   reduced motion. Nothing here loops. */
+
+/* The upstream chart blocks name colors --chart-1 to --chart-5. They map onto the
+   categorical palette, so code written for upstream keeps working. */
+:root {
+  --chart-1: var(--cat-1);
+  --chart-2: var(--cat-2);
+  --chart-3: var(--cat-3);
+  --chart-4: var(--cat-4);
+  --chart-5: var(--cat-5);
+  --chart-6: var(--cat-6);
+  --chart-7: var(--cat-7);
+  --chart-8: var(--cat-8);
+}
+
+/* Chrome stays quieter than the data: muted ticks, hairline grid, no axis lines. */
+[data-slot="chart"] { font-variant-numeric: tabular-nums; }
+[data-slot="chart"] .recharts-cartesian-axis-tick text,
+[data-slot="chart"] .recharts-cartesian-axis-tick-value,
+[data-slot="chart"] .recharts-polar-angle-axis-tick text,
+[data-slot="chart"] .recharts-polar-angle-axis-tick-value { fill: var(--muted); }
+/* Only the Recharts default grid stroke (#ccc) is restyled, so a stroke set on the
+   grid, such as stroke="none" for a filled track, still wins. */
+[data-slot="chart"] .recharts-cartesian-grid [stroke="#ccc"],
+[data-slot="chart"] .recharts-polar-grid [stroke="#ccc"] { stroke: var(--line); stroke-opacity: 0.7; }
+/* Pie and donut sectors are separated by a 2px gap in the surface color. Recharts
+   draws the default separator in white; a stroke set on the Pie (stroke="0") wins. */
+[data-slot="chart"] .recharts-pie-sector .recharts-sector[stroke="#fff"] { stroke: var(--surface); stroke-width: 2px; }
+
+/* A radial track with no fill of its own gets the quiet track color. An explicit
+   background fill on RadialBar still wins. */
+[data-slot="chart"] .recharts-radial-bar-background-sector[fill="#eee"] { fill: var(--subtle); }
+[data-slot="chart"] .recharts-surface:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; border-radius: var(--radius-sm); }
+
+/* Labels and dots appear when their mark has arrived. Recharts mounts them at the
+   end of the mark animation; a short fade keeps them from popping in. */
+[data-slot="chart"] .recharts-label-list,
+[data-slot="chart"] .recharts-line-dots,
+[data-slot="chart"] .recharts-pie-labels,
+[data-slot="chart"] .recharts-radar-dots { animation: sift-chart-fade var(--dur-quick) linear both; }
+
+/* The tooltip fades in where it is, then glides between points (chart.tsx sets the
+   200ms settle transition). It leaves at once, so it never trails the pointer. */
+[data-slot="chart-tooltip"] { animation: sift-chart-tip var(--spring-snappy-duration) var(--spring-snappy) both; }
+@keyframes sift-chart-tip { from { opacity: 0; transform: translateY(2px) scale(0.97); } }
+
+/* The crosshair and the band cursor follow the tooltip on the same curve. */
+[data-slot="chart"] .recharts-tooltip-cursor { transition: d 200ms cubic-bezier(0.16, 1, 0.3, 1), x 200ms cubic-bezier(0.16, 1, 0.3, 1), opacity var(--dur-quick) linear; }
+[data-slot="chart"] .recharts-rectangle.recharts-tooltip-cursor { fill: var(--subtle); fill-opacity: 0.6; }
+[data-slot="chart"] .recharts-curve.recharts-tooltip-cursor { stroke: var(--line); stroke-dasharray: 3 3; }
+
+/* The active point grows out of the line, with a ring of the surface around it. */
+[data-slot="chart"] .recharts-active-dot circle,
+[data-slot="chart"] .recharts-active-dot .recharts-dot {
+  stroke: var(--surface);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sift-chart-dot var(--spring-snappy-duration) var(--spring-snappy) both;
+}
+@keyframes sift-chart-dot { from { transform: scale(0.3); opacity: 0; } }
+
+/* Marks that respond to hover change opacity only, on a short fade. When a switch
+   gives a mark another series color, the color cross-fades while the shape morphs. */
+[data-slot="chart"] .recharts-bar-rectangle,
+[data-slot="chart"] .recharts-pie-sector,
+[data-slot="chart"] .recharts-radial-bar-sector { transition: opacity var(--dur-quick) linear; }
+[data-slot="chart"] .recharts-bar-rectangle path,
+[data-slot="chart"] .recharts-area-area,
+[data-slot="chart"] .recharts-area-curve,
+[data-slot="chart"] .recharts-line-curve,
+[data-slot="chart"] .recharts-sector { transition: opacity var(--dur-quick) linear, fill var(--dur-quick) linear, stroke var(--dur-quick) linear; }
+
+/* The legend: quiet text beside each swatch. */
+[data-slot="chart-legend-item"] { color: var(--muted); }
+
+@keyframes sift-chart-fade { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Recharts animation is off (chart.tsx); the new chart fades in once instead. */
+  [data-slot="chart"][data-chart-entering] .recharts-surface { animation: sift-chart-fade var(--dur-quick) linear both; }
+  [data-slot="chart-tooltip"] { animation: sift-chart-fade var(--dur-instant) linear both; }
+  [data-slot="chart"] .recharts-tooltip-cursor { transition: opacity var(--dur-instant) linear; }
+  [data-slot="chart"] .recharts-active-dot circle,
+  [data-slot="chart"] .recharts-active-dot .recharts-dot { animation: sift-chart-fade var(--dur-instant) linear both; }
+}
+
+@media (forced-colors: active) {
+  [data-slot="chart"] .recharts-bar-rectangle path,
+  [data-slot="chart"] .recharts-pie-sector path,
+  [data-slot="chart"] .recharts-radial-bar-sector path,
+  [data-slot="chart"] .recharts-area-area,
+  [data-slot="chart"] .recharts-radar-polygon path { stroke: CanvasText; stroke-width: 1; }
+}

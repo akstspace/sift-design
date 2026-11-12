@@ -50,6 +50,7 @@ export default [
   ...[['overview', '/overview'], ['agent', '/use-with-your-agent'], ['principles', '/foundations/principles'], ['foundations', '/foundations'], ['doc', '/foundations/color'], ['components', '/components']].flatMap(([name, path]) => ['light', 'dark'].map(theme => ({ name: `${name}-${theme}-mobile`, path, theme, viewport: { width: 390, height: 844 } }))),
   { name: 'components-overlays-light', path: '/components/overlays' },
   { name: 'components-display-dark', path: '/components/display', theme: 'dark' },
+  ...['light', 'dark'].map(theme => ({ name: `components-charts-${theme}`, path: '/components/charts', theme })),
   { name: 'foundations-light', path: '/foundations' },
   { name: 'foundations-dark', path: '/foundations', theme: 'dark' },
   { name: 'command-open-dark', path: '/overview', theme: 'dark', prepare: command },

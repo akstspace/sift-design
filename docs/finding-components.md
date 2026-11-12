@@ -19,9 +19,10 @@ Read a source file at `<raw>/<path>`. For example, the `source` value `packages/
 | `schema` | string | The index format version, `sift-design-manifest/2`. |
 | `site`, `raw` | string | The site address and the address of the raw files. A local build can leave `site` empty. |
 | `howToSearch` | string | The path of this guide. |
-| `families` | array | The four component groups: `controls`, `overlays`, `display`, and `ai`. Each has a doc, a site page, a live demo, and its component names. |
+| `families` | array | The five component groups: `controls`, `overlays`, `display`, `charts`, and `ai`. Each has a doc, a site page, a live demo, and its component names. |
 | `components` | array | The kit components. Import each from `@sift-design/ui/<name>`. |
 | `aiElements` | array | The AI elements. Import each from `@sift-design/ui/ai/<name>`. They use the same entry fields as `components`. |
+| `charts` | array | The chart examples. Each is one copyable file that ports a shadcn/ui chart block. |
 | `blocks` | array | The optional example screens. |
 | `guides` | array | The design guides, with their headings. |
 | `tokens` | array | Paths of the color, type, font, and motion token files. |
@@ -36,7 +37,7 @@ The entries in `components` and `aiElements` have these fields:
 |---|---|
 | `name` | The file name without `.tsx`, for example `alert-dialog`. |
 | `title` | The heading of the section that documents the component. |
-| `family` | `controls`, `overlays`, `display`, or `ai`. |
+| `family` | `controls`, `overlays`, `display`, `charts`, or `ai`. |
 | `summary` | The first sentence of the "When" line in the docs, or the first sentence of the section. |
 | `import` | The import path, for example `@sift-design/ui/ai/message`. |
 | `source` | The repository path of the source file. |
@@ -71,6 +72,24 @@ An AI element entry, shortened:
   },
   "keywords": ["message", "ai"]
 }
+```
+
+## Chart entries
+
+| Field | Contents |
+|---|---|
+| `name` | The file name without `.tsx`, for example `chart-bar-stacked`. It is also the upstream block name. |
+| `group`, `variant` | The chart type (`area`, `bar`, `line`, `pie`, `radar`, `radial`, or `tooltip`) and the variant, for example `stacked`. |
+| `title`, `summary` | The card title (the measure the example shows) and the upstream description. |
+| `source`, `helpers` | The example file, and the shared helper file that it imports. |
+| `exports`, `uses` | The named exports, and the kit components that the example imports. |
+| `docs`, `demo` | The docs section for the chart type, and the live demo with the card's `data-specimen` slug. |
+| `upstream` | The saved, unchanged upstream block and the upstream charts page. |
+
+Find every stacked chart:
+
+```bash
+jq -r '.charts[] | select(.variant | contains("stacked")) | "\(.source)  \(.demo.live)"' manifest.json
 ```
 
 ## Block entries

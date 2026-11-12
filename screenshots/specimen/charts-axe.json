@@ -1,0 +1,218 @@
+[
+  {
+    "shot": "charts-area-axes-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-axes-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-default-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-default-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-gradient-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-gradient-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-icons-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-icons-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-legend-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-legend-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-linear-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-linear-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-mobile",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-reduced",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-stacked-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-stacked-expand-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-stacked-expand-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-stacked-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-step-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-step-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-area-tooltip",
+    "violations": []
+  },
+  {
+    "shot": "charts-bar-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-bar-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-bar-mobile",
+    "violations": []
+  },
+  {
+    "shot": "charts-bar-reduced",
+    "violations": []
+  },
+  {
+    "shot": "charts-bar-tooltip",
+    "violations": []
+  },
+  {
+    "shot": "charts-line-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-line-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-line-mobile",
+    "violations": []
+  },
+  {
+    "shot": "charts-line-reduced",
+    "violations": []
+  },
+  {
+    "shot": "charts-line-tooltip",
+    "violations": []
+  },
+  {
+    "shot": "charts-pie-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-pie-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-pie-mobile",
+    "violations": []
+  },
+  {
+    "shot": "charts-pie-reduced",
+    "violations": []
+  },
+  {
+    "shot": "charts-pie-tooltip",
+    "violations": []
+  },
+  {
+    "shot": "charts-radar-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-radar-labels-mobile",
+    "violations": []
+  },
+  {
+    "shot": "charts-radar-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-radar-mobile",
+    "violations": []
+  },
+  {
+    "shot": "charts-radar-reduced",
+    "violations": []
+  },
+  {
+    "shot": "charts-radar-tooltip",
+    "violations": []
+  },
+  {
+    "shot": "charts-radial-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-radial-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-radial-mobile",
+    "violations": []
+  },
+  {
+    "shot": "charts-radial-reduced",
+    "violations": []
+  },
+  {
+    "shot": "charts-radial-tooltip",
+    "violations": []
+  },
+  {
+    "shot": "charts-tooltip-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-tooltip-detail",
+    "violations": []
+  },
+  {
+    "shot": "charts-tooltip-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-tooltip-mobile",
+    "violations": []
+  },
+  {
+    "shot": "charts-tooltip-reduced",
+    "violations": []
+  }
+]

@@ -8,22 +8,6 @@
     "violations": []
   },
   {
-    "shot": "display-chart-dark",
-    "violations": []
-  },
-  {
-    "shot": "display-chart-data",
-    "violations": []
-  },
-  {
-    "shot": "display-chart-light",
-    "violations": []
-  },
-  {
-    "shot": "display-chart-tooltip",
-    "violations": []
-  },
-  {
     "shot": "display-conversation-dark",
     "violations": []
   },

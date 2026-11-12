@@ -79,7 +79,7 @@ const guides = fs
   .filter((f) => f.endsWith(".md"))
   .sort()
   .map((f) => `docs/${f}`);
-const kitDocs = ["controls", "overlays", "display", "ai"].map((f) => `packages/ui/docs/${f}.md`);
+const kitDocs = ["controls", "overlays", "display", "charts", "ai"].map((f) => `packages/ui/docs/${f}.md`);
 const components = fs
   .readdirSync(path.join(root, "packages/ui/src/components"))
   .filter((f) => f.endsWith(".tsx"))
@@ -128,8 +128,12 @@ export const families = [
     doc: "packages/ui/docs/display.md",
     dir: "packages/ui/src/components",
   },
+  { id: "charts", title: "Charts", doc: "packages/ui/docs/charts.md", dir: "packages/ui/src/components" },
   { id: "ai", title: "AI elements", doc: "packages/ui/docs/ai.md", dir: "packages/ui/src/ai" },
 ];
+
+/** The chart types, in the order of the Charts page. Each is a `?charts=<group>` demo. */
+const chartGroups = ["area", "bar", "line", "pie", "radar", "radial", "tooltip"];
 
 /** Level-two sections of a doc, with the kit imports used in each and its "When" line. */
 function docSections(rel) {
@@ -203,6 +207,7 @@ function exportsOf(rel) {
       if (!name) continue;
       if (m[1] || /^type\s/.test(part.trim())) add("types", name);
       else if (/^use[A-Z]/.test(name)) add("hooks", name);
+      else if (/^[A-Z0-9_]+$/.test(name)) add("constants", name);
       else if (/^[A-Z]/.test(name)) add("components", name);
       else add("functions", name);
     }
@@ -223,6 +228,9 @@ function usesOf(rel, family) {
   const ai = new Set();
   for (const m of text.matchAll(/from\s+["']@sift-design\/ui\/(ai\/)?([a-z0-9-]+)["']/g)) (m[1] ? ai : kit).add(m[2]);
   if (family === "ai") for (const m of text.matchAll(/from\s+["']\.\/([a-z0-9-]+)["']/g)) ai.add(m[1]);
+  // Kit components import their neighbors by relative path.
+  if (family === "kit" && rel.startsWith("packages/ui/src/components/"))
+    for (const m of text.matchAll(/from\s+["']\.\/([a-z0-9-]+)["']/g)) kit.add(m[1]);
   return { kit: [...kit].sort(), ai: [...ai].sort() };
 }
 
@@ -332,6 +340,53 @@ export function componentIndex({ site = "" } = {}) {
   return entries;
 }
 
+/**
+ * The chart examples: one copyable file per upstream shadcn/ui chart block, in
+ * specimen/src/charts/. Each builds on the kit chart component.
+ */
+export function chartIndex({ site = "" } = {}) {
+  const shadcn = latestUpstream("shadcn-");
+  const docs = exists("packages/ui/docs/charts.md") ? docSections("packages/ui/docs/charts.md") : [];
+  return listDir("specimen/src/charts", (f) => /^chart-[a-z0-9-]+\.tsx$/.test(f)).map((file) => {
+    const name = file.replace(".tsx", "");
+    const source = `specimen/src/charts/${file}`;
+    const text = read(source);
+    const group = name.split("-")[1];
+    const variant = name.split("-").slice(2).join("-");
+    const section = docs.find((d) => d.id === `${group}-charts`) ?? docs.find((d) => d.id.startsWith(group));
+    const upstream = shadcn && exists(`packages/ui/upstream/${shadcn}/charts/${file}`)
+      ? `packages/ui/upstream/${shadcn}/charts/${file}`
+      : null;
+    const uses = usesOf(source, "kit");
+    const local = [...text.matchAll(/from\s+["']\.\/([a-z0-9-]+)["']/g)].map((m) => `specimen/src/charts/${m[1]}.tsx`);
+    return {
+      name,
+      group,
+      variant,
+      title: text.match(/<CardTitle[^>]*>([^<{]+)</)?.[1].trim() ?? titleCase(name),
+      summary: text.match(/export const description\s*=\s*"([^"]+)"/)?.[1] ?? null,
+      source,
+      exports: exportsOf(source),
+      uses: uses.kit,
+      helpers: local,
+      docs: section
+        ? { file: "packages/ui/docs/charts.md", anchor: section.id, page: `${site}/components/charts#${section.id}` }
+        : null,
+      demo: { live: `${site}/live/specimen/?section=charts&charts=${group}`, group, slug: `${group}-${variant}` },
+      upstream: upstream
+        ? {
+            library: "shadcn/ui",
+            version: shadcn.replace(/^shadcn-/, "").replace(/-new-york$/, ""),
+            style: "new-york",
+            source: upstream,
+            reference: `https://ui.shadcn.com/charts/${group}`,
+          }
+        : null,
+      keywords: [...new Set(["chart", group, ...variant.split("-"), "recharts"].filter((w) => w && w.length > 1))],
+    };
+  });
+}
+
 export function blockIndex({ site = "", raw = `${site}/raw` } = {}) {
   return blocks.map((name) => {
     const readme = `blocks/${name}/README.md`;
@@ -394,9 +449,13 @@ export function manifest({ site = "", raw = `${site}/raw` } = {}) {
       page: `${site}/components/${f.id}`,
       live: `${site}/live/specimen/?section=${f.id}`,
       components: all.filter((c) => c.family === f.id).map((c) => c.name),
+      ...(f.id === "charts"
+        ? { groups: chartGroups.map((g) => ({ id: g, live: `${site}/live/specimen/?section=charts&charts=${g}` })) }
+        : {}),
     })),
     components: all.filter((c) => !c.import.startsWith("@sift-design/ui/ai/")),
     aiElements: all.filter((c) => c.import.startsWith("@sift-design/ui/ai/")),
+    charts: chartIndex({ site }),
     blocks: blockIndex({ site, raw }),
     guides: guideFiles
       .filter(exists)
@@ -472,9 +531,12 @@ ${components.map((c) => `- [${c.replace(".tsx", "")}](${raw}/packages/ui/src/com
 AI element sources (chat, reasoning, tools, code output, canvases and voice; import \`@sift-design/ui/ai.css\` after theme.css):
 ${aiSources.map((c) => `- [ai/${c.replace(".tsx", "")}](${raw}/packages/ui/src/ai/${c})`).join("\n")}
 
+Chart examples (one file per shadcn/ui chart block, built on the kit chart; each also imports specimen/src/charts/shared.tsx). Live at ${site}/live/specimen/?section=charts:
+${listDir("specimen/src/charts", (f) => /^chart-.+\.tsx$/.test(f)).map((c) => `- [${c.replace(".tsx", "")}](${raw}/specimen/src/charts/${c})`).join("\n")}
+
 ## Find a component or block
 
-- [Component and block index](${site}/raw/manifest.json): JSON with every component, AI element and block, with its import path, exports, docs anchor, live demo, upstream source and the components it uses
+- [Component and block index](${site}/raw/manifest.json): JSON with every component, AI element, chart example and block, with its import path, exports, docs anchor, live demo, upstream source and the components it uses
 - [Finding components](${raw}/docs/finding-components.md): the index structure and search recipes
 
 ## Optional example screens

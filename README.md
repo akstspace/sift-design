@@ -97,7 +97,7 @@ Variable names, spacing, component structure, and animation stay the same. Try t
 Blocks are complete screens showing one fictional product, not a starter app or feature checklist. Reuse the components and interactions that fit your request; do not add a board or timeline just because an example has one. Each is a standalone app with a README, screenshots, and animation examples. Try them on the [examples page](https://chaioverflow.com/sift-design/blocks), where you can resize the preview and read the code. Their data and service activity are simulated.
 
 ### [Component examples](specimen)
-Try the components in three groups: [controls](packages/ui/docs/controls.md), [overlays and menus](packages/ui/docs/overlays.md), and [display, layout and navigation](packages/ui/docs/display.md).
+Try the components in five groups: [controls](packages/ui/docs/controls.md), [overlays and menus](packages/ui/docs/overlays.md), [display, layout and navigation](packages/ui/docs/display.md), [charts](packages/ui/docs/charts.md), and [AI elements](packages/ui/docs/ai.md).
 
 | Light | Dark |
 |---|---|

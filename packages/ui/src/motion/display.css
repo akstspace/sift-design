@@ -45,11 +45,6 @@
 [data-slot="resizable-handle"] { transition: background-color 140ms var(--ease-settle); }
 [data-slot="resizable-handle"]:hover, [data-slot="resizable-handle"]:focus-visible { background: var(--control-line); }
 [data-slot="breadcrumb-link"], [data-slot="pagination-link"] { transition-duration: 140ms; transition-timing-function: var(--ease-settle); }
-[data-slot="chart"][data-chart-entering] .recharts-bar-rectangle path,
-[data-slot="chart"][data-chart-entering] .recharts-bar-rectangle rect { transform-box: fill-box; transform-origin: center bottom; animation: sift-chart-grow var(--spring-smooth-duration) var(--spring-smooth); }
-[data-slot="chart"][data-chart-entering][data-layout="vertical"] .recharts-bar-rectangle path { transform-origin: left center; animation-name: sift-chart-grow-x; }
-@keyframes sift-chart-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-@keyframes sift-chart-grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes sift-fade-in { from { opacity: 0; } to { opacity: 1; } }
 
 /* Bounded, copyable specimen shell. These rules never affect host navigation. */
@@ -64,7 +59,6 @@
 @media (prefers-reduced-motion: reduce) {
   [data-slot="accordion-trigger"] > svg, [data-slot="collapsible-trigger"] > svg { transition: none; }
   [data-slot="skeleton"]::after { animation: none; display: none; }
-  [data-slot="chart"] .recharts-bar-rectangle path, [data-slot="chart"] .recharts-bar-rectangle rect { animation: sift-fade-in 140ms linear; }
   [data-slot="progress-indicator"] { transition-duration: 0ms; }
   [data-slot="sidebar-menu-button"] > span:last-child, [data-slot="sidebar"] [data-sidebar-label] { transition-delay: 0ms; }
   [data-slot="message-scroller-button"], [data-slot="message-scroller-button"][data-active="false"] { translate: -50% 0; scale: 1; transition: opacity var(--dur-quick) linear; }
@@ -73,26 +67,17 @@
   [data-slot="spinner"] { animation: none; }
 }
 @media (forced-colors: active) {
-  [data-slot="chart"] .recharts-bar-rectangle path { stroke: CanvasText; stroke-width: 1; }
   [data-slot="sidebar-selection"] { outline: 1px solid Highlight; }
 }
 
 [data-slot="badge"] { transition-duration: 140ms; transition-timing-function: var(--ease-settle); }
 [data-slot="scroll-area-scrollbar"] { transition-duration: 140ms; transition-timing-function: var(--ease-settle); }
-[data-slot="chart"] .recharts-cartesian-axis-tick text { fill: var(--muted); }
 [data-slot="sidebar"][data-side="right"] { --rail-sheet-travel: 100%; }
 @media (prefers-reduced-motion: reduce) {
   [data-slot="sidebar"][data-mobile="true"][data-state="open"] { animation: sift-fade-in 120ms linear both; }
   [data-slot="sidebar"][data-mobile="true"][data-state="closed"] { animation: sift-fade-in 80ms linear reverse both; }
 }
 
-[data-slot="chart"] .recharts-cartesian-axis-tick-value { fill: var(--muted); }
-[data-slot="chart"] .recharts-surface:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; border-radius: var(--radius-sm); }
-@media (prefers-reduced-motion: reduce) {
-  [data-slot="chart"][data-chart-entering] .recharts-bar-rectangle path,
-  [data-slot="chart"][data-chart-entering] .recharts-bar-rectangle rect,
-  [data-slot="chart"][data-chart-entering][data-layout="vertical"] .recharts-bar-rectangle path { animation: sift-fade-in 140ms linear; }
-}
 
 /* These are Motion surfaces, not CSS/Vaul surfaces. A CSS transition on x
    would chase each spring frame; a filled entrance fade would mask the exit. */

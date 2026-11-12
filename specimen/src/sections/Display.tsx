@@ -4,7 +4,6 @@ import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/r
 import { arrivalMotion, reflowTransition, selectionSpring } from "@sift-design/tokens/motion";
 import { SiblingTransition, PushStack } from "@sift-design/ui/page-transition";
 import { ScrollTitle } from "@sift-design/ui/scroll-title";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { SpecimenGroup, SpecimenItem } from "../frame";
 import { LarkspurMark } from "../../../blocks/_shared/brand";
 import { Button } from "@sift-design/ui/button";
@@ -28,7 +27,6 @@ import { AspectRatio } from "@sift-design/ui/aspect-ratio";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@sift-design/ui/breadcrumb";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@sift-design/ui/pagination";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@sift-design/ui/carousel";
-import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, type ChartConfig } from "@sift-design/ui/chart";
 import { Attachment, AttachmentMedia, AttachmentContent, AttachmentTitle, AttachmentDescription } from "@sift-design/ui/attachment";
 import { Bubble, BubbleContent } from "@sift-design/ui/bubble";
 import { Marker, MarkerContent, MarkerIcon } from "@sift-design/ui/marker";
@@ -79,30 +77,6 @@ function NavigationDemo() {
       <div className="mt-auto flex items-center gap-2 text-xs text-muted-foreground"><IconCheck size={14} aria-hidden /><span>All changes saved on this device</span></div>
     </SidebarInset>
   </>;
-}
-
-const categories = ["Growing", "Inspection", "Meetings and calls", "Messages", "Admin", "Research", "Writing", "Other"];
-const activity = [
-  { day: "Mon 9", c1: 125, c2: 35, c3: 25, c4: 30, c5: 20, c6: 35, c7: 15, c8: 15 },
-  { day: "Tue 10", c1: 95, c2: 45, c3: 15, c4: 25, c5: 15, c6: 20, c7: 30, c8: 10 },
-  { day: "Wed 11", c1: 110, c2: 30, c3: 40, c4: 20, c5: 25, c6: 15, c7: 20, c8: 10 },
-];
-const chartConfig = Object.fromEntries(categories.map((label, i) => [`c${i + 1}`, { label, color: `var(--cat-${i + 1})` }])) satisfies ChartConfig;
-function ActivityChart() {
-  return <div className="w-full min-w-0">
-    <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2"><h4 className="font-medium">Time by category</h4><span className="text-xs text-muted-foreground">Illustrative week · minutes</span></div>
-    <ChartContainer config={chartConfig} data-layout="vertical" className="h-[260px] w-full aspect-auto" aria-label="Illustrative time by category from Monday to Wednesday">
-      <BarChart data={activity} layout="vertical" barSize={18} margin={{ left: 0, right: 12, top: 4, bottom: 0 }} accessibilityLayer>
-        <CartesianGrid horizontal={false} stroke="var(--line)" strokeDasharray="2 5" />
-        <XAxis type="number" domain={[0, 360]} ticks={[0, 120, 240, 360]} axisLine={false} tickLine={false} tickMargin={10} tick={{ fill: "var(--muted)", fontFamily: "var(--font-code)", fontSize: 11 }} />
-        <YAxis type="category" dataKey="day" tick={{ fill: "var(--muted)" }} axisLine={false} tickLine={false} width={60} tickMargin={10} />
-        <ChartTooltip content={<ChartTooltipContent labelFormatter={(label) => `${label} · minutes`} />} />
-        <ChartLegend content={<ChartLegendContent className="flex-wrap justify-start gap-x-5 gap-y-2 pt-5" />} />
-        {categories.map((_, i) => <Bar key={i} dataKey={`c${i + 1}`} stackId="time" fill={`var(--color-c${i + 1})`} stroke="var(--surface)" strokeWidth={2} radius={i === 7 ? [0, 4, 4, 0] : 0} />)}
-      </BarChart>
-    </ChartContainer>
-    <details className="mt-4 text-xs"><summary className="w-fit cursor-pointer rounded text-muted-foreground underline underline-offset-4 focus-visible:outline-2">View chart data</summary><div className="mt-3"><Table><TableHeader><TableRow><TableHead>Category</TableHead>{activity.map(d => <TableHead key={d.day} className="text-right">{d.day}</TableHead>)}</TableRow></TableHeader><TableBody>{categories.map((label, i) => <TableRow key={label}><TableCell>{label}</TableCell>{activity.map(d => <TableCell key={d.day} numeric>{d[`c${i + 1}` as keyof typeof d]}</TableCell>)}</TableRow>)}</TableBody></Table></div></details>
-  </div>;
 }
 
 function PageMotionDemo() {
@@ -177,7 +151,6 @@ export default function Display() {
     <SpecimenItem name="Progress" note="Show a known completed fraction. This sample counter changes on each click; resets ease back quickly without overshoot."><div className="w-full space-y-4"><div className="flex justify-between text-sm"><span>Market crates packed</span><span className="font-mono text-xs">{Math.round(progress / 100 * 6)} / 6</span></div><Progress value={progress} aria-label="Market crates packed" /><div className="flex gap-2"><Button size="sm" variant="outline" onClick={() => setProgress(Math.min(100, progress + 100 / 6))} disabled={progress >= 100}>Pack one crate</Button><Button size="sm" variant="ghost" onClick={() => setProgress(0)}>Reset</Button></div></div></SpecimenItem>
     <SpecimenItem name="Skeleton" note="Preview a loading placeholder with a 1.8s shimmer, limited to two passes. In a product, show it only while content is loading; reduced motion keeps it still."><div aria-label="Loading task details" role="status" className="flex w-full items-center gap-3"><Skeleton className="size-9 shrink-0 rounded-full" /><div className="flex flex-1 flex-col gap-2"><Skeleton className="h-3 w-3/4" /><Skeleton className="h-3 w-1/2" /></div><span className="sr-only">Loading task details</span></div></SpecimenItem>
     <SpecimenItem name="Spinner" note="Preview a loading indicator. In a product, keep it visible only while an operation runs; reduced motion replaces rotation with a static symbol."><div className="flex items-center gap-2 text-sm text-muted-foreground"><Spinner /><span>Reading the orders inbox</span></div></SpecimenItem>
-    <SpecimenItem name="Chart" wide note="Show a comparison or trend with labels and consistent category colors. This example uses sample time data; hover for details or open the table below."><ActivityChart /></SpecimenItem>
     <SpecimenItem name="Message, bubble and message-scroller" wide note="Show who sent each message. New replies stay in view while you are near the bottom; scrolling back keeps your place."><Conversation /></SpecimenItem>
     <SpecimenItem name="Attachment" note="A compact file reference. Processing states use words and genuine progress, not decorative loops."><Attachment><AttachmentMedia><IconFileText aria-hidden /></AttachmentMedia><AttachmentContent><AttachmentTitle>Saturday market checklist.pdf</AttachmentTitle><AttachmentDescription>PDF · 84 KB · ready</AttachmentDescription></AttachmentContent></Attachment></SpecimenItem>
     <SpecimenItem name="Marker" note="Separate dates or identify events in a feed. Times use IBM Plex Mono, and the label remains still as other content changes."><Marker variant="separator"><MarkerIcon><IconClock /></MarkerIcon><MarkerContent>Order sweep finished · <time dateTime="2026-11-10T07:00">07:00</time></MarkerContent></Marker></SpecimenItem>
