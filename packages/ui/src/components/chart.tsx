@@ -153,6 +153,9 @@ function ChartContainer({
     <ChartContext.Provider value={{ config }}>
       <div
         ref={setRef}
+        // A named chart is a figure. The name stays valid while the chart waits to
+        // render, and the keyboard layer inside stays reachable (role="img" would hide it).
+        role={props["aria-label"] || props["aria-labelledby"] ? "figure" : undefined}
         data-slot="chart"
         data-chart={chartId}
         data-chart-entering={(shown && entering) || undefined}

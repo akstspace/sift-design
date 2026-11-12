@@ -24,15 +24,19 @@
     "violations": []
   },
   {
+    "shot": "charts-dark",
+    "violations": []
+  },
+  {
+    "shot": "charts-light",
+    "violations": []
+  },
+  {
+    "shot": "charts-pie-dark-mobile",
+    "violations": []
+  },
+  {
     "shot": "command-open-dark",
-    "violations": []
-  },
-  {
-    "shot": "components-charts-dark",
-    "violations": []
-  },
-  {
-    "shot": "components-charts-light",
     "violations": []
   },
   {

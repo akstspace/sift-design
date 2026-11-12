@@ -128,8 +128,13 @@ async function clipFor(page, clip) {
   return { x, y, width: Math.min(vp.width - x, box.width + pad * 2), height: Math.min(vp.height - y, box.height + pad * 2) };
 }
 
-async function still(shot) {
-  const { context, page } = await open(shot);
+// Chrome draws a screenshot surface up to 16,384 device pixels tall; a taller one
+// wraps around and repeats the top of the page. A full-page shot that would pass
+// this limit at 2x is taken again at the largest scale that fits.
+const MAX_SURFACE = 16000;
+
+async function still(shot, scale = 2) {
+  const { context, page } = await open(shot, { deviceScaleFactor: scale });
   await page.goto(urlFor(shot), { waitUntil: "networkidle" });
   await settle(page);
   if (shot.prepare) {
@@ -146,6 +151,11 @@ async function still(shot) {
       if (height === page.viewportSize().height) break;
       await page.setViewportSize({ width, height });
       await settle(page);
+    }
+    const height = page.viewportSize().height;
+    if (height * scale > MAX_SURFACE) {
+      await context.close();
+      return still(shot, Math.floor((MAX_SURFACE / height) * 100) / 100);
     }
   }
   const file = path.join(outDir, shot.name + ".png");

@@ -14,6 +14,16 @@ const sources = import.meta.glob<string>(
 export const markdown = Object.fromEntries(
   Object.entries(sources).map(([path, text]) => [path.replace("../../", ""), text]),
 );
+/** The chart types, one tab each on the Charts page. `doc` is the heading of its section in charts.md. */
+export const chartTypes = [
+  { id: "area", tab: "Area", page: "Area charts", doc: "Area charts" },
+  { id: "bar", tab: "Bar", page: "Bar charts", doc: "Bar charts" },
+  { id: "line", tab: "Line", page: "Line charts", doc: "Line charts" },
+  { id: "pie", tab: "Pie and donut", page: "Pie and donut charts", doc: "Pie charts" },
+  { id: "radar", tab: "Radar", page: "Radar charts", doc: "Radar charts" },
+  { id: "radial", tab: "Radial", page: "Radial charts", doc: "Radial charts" },
+  { id: "tooltip", tab: "Tooltips", page: "Chart tooltips", doc: "Tooltip charts" },
+];
 export type Page = { path: string; title: string; group: string; file?: string; description?: string };
 export const pages: Page[] = [
   { path: "/", title: "Sift Design", group: "Start here" },
@@ -29,17 +39,23 @@ export const pages: Page[] = [
   { path: "/foundations/shapes-and-depth", title: "Shapes and depth", group: "Foundations", file: "DESIGN.md" },
   { path: "/motion", title: "Motion", group: "The system", file: "docs/motion.md" },
   { path: "/components", title: "Components", group: "The system" },
-  ...["controls", "overlays", "display", "charts", "ai"].map((name) => ({
+  ...["controls", "overlays", "display", "ai"].map((name) => ({
     path: `/components/${name}`,
     title: {
       controls: "Controls",
       overlays: "Overlays and menus",
       display: "Display and navigation",
-      charts: "Charts",
       ai: "AI elements",
     }[name]!,
     group: "Components",
     file: `packages/ui/docs/${name}.md`,
+  })),
+  { path: "/charts", title: "Charts", group: "The system", file: "packages/ui/docs/charts.md" },
+  ...chartTypes.map((type) => ({
+    path: `/charts/${type.id}`,
+    title: type.page,
+    group: "Charts",
+    file: "packages/ui/docs/charts.md",
   })),
   { path: "/patterns", title: "Patterns and writing", group: "The system" },
   ...["components", "writing", "data-visualization", "accessibility"].map((name) => ({
@@ -75,6 +91,7 @@ export const topPages = pages.filter((p) =>
     "/foundations",
     "/motion",
     "/components",
+    "/charts",
     "/patterns",
     "/retheming",
     "/blocks",
@@ -82,6 +99,14 @@ export const topPages = pages.filter((p) =>
   ].includes(p.path),
 );
 export const docText = (file: string) => (markdown[file] ?? "").replace(/^---[\s\S]*?\n---\n/, "");
+/** The text under one level-two heading of a doc, without the heading itself. */
+export function docSection(file: string, heading: string) {
+  const lines = docText(file).split("\n");
+  const start = lines.findIndex((line) => line === `## ${heading}`);
+  if (start < 0) return "";
+  const end = lines.findIndex((line, index) => index > start && /^## /.test(line));
+  return lines.slice(start + 1, end < 0 ? undefined : end).join("\n").trim();
+}
 export const slug = (text: string) =>
   text
     .toLowerCase()

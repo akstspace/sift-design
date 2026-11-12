@@ -21,6 +21,7 @@ export function Reveal({
   y = 22,
   id,
   className,
+  focus,
   children,
 }: {
   as?: keyof typeof tags;
@@ -28,6 +29,8 @@ export function Reveal({
   y?: number;
   id?: string;
   className?: string;
+  /** Set as data-focus, for sections that style a highlighted item. */
+  focus?: string;
   children: ReactNode;
 }) {
   const reduced = useReducedMotion();
@@ -36,6 +39,7 @@ export function Reveal({
     <Tag
       id={id}
       className={className}
+      data-focus={focus}
       initial={{ opacity: 0, y: reduced ? 0 : y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -12% 0px" }}

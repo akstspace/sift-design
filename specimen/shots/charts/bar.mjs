@@ -29,6 +29,8 @@ export default [
     name: "charts-bar-active-hover",
     path,
     clip: '[data-specimen="bar-active"]',
+    // A chart renders when it comes into view, so scroll its card in first.
+    prepare: async (page) => page.locator('[data-specimen="bar-active"]').scrollIntoViewIfNeeded(),
     filmstrip: {
       frames,
       trigger: async (page) => {

@@ -19,7 +19,7 @@ Read a source file at `<raw>/<path>`. For example, the `source` value `packages/
 | `schema` | string | The index format version, `sift-design-manifest/2`. |
 | `site`, `raw` | string | The site address and the address of the raw files. A local build can leave `site` empty. |
 | `howToSearch` | string | The path of this guide. |
-| `families` | array | The five component groups: `controls`, `overlays`, `display`, `charts`, and `ai`. Each has a doc, a site page, a live demo, and its component names. |
+| `families` | array | The five component groups: `controls`, `overlays`, `display`, `charts`, and `ai`. Each has a doc, a site page, a live demo, and its component names. `charts` also has `groups`: one entry for each chart type, with its site page and live demo. |
 | `components` | array | The kit components. Import each from `@sift-design/ui/<name>`. |
 | `aiElements` | array | The AI elements. Import each from `@sift-design/ui/ai/<name>`. They use the same entry fields as `components`. |
 | `charts` | array | The chart examples. Each is one copyable file that ports a shadcn/ui chart block. |
@@ -83,7 +83,7 @@ An AI element entry, shortened:
 | `title`, `summary` | The card title (the measure the example shows) and the upstream description. |
 | `source`, `helpers` | The example file, and the shared helper file that it imports. |
 | `exports`, `uses` | The named exports, and the kit components that the example imports. |
-| `docs`, `demo` | The docs section for the chart type, and the live demo with the card's `data-specimen` slug. |
+| `docs`, `demo` | The docs section for the chart type. The demo has the chart type's website tab (`page`), the live demo (`live`), and the card's `data-specimen` slug. |
 | `upstream` | The saved, unchanged upstream block and the upstream charts page. |
 
 Find every stacked chart:

@@ -86,6 +86,7 @@ export function Overview() {
             ["/foundations", "Foundations", "Colors, fonts, spacing, borders, and shadows."],
             ["/motion", "Motion", "Animation settings, dragging, and transitions between pages."],
             ["/components", "Components", "Try buttons, forms, menus, and more. Each has a usage guide."],
+            ["/charts", "Charts", "Seventy charts in seven types. Each moves on the shared spring and has a data table."],
             ["/patterns", "Patterns and writing", "Combine components, write clear messages, show data, and support accessibility."],
             [
               "/retheming",

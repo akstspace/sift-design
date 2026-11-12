@@ -2,7 +2,7 @@
 
 The kit has one chart component, `@sift-design/ui/chart`. It wraps [Recharts](https://recharts.org) and keeps the shadcn/ui chart API: `ChartContainer`, `ChartTooltip`, `ChartLegend`, and their content parts. Sift Design adds the shared spring, quiet chart chrome, and `ChartTable`, a data table for every chart.
 
-The Charts page shows a Sift version of every [shadcn/ui chart block](https://ui.shadcn.com/charts): area, bar, line, pie, radar, radial, and tooltip examples. Each example is one copyable file in `specimen/src/charts/`, named after the upstream block. For example, `chart-area-stacked.tsx` ports `chart-area-stacked`. The untouched upstream blocks are in `packages/ui/upstream/shadcn-4.23.0-new-york/charts/`.
+The Charts section of the website shows a Sift version of every [shadcn/ui chart block](https://ui.shadcn.com/charts). It has one tab for each chart type: area, bar, line, pie and donut, radar, radial, and tooltips. Each tab puts related charts in subsections, for example curves, stacks, labels, or grids. Each example is one copyable file in `specimen/src/charts/`, named after the upstream block. For example, `chart-area-stacked.tsx` ports `chart-area-stacked`. The untouched upstream blocks are in `packages/ui/upstream/shadcn-4.23.0-new-york/charts/`.
 
 The example data is fictional. It describes the Fernbrook Greenhouse in the Larkspur sample app. Replace it with your own measures; do not copy the greenhouse data model. Read [Data visualization](../../../docs/data-visualization.md) before you choose a chart.
 
@@ -38,13 +38,14 @@ Every example imports `specimen/src/charts/shared.tsx`. It holds the seeded samp
 
 **Reduced motion:** Recharts animation is off, so data changes apply at once. A new chart fades in over **140ms**. The tooltip fades in over **80ms** and moves at once. The active dot fades in without scale.
 
-**Accessibility:** set `accessibilityLayer` on the chart, so the arrow keys move between data points and the tooltip follows. Give `ChartContainer` an `aria-label` that names the measure, the unit, and the period. Show a legend for two or more series. Add a `ChartTable` with a caption that names the measure, the unit, and the period. The table is also the fallback for print and forced colors. In forced colors, bars, sectors, areas, and radar shapes get a `CanvasText` outline.
+**Accessibility:** set `accessibilityLayer` on the chart, so the arrow keys move between data points and the tooltip follows. Give `ChartContainer` an `aria-label` that names the measure, the unit, and the period. With a name, the container gets `role="figure"`, so the name is valid before the chart renders. Show a legend for two or more series. Add a `ChartTable` with a caption that names the measure, the unit, and the period. The table is also the fallback for print and forced colors. In forced colors, bars, sectors, areas, and radar shapes get a `CanvasText` outline.
 
 **Changes from upstream:**
 - Marks animate on the kit spring for 538ms with no delay. Upstream uses the Recharts default of 1,500ms ease, and a 400ms delay on pies.
 - The tooltip glides and enters on springs. It uses the popover surface, the kit border, and `--shadow-float`.
 - The grid, ticks, and legend use the muted text color and hairline colors.
 - The chart renders when it comes near the viewport. Upstream renders every chart on mount.
+- A container with an `aria-label` or `aria-labelledby` has `role="figure"`. Upstream sets no role.
 - `ChartTable`, `chartMotion`, `useChartMotion`, `chartEase`, and `CHART_MOTION_MS` are new.
 - `--chart-1` to `--chart-8` map onto the categorical palette.
 - The legend follows the config order. Pie sectors have a surface gap by default. Grid styles apply only to the Recharts default stroke, so an explicit `stroke` wins.

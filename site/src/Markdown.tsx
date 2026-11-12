@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { Button } from "@sift-design/ui/button";
 import { IconCopy, IconCheck } from "@tabler/icons-react";
 import { useState } from "react";
-import { docText, headings, resolveRepoUrl, slug } from "./content";
+import { docSection, docText, headings, resolveRepoUrl, slug } from "./content";
 import { Clip } from "./Clip";
 import { at, rawUrl } from "./base";
 
@@ -105,8 +105,9 @@ function headingIds() {
     walk(tree);
   };
 }
-export function Markdown({ file }: { file: string }) {
-  const text = docText(file);
+/** Renders a doc, or with `section`, only the text under that level-two heading. */
+export function Markdown({ file, section }: { file: string; section?: string }) {
+  const text = section ? docSection(file, section) : docText(file);
   const components: Components = {
     a: ({ href = "", children, ...props }) => (
       <a {...props} href={at(resolveRepoUrl(href, file))}>

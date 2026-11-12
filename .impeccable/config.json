@@ -94,6 +94,15 @@
         ],
         "createdAt": "2026-11-10T16:03:51.529Z",
         "reason": "On phones the landing headline scales from 38px to 52px; a display size for the website hero only."
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "2px",
+        "files": [
+          "site/src/landing.css"
+        ],
+        "createdAt": "2026-11-12T10:13:49.675Z",
+        "reason": "The chart board's category swatches match the chart legend swatch, which uses a 2px radius (rounded-[2px] in chart.tsx)."
       }
     ]
   }

@@ -521,6 +521,177 @@
   font-size: 12px;
 }
 
+/* Chart board: one set of category switches drives four kit charts. */
+.landing-charts {
+  border-top: 1px solid var(--line);
+}
+.chart-board {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: clip;
+}
+.board-head {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px 40px;
+  padding: clamp(20px, 2.4vw, 32px) clamp(20px, 2.4vw, 32px) 8px;
+  display: flex;
+}
+.board-title > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.board-title h3 {
+  letter-spacing: -0.02em;
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.board-title p {
+  color: var(--muted);
+  margin-top: 14px;
+  font-size: 14px;
+}
+.board-total {
+  color: var(--ink);
+  letter-spacing: -0.045em;
+  margin-bottom: 6px;
+  font-size: clamp(30px, 3.4vw, 44px);
+  font-weight: 600;
+  line-height: 1;
+  display: block;
+}
+.board-total > [aria-hidden] {
+  font-family: inherit;
+}
+/* Pointing at a category fades the others in every chart, on a short fade. Recharts
+   also copies the class onto each bar inside a series, so only the outer one fades. */
+.chart-board .board-series:not(.board-series .board-series) {
+  transition: opacity var(--dur-quick) linear;
+}
+.chart-board[data-focus] .board-series:not(.board-series .board-series) {
+  opacity: 0.22;
+}
+.chart-board[data-focus="bedding"] .board-bedding:not(.board-series .board-series),
+.chart-board[data-focus="herbs"] .board-herbs:not(.board-series .board-series),
+.chart-board[data-focus="perennials"] .board-perennials:not(.board-series .board-series),
+.chart-board[data-focus="succulents"] .board-succulents:not(.board-series .board-series) {
+  opacity: 1;
+}
+.board-toggles {
+  flex-wrap: wrap;
+  gap: 8px;
+  display: flex;
+}
+.board-toggle {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--muted);
+  align-items: center;
+  gap: 9px;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 13px;
+  display: inline-flex;
+  transition:
+    color var(--dur-quick) linear,
+    background-color var(--dur-quick) linear,
+    border-color var(--dur-quick) linear,
+    scale var(--spring-press-duration) var(--spring-press);
+}
+.board-toggle[aria-pressed="true"] {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--ink) 22%, var(--line));
+}
+.board-toggle:hover:not(:disabled) {
+  background: var(--tint);
+}
+.board-toggle:active:not(:disabled) {
+  scale: 0.97;
+}
+.board-toggle:disabled {
+  cursor: default;
+}
+.board-toggle:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.board-swatch {
+  border: 2px solid;
+  border-radius: 2px;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  display: inline-grid;
+}
+.board-swatch > span {
+  background: currentColor;
+  width: 8px;
+  height: 8px;
+}
+.board-toggle-total {
+  font-family: var(--font-code);
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.board-main {
+  padding: 12px clamp(10px, 1.6vw, 24px) 20px;
+}
+.board-tiles {
+  border-top: 1px solid var(--line);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: grid;
+}
+.board-tile {
+  border-right: 1px solid var(--line);
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px;
+  display: flex;
+}
+.board-tile:last-child {
+  border-right: 0;
+}
+.board-donut {
+  place-items: center;
+  display: grid;
+  position: relative;
+}
+.board-center {
+  text-align: center;
+  pointer-events: none;
+  place-content: center;
+  display: grid;
+  position: absolute;
+  inset: 0;
+}
+.board-center > span:first-child {
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.board-center > span:last-child {
+  color: var(--muted);
+  font-size: 12px;
+}
+.board-foot {
+  border-top: 1px solid var(--line);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  padding: 12px 22px 16px;
+  display: grid;
+}
+.board-foot > p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 /* Spring lab */
 .landing-motion {
   border-top: 1px solid var(--line);
@@ -936,6 +1107,16 @@
   }
 }
 @media (width <= 767px) {
+  .board-tiles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .board-tile {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .board-tile:last-child {
+    border-bottom: 0;
+  }
   .landing-header {
     gap: 12px;
     min-height: 64px;

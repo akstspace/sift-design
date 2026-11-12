@@ -10,6 +10,7 @@ import {
   IconLayoutDashboard,
   IconChecklist,
   IconBrandGithub,
+  IconChartArea,
 } from "@tabler/icons-react";
 import {
   SidebarProvider,
@@ -43,12 +44,14 @@ import Landing from "./Landing";
 import MotionPage from "./MotionPage";
 import { at } from "./base";
 const ComponentsPage = lazy(() => import("./ComponentsPage"));
+const ChartsPage = lazy(() => import("./ChartsPage"));
 const icons = [
   IconHome,
   IconTerminal2,
   IconPalette,
   IconRipple,
   IconComponents,
+  IconChartArea,
   IconTypography,
   IconAdjustments,
   IconLayoutDashboard,
@@ -66,14 +69,15 @@ function Shell({ path }: { path: string }) {
     document.title = `${page?.title ?? "Page not found"} — Sift Design`;
   }, [path, page]);
   const family = path.split("/")[2] ?? "controls";
-  // Family navigation keeps its tabs mounted; only the examples below them change.
-  const routeKey = path === "/components" || path.startsWith("/components/") ? "/components" : path;
+  // Family and chart-type navigation keeps its tabs mounted; only the examples below them change.
+  const section = ["/components", "/charts"].find((root) => path === root || path.startsWith(root + "/"));
+  const routeKey = section ?? path;
   useLayoutEffect(() => {
     if (previous.current === path) return;
     scroller.current?.querySelector<HTMLElement>('[data-transition-page="current"] h1')?.focus({ preventScroll: true });
   }, [path]);
   // Component and block pages use the full width; guides get the reading column and outline.
-  const wide = path.startsWith("/components") || path.startsWith("/blocks");
+  const wide = path.startsWith("/components") || path.startsWith("/charts") || path.startsWith("/blocks");
   const file = page?.file ?? (path === "/components" ? "packages/ui/docs/controls.md" : undefined);
   const content =
     path === "/overview" ? (
@@ -87,6 +91,10 @@ function Shell({ path }: { path: string }) {
     ) : page && (path === "/components" || page.group === "Components") ? (
       <Suspense fallback={<p role="status">Loading live components…</p>}>
         <ComponentsPage family={family} />
+      </Suspense>
+    ) : page && (path === "/charts" || page.group === "Charts") ? (
+      <Suspense fallback={<p role="status">Loading live charts…</p>}>
+        <ChartsPage type={path.split("/")[2]} />
       </Suspense>
     ) : path === "/patterns" ? (
       <Patterns />

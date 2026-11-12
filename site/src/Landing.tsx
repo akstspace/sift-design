@@ -12,6 +12,7 @@ import { BlockViewer } from "./Blocks";
 import ThemeSelect from "./ThemeSelect";
 import CommandMenu from "./CommandMenu";
 import { ComponentSheet } from "./landing/ComponentSheet";
+import { ChartBoard } from "./landing/ChartBoard";
 import { SpringLab } from "./landing/SpringLab";
 import { PaletteLab } from "./landing/PaletteLab";
 import { Reveal } from "./landing/Reveal";
@@ -334,6 +335,7 @@ export default function Landing() {
         </a>
         <nav aria-label="Website">
           <a href="#components">Components</a>
+          <a href="#charts">Charts</a>
           <a href="#motion">Motion</a>
           <a href="#palette">Palette</a>
           <a href={at("/overview")}>Documentation</a>
@@ -363,8 +365,8 @@ export default function Landing() {
           </h1>
           <div className="hero-aside">
             <Rise order={6} className="hero-lede">
-              Tokens, guides, 64 animated shadcn/ui components and five example screens. Your agent reads them, then
-              builds your product in this style with your own features and data.
+              Tokens, guides, 64 animated shadcn/ui components, 70 charts and five example screens. Your agent reads
+              them, then builds your product in this style with your own features and data.
             </Rise>
             <Rise order={7} className="hero-actions">
               <CopyButton
@@ -386,6 +388,7 @@ export default function Landing() {
         <Stage />
         <AgentSection prompt={prompt} />
         <ComponentSheet />
+        <ChartBoard />
         <SpringLab />
         <PaletteLab />
         <section className="landing-close" aria-labelledby="close-heading">

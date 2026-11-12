@@ -3,6 +3,9 @@ const clip = '[data-specimen="line-interactive"]';
 const frames = [0, 40, 80, 140, 220, 320, 480];
 const selectBedding = async (page) => page.locator('button[data-metric="bedding"]').click();
 const hoverDot = async (page) => {
+  // A chart renders when it comes into view, so scroll its card in first.
+  await page.locator('[data-specimen="line-dots-colors"]').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(900);
   const point = page.locator('[data-specimen="line-dots-colors"] .recharts-line-dots circle').nth(3);
   await point.scrollIntoViewIfNeeded();
   await point.hover();

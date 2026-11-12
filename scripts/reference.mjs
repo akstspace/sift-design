@@ -132,8 +132,11 @@ export const families = [
   { id: "ai", title: "AI elements", doc: "packages/ui/docs/ai.md", dir: "packages/ui/src/ai" },
 ];
 
-/** The chart types, in the order of the Charts page. Each is a `?charts=<group>` demo. */
+/** The chart types, in the order of the Charts tabs. Each has a page and a `?charts=<group>` demo. */
 const chartGroups = ["area", "bar", "line", "pie", "radar", "radial", "tooltip"];
+
+/** The website page of a family. Charts have their own section, with a tab for each chart type. */
+const familyPage = (site, id) => (id === "charts" ? `${site}/charts` : `${site}/components/${id}`);
 
 /** Level-two sections of a doc, with the kit imports used in each and its "When" line. */
 function docSections(rel) {
@@ -304,7 +307,7 @@ export function componentIndex({ site = "" } = {}) {
         uses: uses.kit,
         usesAi: uses.ai,
         docs: family
-          ? { file: family.doc, anchor: found.section.id, page: `${site}/components/${family.id}#${found.section.id}` }
+          ? { file: family.doc, anchor: found.section.id, page: `${familyPage(site, family.id)}#${found.section.id}` }
           : null,
         demo: hasDemo
           ? {
@@ -370,9 +373,9 @@ export function chartIndex({ site = "" } = {}) {
       uses: uses.kit,
       helpers: local,
       docs: section
-        ? { file: "packages/ui/docs/charts.md", anchor: section.id, page: `${site}/components/charts#${section.id}` }
+        ? { file: "packages/ui/docs/charts.md", anchor: section.id, page: `${site}/charts/${group}#${section.id}` }
         : null,
-      demo: { live: `${site}/live/specimen/?section=charts&charts=${group}`, group, slug: `${group}-${variant}` },
+      demo: { page: `${site}/charts/${group}`, live: `${site}/live/specimen/?section=charts&charts=${group}`, group, slug: `${group}-${variant}` },
       upstream: upstream
         ? {
             library: "shadcn/ui",
@@ -446,11 +449,11 @@ export function manifest({ site = "", raw = `${site}/raw` } = {}) {
       id: f.id,
       title: f.title,
       doc: f.doc,
-      page: `${site}/components/${f.id}`,
+      page: familyPage(site, f.id),
       live: `${site}/live/specimen/?section=${f.id}`,
       components: all.filter((c) => c.family === f.id).map((c) => c.name),
       ...(f.id === "charts"
-        ? { groups: chartGroups.map((g) => ({ id: g, live: `${site}/live/specimen/?section=charts&charts=${g}` })) }
+        ? { groups: chartGroups.map((g) => ({ id: g, page: `${site}/charts/${g}`, live: `${site}/live/specimen/?section=charts&charts=${g}` })) }
         : {}),
     })),
     components: all.filter((c) => !c.import.startsWith("@sift-design/ui/ai/")),

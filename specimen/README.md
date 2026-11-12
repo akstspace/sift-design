@@ -6,7 +6,7 @@ These are optional component demonstrations, not a product template. Keep the re
 
 ## Run and capture
 
-From the repository root, run `npx vite specimen`. Select a family with `?section=controls`, `?section=overlays`, `?section=display`, `?section=charts` (one chart type with `&charts=area`, `bar`, `line`, `pie`, `radar`, `radial`, or `tooltip`), or `?section=ai`; use `?theme=dark` and `?palette=harbor` for the alternate views.
+From the repository root, run `npx vite specimen`. Select a family with `?section=controls`, `?section=overlays`, `?section=display`, `?section=charts` (the charts show one type at a time, in tabs; open a type with `&charts=area`, `bar`, `line`, `pie`, `radar`, `radial`, or `tooltip`), or `?section=ai`; use `?theme=dark` and `?palette=harbor` for the alternate views.
 
 Capture one suite at a time with `node scripts/capture.mjs specimen --shots shots/<family>.mjs --axe`, where family is controls, overlays, display, charts, or retheme. Filmstrips show timestamped frames; animated WebP recordings show real-time input, reversal, and drag.
 

@@ -1,10 +1,11 @@
-import { lazy, Suspense, type ComponentType, type LazyExoticComponent } from "react";
+import { lazy, Suspense, useState, type ComponentType, type LazyExoticComponent } from "react";
 import { Spinner } from "@sift-design/ui/spinner";
-import { SpecimenGroup } from "../frame";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@sift-design/ui/tabs";
 
 // One file per chart type. Each chart is its own copyable file in src/charts/,
-// named after the upstream block it ports. `?charts=<group>` shows one group alone.
-const groups: Record<string, LazyExoticComponent<ComponentType>> = {
+// named after the upstream block it ports. A chart type is split into subsections
+// of related charts (see charts/<Type>.tsx).
+const views: Record<string, LazyExoticComponent<ComponentType>> = {
   area: lazy(() => import("./charts/Area")),
   bar: lazy(() => import("./charts/Bar")),
   line: lazy(() => import("./charts/Line")),
@@ -14,74 +15,65 @@ const groups: Record<string, LazyExoticComponent<ComponentType>> = {
   tooltip: lazy(() => import("./charts/Tooltip")),
 };
 
-const sections = [
+/** The chart types, in page order. The website shows one type per tab. */
+export const chartGroups = [
+  { id: "area", title: "Area", description: "Show how a total changes over time, and how its parts add up to it." },
+  { id: "bar", title: "Bar", description: "Compare amounts across a few categories or periods on a common baseline." },
+  { id: "line", title: "Line", description: "Show a trend over time, or compare the trends of a few series." },
+  { id: "pie", title: "Pie and donut", description: "Show the parts of one whole when there are only a few parts." },
+  { id: "radar", title: "Radar", description: "Compare a few records across the same set of measures." },
+  { id: "radial", title: "Radial", description: "Show progress toward a goal, or a few values on a circular track." },
   {
-    id: "charts-area",
-    group: "area",
-    title: "Area charts",
-    intro: "Show how a total changes over time, and how its parts add up to it.",
-  },
-  {
-    id: "charts-bar",
-    group: "bar",
-    title: "Bar charts",
-    intro: "Compare amounts across a few categories or periods on a common baseline.",
-  },
-  {
-    id: "charts-line",
-    group: "line",
-    title: "Line charts",
-    intro: "Show a trend over time, or compare the trends of a few series.",
-  },
-  {
-    id: "charts-pie",
-    group: "pie",
-    title: "Pie and donut charts",
-    intro: "Show the parts of one whole when there are only a few parts.",
-  },
-  {
-    id: "charts-radar",
-    group: "radar",
-    title: "Radar charts",
-    intro: "Compare a few records across the same set of measures.",
-  },
-  {
-    id: "charts-radial",
-    group: "radial",
-    title: "Radial charts",
-    intro: "Show progress toward a goal, or a few values on a circular track.",
-  },
-  {
-    id: "charts-tooltip",
-    group: "tooltip",
+    id: "tooltip",
     title: "Tooltips",
-    intro: "Show exact values on hover or focus. A table under each chart keeps the values available without hover.",
+    description:
+      "Show exact values on hover or focus. A table under each chart keeps the values available without hover.",
   },
-];
+] as const;
 
-export default function Charts() {
-  const only = new URLSearchParams(location.search).get("charts");
+/** The charts of one type, in their subsections. */
+export function ChartGroup({ group }: { group: string }) {
+  const View = views[group] ?? views.area;
   return (
-    <div id="charts" className="flex flex-col gap-14">
-      {sections
-        .filter((section) => !only || section.group === only)
-        .map((section) => {
-          const Group = groups[section.group];
-          return (
-            <SpecimenGroup key={section.id} id={section.id} title={section.title} intro={section.intro} min={340}>
-              <Suspense
-                fallback={
-                  <p className="flex items-center gap-2" role="status">
-                    <Spinner />
-                    Loading the charts…
-                  </p>
-                }
-              >
-                <Group />
-              </Suspense>
-            </SpecimenGroup>
-          );
-        })}
+    <div className="flex flex-col gap-14">
+      <Suspense
+        fallback={
+          <p className="flex items-center gap-2" role="status">
+            <Spinner />
+            Loading the charts…
+          </p>
+        }
+      >
+        <View />
+      </Suspense>
+    </div>
+  );
+}
+
+// The specimen shows one chart type at a time, so a page never mounts all 70 charts.
+// `?charts=<type>` opens a type directly, which keeps screenshots focused.
+export default function Charts() {
+  const [group, setGroup] = useState(() => {
+    const asked = new URLSearchParams(location.search).get("charts");
+    return asked && asked in views ? asked : "area";
+  });
+  return (
+    <div id="charts" className="flex flex-col gap-8">
+      <Tabs value={group} onValueChange={setGroup}>
+        <TabsList aria-label="Chart types" className="max-w-full overflow-x-auto">
+          {chartGroups.map((item) => (
+            <TabsTrigger key={item.id} value={item.id}>
+              {item.title}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {chartGroups.map((item) => (
+          <TabsContent key={item.id} value={item.id} className="pt-6">
+            <p className="mb-10 max-w-[68ch] text-muted-foreground">{item.description}</p>
+            <ChartGroup group={item.id} />
+          </TabsContent>
+        ))}
+      </Tabs>
     </div>
   );
 }
