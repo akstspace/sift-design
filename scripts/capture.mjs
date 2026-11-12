@@ -106,6 +106,13 @@ async function settle(page) {
     if (!running) break;
     await page.waitForTimeout(100);
   }
+  // Charts render when they come into view, and their marks arrive on a JavaScript
+  // spring that getAnimations() cannot see. The chart marks itself as entering
+  // until its marks and labels have landed.
+  for (let i = 0; i < 30; i++) {
+    if (!(await page.evaluate(() => !!document.querySelector("[data-chart-entering]")))) break;
+    await page.waitForTimeout(100);
+  }
   await page.waitForTimeout(150);
 }
 

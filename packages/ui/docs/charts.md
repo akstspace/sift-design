@@ -27,12 +27,14 @@ Every example imports `specimen/src/charts/shared.tsx`. It holds the seeded samp
 **Marks:** use 2px lines and `type="monotone"`. The `"natural"` curve overshoots and draws values that do not exist. Use a flat area fill of about 22% opacity under a 2px stroke. Give bars a 4px radius on the data end. Separate stacked segments and pie sectors with a 2px `var(--surface)` stroke. Pie sectors get this gap by default; set `stroke="none"` on the `Pie` to remove it. A radial track (`RadialBar background`) is `--subtle` by default; a fill set on `background` wins. Bars start at zero. Never use a second y-axis.
 
 **Motion:**
-- Marks arrive once, on mount, on `spring.smooth`. Recharts runs the animation with the same sampled curve as `--spring-smooth`, for **538ms**, with no delay. Bars grow from the baseline. Lines draw from the start. Areas open from the left. Pie and radial sectors sweep around. Radar shapes grow from the center.
+- Marks arrive once, when the chart first renders, on `spring.smooth`. Recharts runs the animation with the same sampled curve as `--spring-smooth`, for **538ms**, with no delay. Bars grow from the baseline. Lines draw from the start. Areas open from the left. Pie and radial sectors sweep around. Radar shapes grow from the center.
 - When the data changes, the marks morph to the new values on the same spring. A filter or a range switch therefore explains itself. Re-renders and hovers that do not change the data do not replay any animation.
 - Dots, value labels, and pie labels fade in over **140ms** after their mark arrives.
 - The tooltip enters on `spring.snappy` (**358ms**, from 97% scale and 2px lower). Then it glides between data points in **200ms** on the `settle` curve. The crosshair and the band cursor glide with it. The active dot grows from 30% scale on `spring.snappy`, with a 2px ring in the surface color.
 - Marks that react to hover change opacity only, over **140ms**. When a switch gives a mark another series color, the fill and stroke cross-fade over **140ms** while the shape morphs.
 - Nothing loops. A chart is still until the data or the pointer changes.
+
+**Rendering:** `ChartContainer` renders its Recharts chart when its box comes within 200px of the viewport. After that, the chart stays rendered. A page with many charts therefore renders only the charts near the reader, and it does not stop responding while it loads. The card, the title, the `aria-label`, and the `ChartTable` render at once, so screen readers get all the content. The box keeps its size from `className`, so the page does not move when a chart renders. Before the page prints, every chart renders without animation.
 
 **Reduced motion:** Recharts animation is off, so data changes apply at once. A new chart fades in over **140ms**. The tooltip fades in over **80ms** and moves at once. The active dot fades in without scale.
 
@@ -42,6 +44,7 @@ Every example imports `specimen/src/charts/shared.tsx`. It holds the seeded samp
 - Marks animate on the kit spring for 538ms with no delay. Upstream uses the Recharts default of 1,500ms ease, and a 400ms delay on pies.
 - The tooltip glides and enters on springs. It uses the popover surface, the kit border, and `--shadow-float`.
 - The grid, ticks, and legend use the muted text color and hairline colors.
+- The chart renders when it comes near the viewport. Upstream renders every chart on mount.
 - `ChartTable`, `chartMotion`, `useChartMotion`, `chartEase`, and `CHART_MOTION_MS` are new.
 - `--chart-1` to `--chart-8` map onto the categorical palette.
 - The legend follows the config order. Pie sectors have a surface gap by default. Grid styles apply only to the Recharts default stroke, so an explicit `stroke` wins.

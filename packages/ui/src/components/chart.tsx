@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { flushSync } from "react-dom"
 import { cn } from "cn"
 import { useReducedMotion } from "motion/react"
 import * as RechartsPrimitive from "recharts"
@@ -114,6 +115,7 @@ function ChartContainer({
   children,
   config,
   initialDimension = INITIAL_DIMENSION,
+  ref: forwardedRef,
   ...props
 }: React.ComponentProps<"div"> & {
   config: ChartConfig
@@ -125,22 +127,35 @@ function ChartContainer({
     height: number
   }
 }) {
-  const motion = useChartMotion()
+  const ref = React.useRef<HTMLDivElement>(null)
+  const setRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      ref.current = node
+      if (typeof forwardedRef === "function") forwardedRef(node)
+      else if (forwardedRef) forwardedRef.current = node
+    },
+    [forwardedRef]
+  )
+  const { shown, printing } = useShownNearViewport(ref)
+  const reduced = useReducedMotion() ?? false
+  const motion = chartMotion(reduced || printing)
   // Marks for the first second: reduced motion fades the new chart in, then never again.
   const [entering, setEntering] = React.useState(true)
   React.useEffect(() => {
+    if (!shown) return
     const timer = window.setTimeout(() => setEntering(false), CHART_MOTION_MS + 200)
     return () => window.clearTimeout(timer)
-  }, [])
+  }, [shown])
   const uniqueId = React.useId()
   const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`
 
   return (
     <ChartContext.Provider value={{ config }}>
       <div
+        ref={setRef}
         data-slot="chart"
         data-chart={chartId}
-        data-chart-entering={entering || undefined}
+        data-chart-entering={(shown && entering) || undefined}
         className={cn(
           "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector]:outline-hidden [&_.recharts-surface]:outline-hidden",
           className
@@ -148,14 +163,48 @@ function ChartContainer({
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer
-          initialDimension={initialDimension}
-        >
-          {withChartMotion(children, motion) as typeof children}
-        </RechartsPrimitive.ResponsiveContainer>
+        {shown && (
+          <RechartsPrimitive.ResponsiveContainer
+            initialDimension={initialDimension}
+          >
+            {withChartMotion(children, motion) as typeof children}
+          </RechartsPrimitive.ResponsiveContainer>
+        )}
       </div>
     </ChartContext.Provider>
   )
+}
+
+/** A chart renders when its box comes within 200px of the viewport, and then stays.
+ * A page with many charts renders only the ones near the reader, so it does not
+ * stall, and each chart's marks arrive close to when it is seen. The box keeps its
+ * size, and the card, its title and its data table render at once. Before printing,
+ * every chart renders without animation, so the page prints whole. */
+function useShownNearViewport(ref: React.RefObject<HTMLElement | null>) {
+  const [state, setState] = React.useState(() => ({
+    shown: typeof IntersectionObserver === "undefined",
+    printing: false,
+  }))
+  React.useEffect(() => {
+    const element = ref.current
+    if (state.shown || !element) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return
+        observer.disconnect()
+        React.startTransition(() => setState({ shown: true, printing: false }))
+      },
+      { rootMargin: "200px 0px" }
+    )
+    observer.observe(element)
+    const print = () => flushSync(() => setState({ shown: true, printing: true }))
+    window.addEventListener("beforeprint", print)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("beforeprint", print)
+    }
+  }, [ref, state.shown])
+  return state
 }
 
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
