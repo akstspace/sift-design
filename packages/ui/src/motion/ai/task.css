@@ -17,21 +17,6 @@
     background-color var(--dur-quick) linear,
     border-color var(--dur-quick) linear;
 }
-.ai-queue-strike {
-  text-decoration-line: line-through;
-  text-decoration-color: transparent;
-  transition:
-    text-decoration-color var(--dur-quick) linear,
-    opacity var(--dur-quick) linear;
-}
-[data-completed="true"] > .ai-queue-strike {
-  text-decoration-color: currentColor;
-}
-/* Only the title is struck through; its details just fade back. */
-[data-slot="queue-item-description"][data-completed="true"] > .ai-queue-strike {
-  text-decoration-color: transparent;
-  opacity: 0.72;
-}
 [data-slot="queue-item-action"] {
   opacity: 0;
   transition: opacity var(--dur-quick) linear;

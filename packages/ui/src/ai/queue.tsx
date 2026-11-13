@@ -72,25 +72,20 @@ export const QueueItemContent = ({ completed = false, className, children, ...pr
     className={cn("min-w-0 grow break-words text-foreground data-[completed=true]:text-muted-foreground", className)}
     {...props}
   >
-    <span className="ai-queue-strike">{children}</span>
+    <span data-slot="strike" data-struck={completed || undefined}>
+      {children}
+    </span>
   </span>
 );
 
 export type QueueItemDescriptionProps = ComponentProps<"div"> & { completed?: boolean };
-export const QueueItemDescription = ({
-  completed = false,
-  className,
-  children,
-  ...props
-}: QueueItemDescriptionProps) => (
+export const QueueItemDescription = ({ completed = false, className, ...props }: QueueItemDescriptionProps) => (
   <div
     data-slot="queue-item-description"
     data-completed={completed}
     className={cn("ml-6 text-[12px] leading-relaxed text-muted-foreground", className)}
     {...props}
-  >
-    <span className="ai-queue-strike">{children}</span>
-  </div>
+  />
 );
 
 export type QueueItemActionsProps = ComponentProps<"div">;

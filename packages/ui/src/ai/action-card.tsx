@@ -316,11 +316,13 @@ export const ActionCardRecord = ({
       <span
         className={cn(
           "min-w-0 flex-1 truncate font-medium",
-          done && "text-muted-foreground line-through decoration-input",
+          done && "text-muted-foreground",
           state != null && "text-muted-foreground",
         )}
       >
-        {title}
+        <span data-slot="strike" data-struck={done || undefined} className="[--strike-color:var(--color-input)]">
+          {title}
+        </span>
       </span>
       {state != null ? (
         <span className="shrink-0 text-[12px] whitespace-nowrap text-muted-foreground">{state}</span>

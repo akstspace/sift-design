@@ -78,7 +78,11 @@ function Checklist() {
               checked={checked}
               onCheckedChange={(on) => setDone(on === true ? [...done, chore] : done.filter((c) => c !== chore))}
             />
-            <Label htmlFor={id}>{chore}</Label>
+            <Label htmlFor={id}>
+              <span data-slot="strike" data-struck={checked || undefined}>
+                {chore}
+              </span>
+            </Label>
           </div>
         );
       })}

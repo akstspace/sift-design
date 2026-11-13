@@ -89,3 +89,13 @@
 @media (prefers-reduced-motion: reduce) { [data-slot="sidebar-menu-button"]:active { scale: 1; } }
 /* A scrolled work surface must not alter the masthead text's contrast. */
 body:has(#display):not(:has(#controls, #overlays)) > #root > div > header { background: var(--ground); backdrop-filter: none; }
+
+/* A strike-through that is drawn. Mark the text with data-slot="strike" and add data-struck when it is done.
+   The line is drawn from the left after the control has changed, and pulls back to the left faster.
+   Both are size transitions, so a second change partway through reverses the line from where it is.
+   Text already struck on first render shows the full line. --strike-color sets the line color. */
+[data-slot="strike"] { background: linear-gradient(var(--strike-color, currentColor), var(--strike-color, currentColor)) no-repeat 0 55% / 0% max(1px, 0.08em); transition: background-size var(--spring-exit-duration) var(--spring-exit); }
+[data-slot="strike"][data-struck] { background-size: 100% max(1px, 0.08em); transition: background-size var(--spring-smooth-duration) var(--spring-smooth) var(--dur-instant); }
+@media (prefers-reduced-motion: reduce) { [data-slot="strike"], [data-slot="strike"][data-struck] { transition: none; } }
+/* Browsers leave out backgrounds in print, so print uses a plain line-through. */
+@media print { [data-slot="strike"][data-struck] { background: none; text-decoration: line-through; text-decoration-color: var(--strike-color, currentColor); } }

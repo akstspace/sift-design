@@ -469,7 +469,6 @@
 }
 .sheet-checklist [data-done] label {
   color: var(--muted);
-  text-decoration: line-through;
 }
 .sheet-progress {
   align-items: center;
