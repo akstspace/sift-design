@@ -1,6 +1,6 @@
 # @sift-design/ui
 
-Every [shadcn/ui](https://ui.shadcn.com) component (new-york style, CLI 4.23.0, Radix via `radix-ui`, Tabler icons), restyled to the Sift Design tokens, with motion on by default. There are three additions: `page-transition` (sibling and push/pop page changes), `scroll-title` (a title that shrinks into the header on scroll) and `time-picker` (a time field with snapping hour and minute columns, in place of the browser's time input).
+Every [shadcn/ui](https://ui.shadcn.com) component (new-york style, CLI 4.23.0, Radix via `radix-ui`, Tabler icons), restyled to the Sift Design tokens, with motion on by default. There are three additions: `page-transition` (sibling and push/pop page changes), `scroll-title` (a title that shrinks into the header on scroll) and `time-picker` (a time field with snapping hour and minute columns, in place of the browser's time input). `meter`, `segmented-control` and `timeline` are built on [ui-sdk](../../docs/ui-sdk.md) parts. To copy them, install the newest `@ui-sdk/react` and `@ui-sdk/core` at the same exact version (see [docs/ui-sdk.md](../../docs/ui-sdk.md#use-the-newest-version)), and put `@layer ui-sdk;` on the first line of the app stylesheet.
 
 The kit supplies appearance and interaction behavior, not an application template. Choose components for the product's content and actions; navigation, fields, data, routing, and storage remain the application's responsibility. A sidebar, task list, schedule, or conversation is optional.
 

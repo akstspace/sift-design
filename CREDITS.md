@@ -12,6 +12,7 @@ Sift Design is built on other people's work. Thank you to everyone below.
 | [cn](https://github.com/shadcn-ui/cn) | Class-name merging used by every kit component | MIT |
 | [Radix UI](https://www.radix-ui.com) | Accessible primitives under most kit components | MIT |
 | [Base UI](https://base-ui.com) | The primitive under the combobox | MIT |
+| [ui-sdk](https://ui-sdk.dev) | The parts under the meter, segmented control and timeline (`@ui-sdk/react` and `@ui-sdk/core` 0.1.0-beta.5, by Vercel Labs). The ui-sdk skill for coding agents in `.claude/skills/ui-sdk/` comes from the same project. Used under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). | Apache-2.0 |
 | [Motion](https://motion.dev) | Springs, layout animation and gestures | MIT |
 | [Tailwind CSS](https://tailwindcss.com) | Styling | MIT |
 | [Tabler Icons](https://tabler.io/icons) | Icons | MIT |

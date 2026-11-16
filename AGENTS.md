@@ -25,9 +25,20 @@ layouts are welcome when they serve the product.
 - The reference stack is React 19, Vite, TypeScript, Tailwind CSS v4, shadcn/ui on Radix, Motion, and Tabler icons. Use it for a new project unless the brief specifies another stack; do not replace an existing project's framework just to use the design system.
 - Copy `tokens/` (tokens.css, fonts.css, fonts/, motion.ts) into the project.
 - Copy `packages/ui/src/theme.css`, `motion.css`, `motion/` and the components you need from `packages/ui/src/components/`. They are complete shadcn/ui components, already restyled and animated. Copy them over the stock shadcn versions; do not re-add stock ones. For chat, tool, code, canvas, or voice UI, also copy `ai.css` and the parts you need from `packages/ui/src/ai/`.
-- Import order in the app stylesheet: `@import "tailwindcss";` then the theme.
+- Import order in the app stylesheet: `@layer ui-sdk;` first if the project uses ui-sdk, then `@import "tailwindcss";`, then the theme.
 - Keep light and dark. Dark is its own palette (`.dark` on `<html>`), never an inversion.
 - For a different brand, follow [docs/retheming.md](docs/retheming.md). Change the shared color variables, not component structure, spacing, or animation.
+
+## ui-sdk
+
+Three kit components are built on [ui-sdk](https://ui-sdk.dev) parts: `meter`, `segmented-control` and `timeline`. ui-sdk is a library of unstyled React components with keyboard, focus and screen reader support. It needs React 19 or newer.
+
+- Before using ui-sdk, follow the ui-sdk skill if it's installed (this repo ships it in `.claude/skills/ui-sdk/`), and read `node_modules/@ui-sdk/react/docs/llms.txt`. To build a new component, also search `node_modules/@ui-sdk/react/docs/core.md` by heading, and read `rendering.md` next to it.
+- Then read [docs/ui-sdk.md](docs/ui-sdk.md). It says when to use ui-sdk, and how to give its parts the Sift look and motion. Where the skill and the Sift guides differ, the Sift guides win for look, motion, writing and review.
+- Always use the newest ui-sdk release. Before you install ui-sdk or change code that uses it, run `npm view @ui-sdk/react dist-tags`. While ui-sdk is in beta, use the higher of the `latest` and `beta` versions. After a stable release, use `latest`. Install `@ui-sdk/react` and `@ui-sdk/core` at that same exact version with the project's package manager. If the project has an older version, upgrade it first. If a release-age policy blocks the install, stop and ask the user instead of changing it.
+- Learn the version you install. Its docs ship in `node_modules/@ui-sdk/react/docs/` and match that version. Read `llms.txt` again, and the page of each ui-sdk component you use. Check its Styling, Data Attributes and API Reference sections against the code. Then update the skill with `npx skills update ui-sdk`.
+- Use the kit version when the kit has the component. The kit styles parts by `data-slot` across the page, and many ui-sdk slot names are the same as the kit's. Run `node scripts/check-ui-sdk-slots.mjs <component>` before using a ui-sdk component.
+- Do not import `@ui-sdk/core/web.css`, and do not load ui-sdk files from its website.
 
 ## Rules that are easy to miss
 

@@ -223,6 +223,63 @@ import { Button } from "@sift-design/ui/button";
 </Empty>
 ```
 
+## Meter
+
+**When:** show a measurement within a known range, such as storage used, seats taken or a monthly quota. Use Progress for a task that finishes. Use a chart when the reader compares several values.
+
+**Structure:** `Meter` → `MeterLabel`, `MeterValue`, `MeterTrack` → `MeterIndicator`. It is built on the [ui-sdk](../../../docs/ui-sdk.md) meter, so install `@ui-sdk/react` and `@ui-sdk/core` before you copy it. The label and the value share the first row; the **6px** track fills the second. The value uses IBM Plex Mono with tabular figures. The fill is `--primary`. Near a limit, give the indicator a status color such as `bg-warn`, and add a sentence with an icon that says what to do. Do not rely on the color alone.
+
+**Props:** the ui-sdk props: `value`, `min` (default 0), `max` (default 100), `format` (`Intl.NumberFormat` options or a function of the value), `locale` and `getValueLabel`. A value outside the range is clamped for the fill.
+
+**Motion:** the fill keeps the full track width and scales from the start edge with `scaleX`. A higher reading rises on **spring.smooth**. A lower reading falls on the shorter **spring.exit** with no overshoot. A new value during a move continues from the current width. The first render shows the reading without motion.
+
+**Reduced motion:** the fill changes at once.
+
+**Accessibility:** ui-sdk renders `role="meter"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax` and the formatted value as `aria-valuetext`. The visible value is hidden from screen readers, so it is not read twice. Name the meter with `MeterLabel` or `aria-label`. Put a warning near a limit in a polite live region.
+
+**Changes from upstream:** the Sift layout, the spring fill and the `--primary` color are new. The parts, props and formatting are the ui-sdk ones.
+
+```tsx
+import { Meter, MeterIndicator, MeterLabel, MeterTrack, MeterValue } from "@sift-design/ui/meter";
+<Meter value={18.4} max={25} format={(value) => `${value.toFixed(1)} of 25 GB`}>
+  <MeterLabel>Photo storage</MeterLabel>
+  <MeterValue />
+  <MeterTrack><MeterIndicator /></MeterTrack>
+</Meter>
+```
+
+Upstream reference: [ui-sdk Meter](https://ui-sdk.dev/docs/react/components/meter).
+
+## Timeline
+
+**When:** show dated events in order, such as a delivery, an approval or the history of a record. Use Marker for one date boundary inside a feed. Use the activity log for an agent's actions.
+
+**Structure:** `Timeline` → `TimelineItem` → `TimelineMarker`, `TimelineConnector`, `TimelineTitle`, `TimelineTime`, `TimelineDescription`. It is built on the [ui-sdk](../../../docs/ui-sdk.md) timeline, so install `@ui-sdk/react` and `@ui-sdk/core` before you copy it. A vertical item is a grid: a 16px marker column, the title, and the time at the end in IBM Plex Mono. The description sits below the title. `orientation="horizontal"` puts the events in equal columns, with the line running toward the next marker. The last event has no connector.
+
+**Props:** `Timeline` takes `orientation`, `loop`, `feed`, `busy` and `controller`. `TimelineItem` takes `value`, `status` (`"complete"`, `"current"` or `"upcoming"`), and two kit props: `arrival` animates an event that was just added, and `reflow` (default `true`) lets the events below move to make room. `createTimelineController()` is re-exported.
+
+**Motion:** an event that becomes current grows its marker from **0.8** to full size on **`--spring-snappy`**, with a soft accent ring. Marker colors change over **duration.quick** (140ms). When an event becomes complete, its connector fills toward the next marker on **`--spring-smooth`** after an **80ms** delay. Undoing it empties the line on the faster **`--spring-exit`**. A second change partway reverses from the current fill. With `arrival`, a new event uses `arrivalMotion`; events already in the page never replay it.
+
+**Reduced motion:** markers change color but not size. Connectors fill and empty at once. New events fade in for 140ms.
+
+**Accessibility:** ui-sdk renders a list with one tab stop. Up and Down (or Left and Right in a horizontal timeline) move between events, and Home and End jump to the ends. The current event has `aria-current="step"`. Name the timeline with `aria-label`. Use a real date in `dateTime` on `TimelineTime`. Say the status in words when it matters, because the marker is hidden from screen readers.
+
+**Changes from upstream:** the Sift layout, the status colors and the marker and connector motion are new. `arrival` and `reflow` are kit props. The parts, props and keyboard behavior are the ui-sdk ones.
+
+```tsx
+import { Timeline, TimelineConnector, TimelineDescription, TimelineItem, TimelineMarker, TimelineTime, TimelineTitle } from "@sift-design/ui/timeline";
+<Timeline aria-label="Basil plug delivery">
+  <TimelineItem status="complete">
+    <TimelineMarker /><TimelineConnector />
+    <TimelineTitle>Packed</TimelineTitle>
+    <TimelineTime dateTime="2026-11-11T16:05">11 Nov 16:05</TimelineTime>
+    <TimelineDescription>The nursery packed four crates.</TimelineDescription>
+  </TimelineItem>
+</Timeline>
+```
+
+Upstream reference: [ui-sdk Timeline](https://ui-sdk.dev/docs/react/components/timeline).
+
 ## Skeleton
 
 **When:** actual content is loading and its approximate shape is known.

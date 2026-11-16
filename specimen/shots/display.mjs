@@ -19,6 +19,8 @@ const motionShots = [
   { what: "accordion", selector: '[data-specimen="accordion"]', trigger: async page => { await click("Why did Climate watch file this task?")(page); await pause(page); await click("Why did Climate watch file this task?")(page); } },
   { what: "list-reflow", selector: '[data-specimen="item"]', trigger: async page => { await click("Insert maintenance task")(page); await pause(page); await click("Reverse task order")(page); await pause(page); await click("Remove first task")(page); } },
   { what: "carousel-drag", selector: '[data-specimen="carousel"]', trigger: async page => { await drag(page, '[data-specimen="carousel"] [data-slot="carousel-content"]', -200); await pause(page); await drag(page, '[data-specimen="carousel"] [data-slot="carousel-content"]', 260); } },
+  { what: "meter", selector: '[data-specimen="meter"]', trigger: async page => { await click("Upload bench photos")(page); await pause(page, 300); await click("Upload bench photos")(page); await pause(page, 600); await click("Archive last season")(page); } },
+  { what: "timeline", selector: '[data-specimen="timeline"]', trigger: async page => { await click("Mark the next step done")(page); await pause(page, 200); await click("Undo")(page); await pause(page, 500); await click("Mark the next step done")(page); } },
   { what: "message-arrival", selector: '[data-specimen="message-bubble-and-message-scroller"]', trigger: async page => { await click("Hand the misting check to John")(page); await pause(page); await click("Reverse follow-ups")(page); await pause(page); await click("Remove follow-ups")(page); } },
 ];
 export default [
@@ -34,9 +36,11 @@ export default [
     { name: `display-sidebar-expanded-${theme}`, path, theme, clip: demo },
     { name: `display-sidebar-collapsed-${theme}`, path, theme, clip: demo, prepare: async page => { await page.getByRole("button", { name: "Collapse navigation", exact: true }).click(); } },
     { name: `display-mobile-sheet-${theme}`, path, theme, viewport: { width: 390, height: 844 }, prepare: async page => { await page.getByRole("button", { name: "Open navigation", exact: true }).click(); } },
-    ...["table", "empty", "alert"].map(component => ({ name: `display-${component}-${theme}`, path, theme, viewport: { width: 1440, height: 1000 }, clip: `[data-specimen="${component}"]`, prepare: at(`[data-specimen="${component}"]`) })),
+    ...["table", "empty", "alert", "meter", "timeline"].map(component => ({ name: `display-${component}-${theme}`, path, theme, viewport: { width: 1440, height: 1000 }, clip: `[data-specimen="${component}"]`, prepare: at(`[data-specimen="${component}"]`) })),
   ]),
   { name: "display-mobile-dark", path, theme: "dark", fullPage: true, viewport: { width: 390, height: 844 } },
+  { name: "display-timeline-horizontal", path, viewport: { width: 1440, height: 1000 }, clip: '[data-specimen="timeline"]', prepare: async page => { await at('[data-specimen="timeline"]')(page); await page.getByRole("radio", { name: "Horizontal", exact: true }).click(); await pause(page, 700); } },
+  { name: "display-timeline-filmstrip", path, clip: '[data-specimen="timeline"]', prepare: at('[data-specimen="timeline"]'), filmstrip: { frames: [0, 60, 140, 260, 420, 700], trigger: click("Mark the next step done") } },
   { name: "display-message-arrival", path, clip: '[data-specimen="message-bubble-and-message-scroller"]', prepare: async page => { await page.getByRole("button", { name: "Hand the misting check to John" }).click(); } },
   { name: "display-mobile-light", path, fullPage: true, viewport: { width: 390, height: 844 } },
   { name: "display-reduced-motion", path, reduced: true, clip: demo },

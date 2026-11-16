@@ -150,6 +150,7 @@ export function AgentPage() {
               "JSON with every component, AI element, and example screen, and every repository file with its size.",
             ],
             ["/finding-components", "Finding components", "The structure of the component index, with search examples."],
+            ["/ui-sdk", "Building on ui-sdk", "When to use ui-sdk components, and how to give them the Sift look and motion."],
             [
               "/raw/tokens/tokens.css",
               "/raw/<repo path>",

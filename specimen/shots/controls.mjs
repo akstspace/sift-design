@@ -1,5 +1,5 @@
 const path = "/?section=controls";
-const groups = ["button", "button-group", "input", "input-group", "textarea", "native-select", "input-otp", "checkbox", "radio-group", "switch", "slider", "toggle", "toggle-group", "tabs", "calendar", "label-and-field", "kbd", "form"];
+const groups = ["button", "button-group", "input", "input-group", "textarea", "native-select", "input-otp", "checkbox", "radio-group", "switch", "slider", "toggle", "toggle-group", "tabs", "segmented-control", "calendar", "label-and-field", "kbd", "form"];
 const focus = name => async page => { await page.locator(`[data-specimen="${name}"]`).scrollIntoViewIfNeeded(); };
 const shots = [
   ...["light", "dark"].map(theme => ({ name: `controls-section-${theme}`, path, theme, fullPage: true })),
@@ -55,6 +55,7 @@ const recordings = [
   ["switch", "switch", async page => { const control = page.locator('[data-demo="switch"]'); await control.click(); await page.waitForTimeout(90); await control.click(); await page.waitForTimeout(130); await control.click(); }],
   ["segmented", "toggle-group", async page => { const group = page.locator('[data-demo="segments"]'); await group.getByRole("radio", { name: "Done", exact: true }).click(); await page.waitForTimeout(120); await group.getByRole("radio", { name: "In progress", exact: true }).click(); await page.waitForTimeout(350); await group.getByRole("radio", { name: "Open", exact: true }).click(); }],
   ["tabs", "tabs", async page => { const group = page.locator('[data-demo="tabs"]'); await group.getByRole("tab", { name: "Orders", exact: true }).click(); await page.waitForTimeout(180); await group.getByRole("tab", { name: "Growing", exact: true }).click(); }],
+  ["segmented-control", "segmented-control", async page => { const group = page.locator('[data-specimen="segmented-control"]'); await group.getByRole("radio", { name: "Board", exact: true }).click(); await page.waitForTimeout(160); await group.getByRole("radio", { name: "Grid", exact: true }).click(); await page.waitForTimeout(380); await page.keyboard.press("ArrowLeft"); }],
   ["slider", "slider", sliderDrag],
   ["checkbox", "checkbox", async page => { const control = page.locator('[data-demo="check"]'); await control.click(); await page.waitForTimeout(160); await control.click(); await page.waitForTimeout(90); await control.click(); }],
 ];

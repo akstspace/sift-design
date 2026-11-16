@@ -30,7 +30,7 @@ Browse it at **[chaioverflow.com/sift-design](https://chaioverflow.com/sift-desi
 | [AGENTS.md](AGENTS.md) | How an agent should use this repo when building UI. |
 | [docs/](docs) | Topic guides: [principles](docs/principles.md), [color](docs/color.md), [typography](docs/typography.md), [layout](docs/layout.md), [components](docs/components.md), [motion](docs/motion.md), [data visualization](docs/data-visualization.md), [writing](docs/writing.md), [accessibility](docs/accessibility.md), [retheming](docs/retheming.md), [review](docs/review.md). |
 | [tokens/](tokens) | `tokens.css` (light and dark), `tokens.json` (W3C design tokens), `motion.ts` (springs and motion presets), `fonts.css` and fonts, `themes/` (alternate palettes). |
-| [packages/ui/](packages/ui) | Every shadcn/ui component, restyled to the tokens with motion on by default, plus page transitions, a scroll-linked title and a time picker. Copy from here. |
+| [packages/ui/](packages/ui) | Every shadcn/ui component, restyled to the tokens with motion on by default, plus page transitions, a scroll-linked title and a time picker. A meter, a segmented control and a timeline are built on [ui-sdk](docs/ui-sdk.md) parts. Copy from here. |
 | [blocks/](blocks) | Five optional fictional app screens, each a standalone Vite app, like [shadcn/ui blocks](https://ui.shadcn.com/blocks). |
 | [specimen/](specimen) | Try every component in one app. |
 | [screenshots/](screenshots) | Reference stills (light, dark, 390px), motion clips, and axe reports. |
@@ -232,6 +232,6 @@ The axe reports sit next to the screenshots (`screenshots/*/*axe.json`). The few
 ## Licenses
 
 - Code: [MIT](LICENSE).
-- The components in `packages/ui` are adapted from [shadcn/ui](https://ui.shadcn.com) (MIT).
+- The components in `packages/ui` are adapted from [shadcn/ui](https://ui.shadcn.com) (MIT). The meter, segmented control and timeline are built on [ui-sdk](https://ui-sdk.dev) (Apache-2.0).
 - Albert Sans, IBM Plex Sans and IBM Plex Mono are licensed under the SIL Open Font License 1.1 (see `tokens/fonts/`).
 - Everything else this is built on, with licenses, is in [CREDITS.md](CREDITS.md).

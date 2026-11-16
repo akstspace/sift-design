@@ -37,6 +37,9 @@ export const rawRoots = [
   "specimen/README.md",
   "scripts/capture.mjs",
   "scripts/spring-easing.mjs",
+  "scripts/check-ui-sdk-slots.mjs",
+  ".claude/skills/ui-sdk",
+  "skills-lock.json",
 ];
 const skip = (p) => /(^|\/)(node_modules|dist|\.cache)(\/|$)/.test(p) || p.endsWith(".DS_Store");
 
@@ -258,6 +261,13 @@ function aiDemoGroups() {
 
 const titleCase = (name) => name.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase());
 
+/** Kit components built on ui-sdk parts: the ui-sdk entry they import, or null. */
+const uiSdkVersion = JSON.parse(read("package.json")).dependencies?.["@ui-sdk/react"] ?? null;
+function uiSdkEntry(rel) {
+  const m = read(rel).match(/from\s+["']@ui-sdk\/react\/([a-z0-9-]+)["']/);
+  return m ? m[1] : null;
+}
+
 export function componentIndex({ site = "" } = {}) {
   const sectionsByFamily = Object.fromEntries(families.map((f) => [f.id, exists(f.doc) ? docSections(f.doc) : []]));
   const shadcn = latestUpstream("shadcn-");
@@ -315,7 +325,16 @@ export function componentIndex({ site = "" } = {}) {
               ...(group ? { group } : {}),
             }
           : null,
-        upstream: upstreamFile
+        upstream: uiSdkEntry(source)
+          ? {
+              library: "ui-sdk",
+              version: uiSdkVersion,
+              package: `@ui-sdk/react/${uiSdkEntry(source)}`,
+              requires: ["@ui-sdk/react", "@ui-sdk/core"],
+              guide: "docs/ui-sdk.md",
+              reference: `https://ui-sdk.dev/docs/react/components/${uiSdkEntry(source)}`,
+            }
+          : upstreamFile
           ? {
               library: isAi ? "AI Elements" : "shadcn/ui",
               version: upstreamDir.replace(/^(shadcn|ai-elements)-/, "").replace(/-new-york$/, ""),
@@ -528,8 +547,8 @@ ${guides.map((g) => link(g)).join("\n")}
 - [motion.css](${raw}/packages/ui/src/motion.css): default component motion (imports ${raw}/packages/ui/src/motion/*.css)
 ${kitDocs.map((d) => link(d)).join("\n")}
 
-Component sources (copy these over stock shadcn/ui files):
-${components.map((c) => `- [${c.replace(".tsx", "")}](${raw}/packages/ui/src/components/${c})`).join("\n")}
+Component sources (copy these over stock shadcn/ui files). Sources marked "ui-sdk" are built on ui-sdk parts: install the newest \`@ui-sdk/react\` and \`@ui-sdk/core\` first (check \`npm view @ui-sdk/react dist-tags\`), and read [docs/ui-sdk.md](${raw}/docs/ui-sdk.md):
+${components.map((c) => `- [${c.replace(".tsx", "")}](${raw}/packages/ui/src/components/${c})${uiSdkEntry(`packages/ui/src/components/${c}`) ? " (ui-sdk)" : ""}`).join("\n")}
 
 AI element sources (chat, reasoning, tools, code output, canvases and voice; import \`@sift-design/ui/ai.css\` after theme.css):
 ${aiSources.map((c) => `- [ai/${c.replace(".tsx", "")}](${raw}/packages/ui/src/ai/${c})`).join("\n")}
@@ -554,6 +573,8 @@ ${blocks.map((b) => `- [${b} example](${raw}/blocks/${b}/README.md): ${summary(`
 
 - [Source file list](${site}/raw/manifest.json): the \`files\` array in the index lists every repository path and file size; read each file at ${raw}/<path>
 - [Capture script](${raw}/scripts/capture.mjs): screenshots, motion filmstrips and clips, with axe checks
+- [ui-sdk skill](${raw}/.claude/skills/ui-sdk/SKILL.md): the coding-agent skill for ui-sdk, the library under the meter, segmented control and timeline. Read it with [docs/ui-sdk.md](${raw}/docs/ui-sdk.md), whose Sift rules win where the two differ
+- [ui-sdk slot check](${raw}/scripts/check-ui-sdk-slots.mjs): lists the part names a ui-sdk component shares with the kit
 
 ## Credits
 

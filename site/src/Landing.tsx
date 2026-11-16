@@ -365,7 +365,7 @@ export default function Landing() {
           </h1>
           <div className="hero-aside">
             <Rise order={6} className="hero-lede">
-              Tokens, guides, 64 animated shadcn/ui components, 70 charts and five example screens. Your agent reads
+              Tokens, guides, 67 animated components, 70 charts and five example screens. Your agent reads
               them, then builds your product in this style with your own features and data.
             </Rise>
             <Rise order={7} className="hero-actions">

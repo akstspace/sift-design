@@ -1,3 +1,6 @@
+/* ui-sdk adds a little CSS for behavior in this layer. Declared first, so the kit and the app win over it. */
+@layer ui-sdk;
+
 @import "tailwindcss";
 @import "@sift-design/ui/theme.css";
 @import "@sift-design/ui/ai.css";

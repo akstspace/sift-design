@@ -16,6 +16,7 @@
     "capture": "node scripts/capture.mjs",
     "test:sidebar": "node scripts/test-sidebar.mjs",
     "test:landing": "node scripts/test-landing.mjs",
+    "check:ui-sdk": "node scripts/check-ui-sdk-slots.mjs",
     "detect": ".agents/skills/impeccable/scripts/impeccable detect --json packages/ui/src blocks/*/src specimen/src site/src",
     "site:dev": "npm run dev -w @sift-design/site",
     "site:build": "node scripts/build-site.mjs"
@@ -36,6 +37,8 @@
     "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "@ui-sdk/core": "0.1.0-beta.5",
+    "@ui-sdk/react": "0.1.0-beta.5",
     "@vitejs/plugin-react": "6.1.2",
     "@xyflow/react": "12.12.1",
     "ai": "7.0.169",

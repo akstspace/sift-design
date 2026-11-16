@@ -79,6 +79,7 @@ export const pages: Page[] = [
   })),
   { path: "/review", title: "Review", group: "Reference", file: "docs/review.md" },
   { path: "/finding-components", title: "Finding components", group: "Reference", file: "docs/finding-components.md" },
+  { path: "/ui-sdk", title: "Building on ui-sdk", group: "Reference", file: "docs/ui-sdk.md" },
   { path: "/reference", title: "Design reference", group: "Reference", file: "DESIGN.md" },
   { path: "/readme", title: "Repository guide", group: "Reference", file: "README.md" },
   { path: "/kit", title: "Kit setup", group: "Reference", file: "packages/ui/README.md" },

@@ -11,3 +11,4 @@ playwright-report/
 .impeccable/questions/
 .impeccable/mocks/
 .impeccable/config.local.json
+.claude/settings.local.json

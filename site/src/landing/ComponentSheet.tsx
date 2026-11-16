@@ -120,11 +120,11 @@ export function ComponentSheet() {
     <section className="landing-components" id="components" aria-labelledby="components-heading">
       <div className="section-head">
         <Reveal as="h2" id="components-heading">
-          64 components, restyled and moving
+          67 components, restyled and moving
         </Reveal>
         <Reveal delay={0.06}>
           <p className="section-lede">
-            All 61 shadcn/ui components, plus page transitions, a scrolling title and a time picker. Menus open from
+            All 61 shadcn/ui components, plus page transitions, a scrolling title, a time picker, and a meter, segmented control and timeline built on ui-sdk. Menus open from
             their buttons, highlights travel between choices, and every one works in light and dark. These are live; try
             them.
           </p>

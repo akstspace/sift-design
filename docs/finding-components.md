@@ -46,7 +46,7 @@ The entries in `components` and `aiElements` have these fields:
 | `usesAi` | The AI elements that this source imports. |
 | `docs` | `file`, `anchor`, and `page`. The page is the site address of the docs section. |
 | `demo` | `live`, the address of the live demo. AI elements also have `group`, the demo group in the `ai` query parameter. The value is `null` when no demo shows the component. |
-| `upstream` | `library`, `version`, `source` (the saved, unchanged upstream file), and `reference` (the upstream docs). The value is `null` for components that Sift Design added. |
+| `upstream` | `library`, `version`, `source` (the saved, unchanged upstream file), and `reference` (the upstream docs). For components built on ui-sdk, `library` is `ui-sdk`, and `package`, `requires` and `guide` replace `source`: install the `requires` packages first. The value is `null` for components that Sift Design added. |
 | `keywords` | Lowercase words from the name, the title, the family, and the demo group. |
 
 An AI element entry, shortened:

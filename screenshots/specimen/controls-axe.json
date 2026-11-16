@@ -132,6 +132,14 @@
     "violations": []
   },
   {
+    "shot": "controls-segmented-control-dark",
+    "violations": []
+  },
+  {
+    "shot": "controls-segmented-control-light",
+    "violations": []
+  },
+  {
     "shot": "controls-slider-dark",
     "violations": []
   },

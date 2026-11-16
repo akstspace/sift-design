@@ -36,6 +36,14 @@
     "violations": []
   },
   {
+    "shot": "display-meter-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-meter-light",
+    "violations": []
+  },
+  {
     "shot": "display-mobile-dark",
     "violations": []
   },
@@ -85,6 +93,18 @@
   },
   {
     "shot": "display-table-light",
+    "violations": []
+  },
+  {
+    "shot": "display-timeline-dark",
+    "violations": []
+  },
+  {
+    "shot": "display-timeline-horizontal",
+    "violations": []
+  },
+  {
+    "shot": "display-timeline-light",
     "violations": []
   }
 ]

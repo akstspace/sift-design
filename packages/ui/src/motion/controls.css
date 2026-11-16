@@ -1,29 +1,39 @@
 /* Controls acknowledge input immediately. No movement blocks another action. */
 :is([data-slot="button"], [data-ui-button]), [data-slot="toggle"], [data-slot="toggle-group-item"],
-[data-slot="tabs-trigger"], [data-slot="input"], [data-slot="textarea"],
+[data-slot="tabs-trigger"], [data-slot="segmented-control-item"], [data-slot="input"], [data-slot="textarea"],
 [data-slot="native-select"], [data-slot="input-group"], [data-slot="checkbox"],
 [data-slot="radio-group-item"], [data-slot="switch"], [data-slot="input-otp-slot"],
 :is(input, textarea, select)[data-slot="form-control"] {
   transition-duration: var(--dur-quick);
   transition-timing-function: var(--ease-settle);
 }
-:is([data-slot="button"], [data-ui-button]), [data-slot="toggle"], [data-slot="toggle-group-item"], [data-slot="tabs-trigger"] {
+:is([data-slot="button"], [data-ui-button]), [data-slot="toggle"], [data-slot="toggle-group-item"], [data-slot="tabs-trigger"], [data-slot="segmented-control-item"] {
   transition: transform var(--spring-press-duration) var(--spring-press), background-color var(--dur-quick) linear, color var(--dur-quick) linear, border-color var(--dur-quick) linear, box-shadow var(--dur-quick) linear;
 }
 :is([data-slot="button"], [data-ui-button]):not(:disabled):not([aria-disabled="true"]):active,
 [data-slot="toggle"]:not(:disabled):active,
 [data-slot="toggle-group-item"]:not(:disabled):active,
-[data-slot="tabs-trigger"]:not(:disabled):active { transform: scale(0.97); }
+[data-slot="tabs-trigger"]:not(:disabled):active,
+[data-slot="segmented-control-item"]:not([data-disabled]):not([data-readonly]):active { transform: scale(0.97); }
 /* The pressed wash is immediate; its release fades without blocking input. */
 :is([data-slot="button"], [data-ui-button])::after, [data-slot="toggle"]::after,
-[data-slot="toggle-group-item"]::after, [data-slot="tabs-trigger"]::after {
+[data-slot="toggle-group-item"]::after, [data-slot="tabs-trigger"]::after, [data-slot="segmented-control-item"]::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
   background: currentColor; opacity: 0; transition: opacity var(--dur-quick) linear;
 }
 [data-slot="toggle"] { position: relative; }
 :is([data-slot="button"], [data-ui-button]):not(:disabled):active::after, [data-slot="toggle"]:not(:disabled):active::after,
-[data-slot="toggle-group-item"]:not(:disabled):active::after, [data-slot="tabs-trigger"]:not(:disabled):active::after {
+[data-slot="toggle-group-item"]:not(:disabled):active::after, [data-slot="tabs-trigger"]:not(:disabled):active::after,
+[data-slot="segmented-control-item"]:not([data-disabled]):not([data-readonly]):active::after {
   opacity: 0.07; transition-duration: 0s;
+}
+/* Segmented control (a ui-sdk part). ui-sdk measures the checked item into CSS variables; the indicator moves there. */
+[data-slot="segmented-control-indicator"] {
+  translate: var(--segmented-control-indicator-left, 0) var(--segmented-control-indicator-top, 0);
+  width: var(--segmented-control-indicator-width, 0); height: var(--segmented-control-indicator-height, 0);
+}
+[data-slot="segmented-control-indicator"][data-placed] {
+  transition: translate var(--spring-smooth-duration) var(--spring-smooth), width var(--spring-smooth-duration) var(--spring-smooth), height var(--spring-smooth-duration) var(--spring-smooth);
 }
 [data-slot="button-spinner"] { animation: controls-spin 700ms linear infinite; }
 @keyframes controls-spin { to { transform: rotate(360deg); } }
@@ -135,9 +145,10 @@
 @media (prefers-reduced-motion: reduce) {
   :is([data-slot="button"], [data-ui-button]):not(:disabled):not([aria-disabled="true"]):active,
   [data-slot="toggle"]:not(:disabled):active, [data-slot="toggle-group-item"]:not(:disabled):active,
-  [data-slot="tabs-trigger"]:not(:disabled):active, [data-slot="slider-thumb"]:active,
+  [data-slot="tabs-trigger"]:not(:disabled):active, [data-slot="segmented-control-item"]:active, [data-slot="slider-thumb"]:active,
   [data-slot="slider"][data-dragging="true"] [data-slot="slider-thumb"]:focus { transform: none; }
   [data-slot="switch-thumb"] { transition: background-color var(--dur-quick) linear; }
+  [data-slot="segmented-control-indicator"][data-placed] { transition: none; }
   [data-slot="switch"]:not(:disabled):active [data-slot="switch-thumb"] { --thumb-scale-x: 1; --thumb-scale-y: 1; }
   [data-slot="checkbox-indicator"], [data-slot="radio-group-indicator"] { transform: none; transition: opacity var(--dur-instant) linear; }
   [data-slot="checkbox-indicator"][data-state="checked"], [data-slot="checkbox-indicator"][data-state="indeterminate"],

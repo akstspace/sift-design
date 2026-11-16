@@ -99,3 +99,20 @@ body:has(#display):not(:has(#controls, #overlays)) > #root > div > header { back
 @media (prefers-reduced-motion: reduce) { [data-slot="strike"], [data-slot="strike"][data-struck] { transition: none; } }
 /* Browsers leave out backgrounds in print, so print uses a plain line-through. */
 @media print { [data-slot="strike"][data-struck] { background: none; text-decoration: line-through; text-decoration-color: var(--strike-color, currentColor); } }
+
+/* Timeline (a ui-sdk part). The marker shows where each event stands. Becoming current grows the marker on the
+   snappy spring; colors change over duration.quick. A completed event's connector fills from its marker toward
+   the next one, and empties faster when the event is no longer complete. */
+[data-slot="timeline-marker"] { transition: background-color var(--dur-quick) linear, border-color var(--dur-quick) linear, box-shadow var(--dur-quick) linear, scale var(--spring-snappy-duration) var(--spring-snappy); }
+[data-slot="timeline-marker"][data-upcoming] { scale: 0.8; border-color: var(--color-input); }
+[data-slot="timeline-marker"][data-current] { border-color: var(--color-accent); box-shadow: 0 0 0 3px var(--color-accent-soft); }
+[data-slot="timeline-marker"][data-complete] { border-color: var(--color-good); background: var(--color-good); }
+[data-slot="timeline-connector"]::after { content: ""; position: absolute; inset: 0; background: var(--color-good); transform-origin: top; scale: 1 0; transition: scale var(--spring-exit-duration) var(--spring-exit); }
+[data-slot="timeline-connector"][data-orientation="horizontal"]::after { transform-origin: left; scale: 0 1; }
+[dir="rtl"] [data-slot="timeline-connector"][data-orientation="horizontal"]::after { transform-origin: right; }
+[data-slot="timeline-connector"][data-complete]::after { scale: 1 1; transition: scale var(--spring-smooth-duration) var(--spring-smooth) var(--dur-instant); }
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="timeline-marker"] { transition: background-color var(--dur-quick) linear, border-color var(--dur-quick) linear, box-shadow var(--dur-quick) linear; }
+  [data-slot="timeline-marker"][data-upcoming] { scale: none; }
+  [data-slot="timeline-connector"]::after, [data-slot="timeline-connector"][data-complete]::after { transition: none; }
+}

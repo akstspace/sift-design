@@ -213,6 +213,33 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@sift-design/ui/tabs";
 </Tabs>
 ```
 
+## Segmented control
+
+**When:** pick one of two to five views or settings, such as list, grid or board, and show the choice at once. Use Tabs when each choice has its own panel. Use a radio group when the options need descriptions.
+
+**Structure:** `SegmentedControl` → `SegmentedControlIndicator` → `SegmentedControlItem` for each option. It is built on the [ui-sdk](../../../docs/ui-sdk.md) segmented control, so install `@ui-sdk/react` and `@ui-sdk/core` before you copy it. The track and item sizes match `TabsList`: **32px** high, a 2px inset, 13px medium labels. Items take an optional Tabler icon at 16px. `orientation="vertical"` stacks the items.
+
+**Props:** the ui-sdk props: `value`, `defaultValue`, `onValueChange(value, details)`, `disabled`, `readOnly`, `required`, `name`, `form`, `loop`, `orientation` and `controller`. Each item takes `value` and `disabled`. `createSegmentedControlController()` is re-exported.
+
+**Motion:** ui-sdk measures the checked item into `--segmented-control-indicator-left`, `-top`, `-width` and `-height`. The indicator moves to that box on **`--spring-smooth`** (538ms CSS curve, no overshoot). A second choice during the move redirects the indicator from where it is. The first placement after load does not move. A pressed item scales to **0.97** on **`--spring-press`**, like a tab.
+
+**Reduced motion:** the indicator moves to the choice at once. Items do not scale.
+
+**Accessibility:** ui-sdk renders a `radiogroup` with one tab stop. Arrow keys move the choice, and Home and End jump to the first and last item. Name the group with `aria-label` or `aria-labelledby`. An icon-only item needs `aria-label`.
+
+**Changes from upstream:** the Sift classes and the indicator motion are new. The parts, props and keyboard behavior are the ui-sdk ones.
+
+```tsx
+import { SegmentedControl, SegmentedControlIndicator, SegmentedControlItem } from "@sift-design/ui/segmented-control";
+<SegmentedControl aria-label="Show seed trays as" value={view} onValueChange={setView}>
+  <SegmentedControlIndicator />
+  <SegmentedControlItem value="list">List</SegmentedControlItem>
+  <SegmentedControlItem value="grid">Grid</SegmentedControlItem>
+</SegmentedControl>
+```
+
+Upstream reference: [ui-sdk Segmented Control](https://ui-sdk.dev/docs/react/components/segmented-control).
+
 ## Label
 
 Use with any input that does not already receive a label through Form or Field. 13px medium; no variants or size options. No independent animation; disabled text stays legible. `htmlFor` must match the actual control ID, or wrap a single labelable control.
